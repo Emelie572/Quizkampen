@@ -18,19 +18,8 @@ public class Quiz implements ActionListener {
     int totaltAntalFrågor = frågor.length;
     int result;
 
-    JFrame jf = new JFrame();
-    JTextField jt = new JTextField();
-    JTextArea jta = new JTextArea();
-    JButton jbA = new JButton();
-    JButton jbB = new JButton();
-    JLabel jl_svarA = new JLabel();
-    JLabel jl_svarB = new JLabel();
-
 
     public Quiz() {
-        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jf.setSize(700, 700);
-        jf.setVisible(true);
     }
 
     public void nästaFråga() {
@@ -43,10 +32,6 @@ public class Quiz implements ActionListener {
 
     public void resultat() {
 
-    }
-
-    public static void main(String[] args) {
-        Quiz quiz = new Quiz();
     }
 
     @Override
