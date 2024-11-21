@@ -46,37 +46,35 @@ public class Player
 
                 while (true)
                 {
-                    while ((inputLine = in.readObject()) != null)
-                    {
-                        if (inputLine instanceof List)
+                        while ((inputLine = in.readObject()) != null)
                         {
-                            List<Object> list = (List<Object>) inputLine;
-
-                            if (list.get(1) instanceof Boolean && list.get(1).equals(false))
+                            if (inputLine instanceof Quiz)
                             {
-                                List<List> l = (List<List>) list.get(0);
-                                for (int i = 0; i < l.size(); i++)
+                                Quiz inputQuiz = (Quiz) inputLine;
+
+                                List<String> question = null;
+
+                                for (int i = 0; i < inputQuiz.allQuestions.size(); i++)
                                 {
-                                    printQuestion(l.get(i));
+                                    question =  inputQuiz.allQuestions.get(i);
+
+                                    printQuestion(question);
+
                                     while ((inputAnswer = input.readLine()) != null)
                                     {
-                                        scorePerRound = checkAnswer(inputAnswer, l.get(i));
-                                        System.out.println("Dina poäng: " + scorePerRound);
+                                        inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
                                         break;
                                     }
                                 }
 
-                                send = new ArrayList<>();
-                                send.add(name);
-                                send.add(scorePerRound);
-                                out.writeObject(send);
-                                break;
-                            }else{
-                                System.out.println(inputLine);
+                                inputQuiz.playerName = name;
+                                question.add(String.valueOf(scorePerRound));
+                                scorePerRound = 0;
+                                //inputLine = allQuestions;
+                                out.writeObject(inputQuiz);
                                 break;
                             }
                         }
-                    }
                 }
             } catch (IOException | ClassNotFoundException e)
             {
@@ -95,20 +93,18 @@ public class Player
         }).start();
     }
 
-    public int checkAnswer(String input, List<String> correct) throws IOException
+    public int checkAnswer(String input, List<String> question) throws IOException
     {
-        if (input.equals(correct.get(correct.size() - 1)))
+        int correctAnswer = Integer.parseInt(question.getLast());
+        if (input.equals(question.get(correctAnswer)))
         {
             System.out.println("rätt");
             scorePerRound++;
-        } else
-        {
-            System.out.println("fel");
         }
         return scorePerRound;
     }
 
-    public void printQuestion(List<List> question) throws IOException
+    public void printQuestion(List<String> question) throws IOException
     {
         for (int i = 0; i < question.size()-1; i++){
             System.out.print(question.get(i) + " ");

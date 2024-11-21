@@ -7,12 +7,13 @@ public class ServerListener {
 
     ServerListener() throws IOException
     {
+        MultiPlayer multiPlayer = new MultiPlayer();
         while(true)
         {
             try(ServerSocket serverSocket = new ServerSocket(port);)
             {
                 Socket socket = serverSocket.accept();
-                Handler playerHandler = new Handler(socket);
+                Handler playerHandler = new Handler(socket, multiPlayer);
                 playerHandler.start();
 
             } catch (IOException e)
