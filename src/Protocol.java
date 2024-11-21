@@ -1,44 +1,63 @@
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class Protocol {
 
     private final int SENDINGQUIZ = 0;
     private final int ROUNDSCORE = 1;
+    private final int GAMEEND = 2;
     private int state = SENDINGQUIZ;
 
-    private int rounds = 0;
-    private int playerStateCount = 0;
+    private int rounds;
+    private int roundsCounter = 0;
+    private int playerStateCounter = 0;
     private Quiz outputQuiz;
     private ScoreTable scoreTable = new ScoreTable();
 
     //TODO set this.rounds from properties.
     public Protocol() {
-        this.rounds = 2;
+        Properties p = new Properties();
+        try{
+            p.load(new FileInputStream("src/RoundQuestionsAmount.properties"));
+        }catch(Exception e){
+            System.out.println("File not found");
+            e.printStackTrace();
+        }
+        this.rounds = Integer.parseInt(p.getProperty("rounds","2"));
     }
 //TODO Separat metod för playerStateScore hantering.
     public synchronized Quiz proccesQuizInput(Quiz inputQuiz)  {
         if (state == SENDINGQUIZ) {
-            if (playerStateCount == 0) {
+            if (playerStateCounter == 0) {
+                playerStateCounter++;
+                return null;
+            }else if (playerStateCounter == 1){
                 outputQuiz = new Quiz();
-                playerStateCount++;
-            }else if (playerStateCount == 1){
-                playerStateCount++;
+                playerStateCounter++;
                 state = ROUNDSCORE;
             }
 //TODO Definera dataflöde. Ändra så att setScoreMessage skickas när båda spelare har
 // uppdaterat scoreTable.
         } else if (state == ROUNDSCORE) {
-            if (playerStateCount == 2) {
+            if (playerStateCounter == 2) {
                 scoreTable.updateScoreTable(inputQuiz.playerName(),inputQuiz.getScore());
-                playerStateCount--;
+                playerStateCounter--;
                 return null;
-            }else if (playerStateCount == 1) {
+            }else if (playerStateCounter == 1) {
                 scoreTable.updateScoreTable(inputQuiz.playerName(),inputQuiz.getScore());
                 inputQuiz.setScoreMessage(scoreTable);
                 inputQuiz.readOnly(true);
                 outputQuiz = inputQuiz;
-                playerStateCount--;
-                state = SENDINGQUIZ;
+                playerStateCounter--;
+                roundsCounter++;
+                if (rounds==roundsCounter){
+                    state = GAMEEND;
+                } else {
+                    state = SENDINGQUIZ;
+                }
             }
-            //TODO lägg till logik för antal rundor.
+        }else if (state == GAMEEND) {
+            System.exit(0);
         }
         return outputQuiz;
     }
