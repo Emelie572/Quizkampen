@@ -27,20 +27,21 @@ public class Handler extends Thread {
 
             multiplayer.addPlayers(out);
 
-            Quiz quiz = new Quiz();
-            multiplayer.sendProtocalToPlayer(quiz);
+           //Quiz quiz = new Quiz();
+            multiplayer.sendProtocalToPlayer(null);
 
-            while (true) {
+            while (in.readObject() != null) {
                 Object response = in.readObject();
                 if (response instanceof Quiz) {
                     Quiz playerQuiz = (Quiz) response;
 
-                    Quiz quizScores = protocol.proccesQuizInput(playerQuiz);
+                    multiplayer.sendProtocalToPlayer(playerQuiz);
 
-                    if (quizScores != null) {
-                        out.writeObject(quizScores);
+                    if (playerQuiz != null) {
+                        out.writeObject(playerQuiz);
                         out.flush();
                     }
+
                 } else if (response == null) {
                     System.out.println("Inget svarsalternativ valdes");
 
