@@ -40,13 +40,13 @@ public class Protocol {
 // uppdaterat scoreTable.
         } else if (state == ROUNDSCORE) {
             if (playerStateCounter == 2) {
-                scoreTable.updateScoreTable(inputQuiz.playerName(),inputQuiz.getScore());
+                scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 playerStateCounter--;
                 return null;
             }else if (playerStateCounter == 1) {
-                scoreTable.updateScoreTable(inputQuiz.playerName(),inputQuiz.getScore());
-                inputQuiz.setScoreMessage(scoreTable);
-                inputQuiz.readOnly(true);
+                scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
+                inputQuiz.scoreTable =scoreTable;
+                inputQuiz.answerOrReadQuestions = true;
                 outputQuiz = inputQuiz;
                 playerStateCounter--;
                 roundsCounter++;

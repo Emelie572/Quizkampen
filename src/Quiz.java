@@ -10,9 +10,9 @@ public class Quiz implements Serializable {
     int correctAnswers = 0;
     int index = 0;
 
-    private ScoreTable scoreTable;
+    ScoreTable scoreTable;
 
-    private boolean answerOrReadQuestions = true;
+    boolean answerOrReadQuestions = false;
 
     public Quiz(){
 

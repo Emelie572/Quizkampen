@@ -25,30 +25,34 @@ public class Handler extends Thread {
             in = new ObjectInputStream(playerSocket.getInputStream());
             out.flush();
 
+
             multiplayer.addPlayers(out);
-
+/*
            //Quiz quiz = new Quiz();
-            multiplayer.sendProtocalToPlayer(null);
+            multiplayer.sendProtocalToPlayer();
 
-            while (in.readObject() != null) {
-                Object response = in.readObject();
+             */
+            Object response;
+
+            while ((response = in.readObject()) != null) {
+
                 if (response instanceof Quiz) {
                     Quiz playerQuiz = (Quiz) response;
 
                     multiplayer.sendProtocalToPlayer(playerQuiz);
 
-                    if (playerQuiz != null) {
-                        out.writeObject(playerQuiz);
-                        out.flush();
-                    }
+                    //out.writeObject(playerQuiz);
+                    //out.flush();
 
-                } else if (response == null) {
-                    System.out.println("Inget svarsalternativ valdes");
+                } else if (response instanceof String) {
+                    String responsename = (String) response;
+                    multiplayer.playerList(responsename);
+                    multiplayer.sendProtocalToPlayer();
 
 
 
                     //if-sats för om spelet är klart?
-                    break;
+                    //break;
 
                 }
             }

@@ -32,6 +32,8 @@ public class Player
                 System.out.println("Namn? ");
 
                 name = input.readLine();
+                out.writeObject(name);
+
 
                 /* ev en while för antalet rundor som ska spelas
 
