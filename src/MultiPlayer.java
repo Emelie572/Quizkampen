@@ -29,6 +29,28 @@ public class MultiPlayer {
             for (PrintWriter writer : writers) {
                 writer.println("Två spelare är anslutna! Nu börjar spelet");
             }
+
+
+            public synchronized void sendQuizPlayerOne (Quiz quiz){
+                if (writers.size() == 2) { //
+                    PrintWriter firstPlayer = writers.get(0);
+                    PrintWriter secondPlayer = writers.get(1);
+
+                    firstPlayer.println(quiz.toString());
+
+                    secondPlayer.println("Spelare ett spelar");
+                }
+
+
+                public synchronized void sendQuizPlayerTwo (Quiz quiz){
+                    if (writers.size() == 2) {
+                        PrintWriter secondPlayer = writers.get(1);
+
+                        secondPlayer.println(quiz.toString());
+                    }
+                }
+            }
         }
+
     }
 }
