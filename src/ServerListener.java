@@ -12,8 +12,8 @@ public class ServerListener {
             try(ServerSocket serverSocket = new ServerSocket(port);)
             {
                 Socket socket = serverSocket.accept();
-                //Server s = new Server(socket);
-                //s.start();
+                Handler playerHandler = new Handler(socket);
+                playerHandler.start();
 
             } catch (IOException e)
             {
