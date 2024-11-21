@@ -14,7 +14,6 @@ public class Protocol {
     private Quiz outputQuiz;
     private ScoreTable scoreTable = new ScoreTable();
 
-    //TODO set this.rounds from properties.
     public Protocol() {
         Properties p = new Properties();
         try{
@@ -25,7 +24,7 @@ public class Protocol {
         }
         this.rounds = Integer.parseInt(p.getProperty("rounds","2"));
     }
-//TODO Separat metod för playerStateScore hantering.
+//TODO Överväg separat metod för playerStateCounter.
     public synchronized Quiz proccesQuizInput(Quiz inputQuiz)  {
         if (state == SENDINGQUIZ) {
             if (playerStateCounter == 0) {
@@ -36,15 +35,15 @@ public class Protocol {
                 playerStateCounter++;
                 state = ROUNDSCORE;
             }
-//TODO Definera dataflöde. Ändra så att setScoreMessage skickas när båda spelare har
-// uppdaterat scoreTable.
+//TODO refaktorera playerName, correctAnswers, scoreTable och readOnly med getter och setter.
+
         } else if (state == ROUNDSCORE) {
             if (playerStateCounter == 2) {
-                scoreTable.updateScoreTable(inputQuiz.playerName(),inputQuiz.getScore());
+                scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 playerStateCounter--;
                 return null;
             }else if (playerStateCounter == 1) {
-                scoreTable.updateScoreTable(inputQuiz.playerName(),inputQuiz.getScore());
+                scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 inputQuiz.setScoreMessage(scoreTable);
                 inputQuiz.readOnly(true);
                 outputQuiz = inputQuiz;
