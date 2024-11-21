@@ -54,25 +54,29 @@ public class Player
 
                                 List<String> question = null;
 
-                                for (int i = 0; i < inputQuiz.allQuestions.size(); i++)
+                                if (!inputQuiz.answerOrReadQuestions)
                                 {
-                                    question =  inputQuiz.allQuestions.get(i);
-
-                                    printQuestion(question);
-
-                                    while ((inputAnswer = input.readLine()) != null)
+                                    for (int i = 0; i < inputQuiz.allQuestions.size(); i++)
                                     {
-                                        inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
-                                        break;
-                                    }
-                                }
+                                        question = inputQuiz.allQuestions.get(i);
 
-                                inputQuiz.playerName = name;
-                                question.add(String.valueOf(scorePerRound));
-                                scorePerRound = 0;
-                                //inputLine = allQuestions;
-                                out.writeObject(inputQuiz);
-                                break;
+                                        printQuestion(question);
+
+                                        while ((inputAnswer = input.readLine()) != null)
+                                        {
+                                            inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
+                                            break;
+                                        }
+                                    }
+
+                                    inputQuiz.playerName = name;
+                                    question.add(String.valueOf(scorePerRound));
+                                    scorePerRound = 0;
+                                    out.writeObject(inputQuiz);
+                                    break;
+                                }else{
+                                    System.out.println(inputQuiz.correctAnswers);
+                                }
                             }
                         }
                 }

@@ -12,7 +12,7 @@ public class Quiz implements Serializable {
 
     private ScoreTable scoreTable;
 
-    private boolean answerOrReadQuestions = true;
+    boolean answerOrReadQuestions = true;
 
     public Quiz(){
 
