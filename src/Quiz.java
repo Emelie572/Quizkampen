@@ -1,41 +1,32 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Quiz implements ActionListener {
+public class Quiz {
 
-    String[] frågor = {"Vilken färg är solen?", "Är äpple en frukt eller en grönsak?"};
+    List<List<String>> allQuestions = new ArrayList<>();
 
-    String[][] alternativ = {{"Gul", "Rosa"}, {"Grönsak", "Frukt"}};
+    String playerName;
+    int correctAnswers = 0;
+    int index = 0;
 
-    char[] svar = {'A', 'B'};
+    public Quiz(){
 
+        List<String> question1 = new ArrayList<>(List.of("Vilken färg är solen?", "Gul", "Rosa", "0"));
+        List<String> question2 = new ArrayList<>(List.of("Är äpple en frukt eller en grönsak?", "Grönsak", "Frukt", "1"));
 
-    char gissa;
-    char fråga;
-    int index;
-    int korrektSvar;
-    int totaltAntalFrågor = frågor.length;
-    int result;
-
-
-    public Quiz() {
+        allQuestions.add(question1);
+        allQuestions.add(question2);
     }
 
-    public void nästaFråga() {
-
+    public int getCorrectAnswers() {
+        return correctAnswers;
     }
 
-    public void svar() {
-
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void resultat() {
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public int getIndex() {
+        return index;
     }
 }
