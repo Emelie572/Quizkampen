@@ -1,13 +1,18 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Quiz {
+public class Quiz implements Serializable {
 
     List<List<String>> allQuestions = new ArrayList<>();
 
     String playerName;
     int correctAnswers = 0;
     int index = 0;
+
+    private ScoreTable scoreTable;
+
+    private boolean answerOrReadQuestions = true;
 
     public Quiz(){
 
@@ -16,6 +21,7 @@ public class Quiz {
 
         allQuestions.add(question1);
         allQuestions.add(question2);
+
     }
 
     public int getCorrectAnswers() {
