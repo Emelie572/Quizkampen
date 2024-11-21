@@ -28,10 +28,10 @@ public class Protocol {
 //TODO Separat metod för playerStateScore hantering.
     public synchronized Quiz proccesQuizInput(Quiz inputQuiz)  {
         if (state == SENDINGQUIZ) {
-            if (playerStateCounter == 0) {
+            if (playerStateCounter <2) {
                 playerStateCounter++;
                 return null;
-            }else if (playerStateCounter == 1){
+            }else if (playerStateCounter == 2){
                 outputQuiz = new Quiz();
                 playerStateCounter++;
                 state = ROUNDSCORE;
@@ -39,14 +39,14 @@ public class Protocol {
 //TODO Definera dataflöde. Ändra så att setScoreMessage skickas när båda spelare har
 // uppdaterat scoreTable.
         } else if (state == ROUNDSCORE) {
-            if (playerStateCounter == 2) {
+            if (playerStateCounter == 4) {
                 scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 playerStateCounter--;
                 return null;
-            }else if (playerStateCounter == 1) {
+            }else if (playerStateCounter == 0) {
                 scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 inputQuiz.scoreTable =scoreTable;
-                inputQuiz.answerOrReadQuestions = true;
+                inputQuiz.readOnly = true;
                 outputQuiz = inputQuiz;
                 playerStateCounter--;
                 roundsCounter++;

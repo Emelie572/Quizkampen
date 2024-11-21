@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -18,10 +19,11 @@ public class Player
 
     Player() throws UnknownHostException
     {
+       name = JOptionPane.showInputDialog(null,"Ange namn:");
+
         new Thread(() -> {
             try (Socket socket = new Socket(ip, port);)
             {
-
                 input = new BufferedReader(new InputStreamReader(System.in));
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
@@ -29,25 +31,10 @@ public class Player
                 Object inputLine;
                 String inputAnswer;
 
-                System.out.println("Namn? ");
 
-                name = input.readLine();
-                out.writeObject(name);
+                //out.writeObject(name);
 
-
-                /* ev en while för antalet rundor som ska spelas
-
-                läser in kategorierna och skickar tillbaka ett svar
-                while((inputLine = in.readObject()) != null){
-                    System.out.println(inputLine.toString());
-
-                    while ((inputAnswer = input.readLine()) != null){
-                        out.writeObject(inputAnswer);
-                    }
-                }*/
-
-                while (true)
-                {
+                while (true){
                         while ((inputLine = in.readObject()) != null)
                         {
                             if (inputLine instanceof Quiz)
@@ -72,7 +59,6 @@ public class Player
                                 inputQuiz.playerName = name;
                                 question.add(String.valueOf(scorePerRound));
                                 scorePerRound = 0;
-                                //inputLine = allQuestions;
                                 out.writeObject(inputQuiz);
                                 break;
                             }

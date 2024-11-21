@@ -17,48 +17,39 @@ public class Handler extends Thread {
 
     @Override
     public void run() {
-
-
         try {
-
             out = new ObjectOutputStream(playerSocket.getOutputStream());
             in = new ObjectInputStream(playerSocket.getInputStream());
             out.flush();
 
-
             multiplayer.addPlayers(out);
-/*
-           //Quiz quiz = new Quiz();
+            multiplayer.playerSyncer();
             multiplayer.sendProtocalToPlayer();
+            //multiplayer.syncerReset();
 
-             */
             Object response;
-
             while ((response = in.readObject()) != null) {
 
                 if (response instanceof Quiz) {
                     Quiz playerQuiz = (Quiz) response;
 
                     multiplayer.sendProtocalToPlayer(playerQuiz);
-
-                    //out.writeObject(playerQuiz);
-                    //out.flush();
-
-                } else if (response instanceof String) {
-                    String responsename = (String) response;
-                    multiplayer.playerList(responsename);
-                    multiplayer.sendProtocalToPlayer();
-
-
-
-                    //if-sats för om spelet är klart?
-                    //break;
-
                 }
+/*
+                if (response instanceof String){
+                    multiplayer.playerSyncer();
+                    multiplayer.sendProtocalToPlayer();
+                    multiplayer.syncerReset();
+                }
+
+ */
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Fel vid hantering av spelare: " + e.getMessage());
-        } finally {
+            e.printStackTrace();
+        }
+        /*
+        finally {
             try {
                 in.close();
                 out.close();
@@ -67,5 +58,7 @@ public class Handler extends Thread {
                 e.printStackTrace();
             }
         }
+
+         */
     }
 }

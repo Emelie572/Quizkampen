@@ -8,11 +8,11 @@ public class Quiz implements Serializable {
 
     String playerName;
     int correctAnswers = 0;
-    int index = 0;
+    //private int index = 0;
 
     ScoreTable scoreTable;
 
-    boolean answerOrReadQuestions = false;
+    boolean readOnly = false;
 
     public Quiz(){
 
@@ -32,7 +32,10 @@ public class Quiz implements Serializable {
         return playerName;
     }
 
+    /*
     public int getIndex() {
         return index;
     }
+
+     */
 }

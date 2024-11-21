@@ -7,16 +7,22 @@ public class MultiPlayer {
 
     private final List<ObjectOutputStream> objectStreams = new ArrayList<>();
     private final Protocol protocol = new Protocol();
-    private List<String> players = new ArrayList<>();
+    private int playerSyncer = 0;
 
 
     public synchronized void addPlayers(ObjectOutputStream stream) {
         objectStreams.add(stream);
         //notifyAll();
     }
+    public  synchronized void playerSyncer() {
+        playerSyncer++;
+        if(playerSyncer == 2) {
+            notify();
+        }
+    }
 
     public synchronized void sendProtocalToPlayer(Quiz quiz) {
-        while (players.size() <2) {
+        if (playerSyncer <2) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -34,15 +40,10 @@ public class MultiPlayer {
         }
     }
 
-    public  synchronized void  playerList(String name) {
-        players.add(name);
-        if(players.size() == 2) {
-            notify();
-        }
-    }
+
 
     public synchronized void sendProtocalToPlayer() {
-        while (players.size() <2) {
+        while (playerSyncer <2) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -58,6 +59,10 @@ public class MultiPlayer {
                 System.err.println("Fel uppstod med quizzet: " + e.getMessage());
             }
         }
+    }
+
+    public void syncerReset() {
+        playerSyncer = 0;
     }
 }
 
