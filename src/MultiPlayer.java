@@ -29,9 +29,10 @@ public class MultiPlayer {
                 throw new RuntimeException(e);
             }
         }
+        Quiz protocolQuiz = protocol.proccesQuizInput(quiz);
         for (ObjectOutputStream stream : objectStreams) {
             try {
-                stream.writeObject(protocol.proccesQuizInput(quiz));
+                stream.writeObject(protocolQuiz);
                 stream.flush();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -43,21 +44,13 @@ public class MultiPlayer {
 
 
     public synchronized void sendProtocalToPlayer() {
-        while (playerSyncer <2) {
+        if (playerSyncer <2) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
-        for (ObjectOutputStream stream : objectStreams) {
-            try {
-                stream.writeObject(protocol.proccesQuizInput(null));
-                stream.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Fel uppstod med quizzet: " + e.getMessage());
-            }
+        protocol.proccesQuizInput(null);
         }
     }
 

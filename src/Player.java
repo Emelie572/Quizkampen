@@ -41,26 +41,30 @@ public class Player
                             {
                                 Quiz inputQuiz = (Quiz) inputLine;
 
-                                List<String> question = null;
+                                if(!inputQuiz.readOnly) {
 
-                                for (int i = 0; i < inputQuiz.allQuestions.size(); i++)
-                                {
-                                    question =  inputQuiz.allQuestions.get(i);
+                                    List<String> question = null;
 
-                                    printQuestion(question);
+                                    for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
+                                        question = inputQuiz.allQuestions.get(i);
 
-                                    while ((inputAnswer = input.readLine()) != null)
-                                    {
-                                        inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
-                                        break;
+                                        printQuestion(question);
+
+                                        while ((inputAnswer = input.readLine()) != null) {
+                                            inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
+                                            break;
+                                        }
                                     }
-                                }
 
-                                inputQuiz.playerName = name;
-                                question.add(String.valueOf(scorePerRound));
-                                scorePerRound = 0;
-                                out.writeObject(inputQuiz);
-                                break;
+                                    inputQuiz.playerName = name;
+                                    question.add(String.valueOf(scorePerRound));
+                                    scorePerRound = 0;
+                                    out.writeObject(inputQuiz);
+                                    break;
+                                } else {
+                                    String stringScore = String.valueOf(inputQuiz.scoreTable.getMapScores());
+                                    System.out.println(stringScore);
+                                }
                             }
                         }
                 }
