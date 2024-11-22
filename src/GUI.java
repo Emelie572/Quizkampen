@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI
+public class GUI extends JFrame
 {
     private JPanel cardPanel;
     private CardLayout cardLayout;
@@ -12,16 +12,16 @@ public class GUI
     {
         cardPanel = new JPanel(new CardLayout());
 
-        GUI8_2 gui2 = new GUI8_2();
-        GUI8_2 gui2_2 = new GUI8_2();
-        GUI8_3 gui3 = new GUI8_3();
-        GUI8_4 gui4 = new GUI8_4();
+        QuestionGUI questionGUI = new QuestionGUI();
+        QuestionGUI questionGUI2 = new QuestionGUI();
+        StartGUI startGUI = new StartGUI();
+        CategoryGUI categoryGUI = new CategoryGUI();
 
 
-        cardPanel.add(gui2, "card2");
-        cardPanel.add(gui3, "card3");
-        cardPanel.add(gui2_2, "card2");
-        cardPanel.add(gui4, "card4");
+        cardPanel.add(questionGUI, "card2");
+        cardPanel.add(startGUI, "card3");
+        cardPanel.add(questionGUI2, "card2");
+        cardPanel.add(categoryGUI, "card4");
 
         JPanel buttonSpace = new JPanel();
         JButton play = new JButton("Play");
@@ -33,18 +33,21 @@ public class GUI
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if(gui2.isVisible()){
-                    gui3.reset();
+                if (questionGUI.isVisible())
+                {
+                    startGUI.reset();
                     play.setText("forsätt");
-                }else if(gui3.isVisible()){
+                } else if (startGUI.isVisible())
+                {
                     play.setText("play");
-                    gui2_2.reset();
-                }else if(gui2_2.isVisible()){
+                    questionGUI2.reset();
+                } else if (questionGUI2.isVisible())
+                {
                     play.setText("play");
-                    gui4.reset();
-                }
-                else if(gui4.isVisible()){
-                    gui2.reset();
+                    categoryGUI.reset();
+                } else if (categoryGUI.isVisible())
+                {
+                    questionGUI.reset();
                 }
                 cardLayout.next(cardPanel);
             }
@@ -59,7 +62,7 @@ public class GUI
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        setSize(300,400);
+        setSize(300, 400);
     }
 
     public static void main(String[] args)
