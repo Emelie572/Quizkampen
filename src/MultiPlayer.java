@@ -20,6 +20,7 @@ public class MultiPlayer {
             try {
                 if(protocolQuiz!=null) {
                     stream.writeObject(protocolQuiz);
+                    stream.reset();
                     stream.flush();
                 }
 

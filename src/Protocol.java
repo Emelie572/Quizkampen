@@ -31,7 +31,6 @@ public class Protocol {
                 return null;
             }else if (playerRequestCounter == 1){
                 outputQuiz = new Quiz();
-                //outputQuiz.scoreTable=new ScoreTable();//test
                  playerRequestCounter++;
                 if(playerRequestCounter == 2){
                     state = ROUNDSCORE;
@@ -45,7 +44,6 @@ public class Protocol {
             }else if (playerRequestCounter == 1) {
                 protcolScoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 inputQuiz.scoreTable.setMapScores(protcolScoreTable.getMapScores());
-                //System.out.println(inputQuiz.index+" quiz index"); //test
                 System.out.println(inputQuiz.scoreTable.getMapScores());//test
                 inputQuiz.readOnly = true;
                 outputQuiz = inputQuiz;
