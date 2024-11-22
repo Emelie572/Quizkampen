@@ -2,7 +2,7 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 public class Protocol {
-
+    //Development
     private final int SENDINGQUIZ = 0;
     private final int ROUNDSCORE = 1;
     private final int ENDOFGAME = 2;

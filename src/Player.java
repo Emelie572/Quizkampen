@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Player
 {
+    //Development
     private InetAddress ip = InetAddress.getLocalHost();
     private int port = 12345;
     private ObjectOutputStream out;

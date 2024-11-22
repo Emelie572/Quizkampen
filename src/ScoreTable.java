@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreTable implements Serializable {
+    //Development
 
     private ConcurrentHashMap<String,Integer> mapScores;
 
