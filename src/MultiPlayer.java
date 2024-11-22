@@ -22,13 +22,14 @@ public class MultiPlayer {
     }
 
     public synchronized void sendProtocalToPlayer(Quiz quiz) {
+        /*
         if (playerSyncer <2) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
         Quiz protocolQuiz = protocol.proccesQuizInput(quiz);
         for (ObjectOutputStream stream : objectStreams) {
             try {
@@ -44,13 +45,21 @@ public class MultiPlayer {
 
 
     public synchronized void sendProtocalToPlayer() {
-        if (playerSyncer <2) {
+        while (playerSyncer <2) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        protocol.proccesQuizInput(null);
+        }
+        for (ObjectOutputStream stream : objectStreams) {
+            try {
+                stream.writeObject(protocol.proccesQuizInput(null));
+                stream.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Fel uppstod med quizzet: " + e.getMessage());
+            }
         }
     }
 

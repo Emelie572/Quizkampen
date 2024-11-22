@@ -35,14 +35,14 @@ public class Handler extends Thread {
 
                     multiplayer.sendProtocalToPlayer(playerQuiz);
                 }
-/*
+
                 if (response instanceof String){
                     multiplayer.playerSyncer();
                     multiplayer.sendProtocalToPlayer();
-                    multiplayer.syncerReset();
+                    //multiplayer.syncerReset();
                 }
 
- */
+
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Fel vid hantering av spelare: " + e.getMessage());

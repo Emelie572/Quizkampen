@@ -19,8 +19,9 @@ public class Player
 
     Player() throws UnknownHostException
     {
-       name = JOptionPane.showInputDialog(null,"Ange namn:");
-
+        name = JOptionPane.showInputDialog(null,"Ange namn:");
+        //name = "same";
+        System.out.println(name);
         new Thread(() -> {
             try (Socket socket = new Socket(ip, port);)
             {
@@ -30,8 +31,6 @@ public class Player
 
                 Object inputLine;
                 String inputAnswer;
-
-
                 //out.writeObject(name);
 
                 while (true){
@@ -64,6 +63,8 @@ public class Player
                                 } else {
                                     String stringScore = String.valueOf(inputQuiz.scoreTable.getMapScores());
                                     System.out.println(stringScore);
+                                    out.writeObject(inputQuiz);
+                                    break;
                                 }
                             }
                         }
@@ -72,6 +73,7 @@ public class Player
             {
                 throw new RuntimeException(e);
             }
+            /*
             finally
             {
                 try{
@@ -81,14 +83,15 @@ public class Player
                 }catch (IOException e){
                     e.printStackTrace();
                 }
-            }
+            }*/
         }).start();
     }
 
     public int checkAnswer(String input, List<String> question) throws IOException
     {
         int correctAnswer = Integer.parseInt(question.getLast());
-        if (input.equals(question.get(correctAnswer)))
+        String correct = question.get(correctAnswer);
+        if (input.toLowerCase().equals(correct.toLowerCase().trim()))
         {
             System.out.println("rätt");
             scorePerRound++;

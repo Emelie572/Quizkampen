@@ -42,11 +42,11 @@ public class Protocol {
 //TODO Definera dataflöde. Ändra så att setScoreMessage skickas när båda spelare har
 // uppdaterat scoreTable.
         } else if (state == ROUNDSCORE) {
-            if (playerStateCounter > 1) {
+            if (playerStateCounter > 2) {
                 scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
-                playerStateCounter--;
+                playerStateCounter-=2;
                 return null;
-            }else if (playerStateCounter == 1) {
+            }else if (playerStateCounter == 2) {
                 scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 inputQuiz.scoreTable =scoreTable;
                 inputQuiz.readOnly = true;
