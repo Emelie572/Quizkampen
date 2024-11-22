@@ -3,7 +3,6 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Player
@@ -13,16 +12,15 @@ public class Player
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private BufferedReader input;
-    private int scorePerRound = 0;
+    private int scorePerRound;
     private String name;
     private List<Object> send;
 
     Player() throws UnknownHostException
     {
         name = JOptionPane.showInputDialog(null,"Ange namn:");
-        //name = "same";
         System.out.println(name);
-        new Thread(() -> {
+       // new Thread(() -> {
             try (Socket socket = new Socket(ip, port);)
             {
                 input = new BufferedReader(new InputStreamReader(System.in));
@@ -31,7 +29,6 @@ public class Player
 
                 Object inputLine;
                 String inputAnswer;
-                //out.writeObject(name);
 
                 while (true){
                         while ((inputLine = in.readObject()) != null)
@@ -42,7 +39,7 @@ public class Player
 
                                 if(!inputQuiz.readOnly) {
 
-                                    List<String> question = null;
+                                    List<String> question;
 
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
                                         question = inputQuiz.allQuestions.get(i);
@@ -56,15 +53,20 @@ public class Player
                                     }
 
                                     inputQuiz.playerName = name;
-                                    question.add(String.valueOf(scorePerRound));
+                                    //inputQuiz.correctAnswers = scorePerRound;
                                     scorePerRound = 0;
                                     out.writeObject(inputQuiz);
-                                    break;
+                                    //break;test
                                 } else {
-                                    String stringScore = String.valueOf(inputQuiz.scoreTable.getMapScores());
-                                    System.out.println(stringScore);
+                                    System.out.println(inputQuiz.scoreTable.getMapScores());
+                                    System.out.println(inputQuiz.scoreTable.index+" ScoreTable Index");
+                                    System.out.println(inputQuiz.index);//test
+                                    for (TestRondScore round: inputQuiz.scoreTable.getTestRondScores() ) {
+                                        System.out.println(round);
+                                    }
+                                    System.out.println(inputQuiz.scoreTable.getTestRondScores());
                                     out.writeObject(inputQuiz);
-                                    break;
+                                    //break;test
                                 }
                             }
                         }
@@ -73,18 +75,7 @@ public class Player
             {
                 throw new RuntimeException(e);
             }
-            /*
-            finally
-            {
-                try{
-                    if (out != null) out.close();
-                    if (in != null) in.close();
-                    if (input != null) input.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }*/
-        }).start();
+       // }).start();
     }
 
     public int checkAnswer(String input, List<String> question) throws IOException

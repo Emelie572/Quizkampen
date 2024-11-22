@@ -23,9 +23,7 @@ public class Handler extends Thread {
             out.flush();
 
             multiplayer.addPlayers(out);
-            //multiplayer.playerSyncer();
             multiplayer.sendProtocalToPlayer();
-            //multiplayer.syncerReset();
 
             Object response;
             while ((response = in.readObject()) != null) {
@@ -35,32 +33,10 @@ public class Handler extends Thread {
 
                     multiplayer.sendProtocalToPlayer(playerQuiz);
                 }
-/*
-                if (response instanceof String){
-                    //multiplayer.playerSyncer();
-                    multiplayer.sendProtocalToPlayer();
-                    //multiplayer.syncerReset();
-                }
-
- */
-
-
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Fel vid hantering av spelare: " + e.getMessage());
             e.printStackTrace();
         }
-        /*
-        finally {
-            try {
-                in.close();
-                out.close();
-                playerSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-         */
     }
 }
