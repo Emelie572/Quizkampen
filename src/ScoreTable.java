@@ -11,8 +11,8 @@ public class ScoreTable implements Serializable {
         mapScores = new ConcurrentHashMap<>();
 
         this.index = Math.random();
-        int intindex  = (int )(index*10000);
-        updateScoreTable("ID",intindex);
+        //int intindex  = (int )(index*10000);
+        //updateScoreTable("ID",intindex);
 
 
     }

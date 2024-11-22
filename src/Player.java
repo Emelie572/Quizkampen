@@ -37,8 +37,8 @@ public class Player
                             if (inputLine instanceof Quiz)
                             {
                                 Quiz inputQuiz = (Quiz) inputLine;
-                                System.out.println(inputQuiz.index +" quiz Index");//test
-                                System.out.println(inputQuiz.scoreTable.getMapScores());
+                                //System.out.println(inputQuiz.index +" quiz Index");//test
+                                //System.out.println(inputQuiz.scoreTable.getMapScores());
                                 if(!inputQuiz.readOnly) {
 
                                     List<String> question;
@@ -50,7 +50,7 @@ public class Player
 
                                         while ((inputAnswer = input.readLine()) != null) {
                                             inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
-                                            System.out.println(inputQuiz.index +" quiz Index");//test
+                                            //System.out.println(inputQuiz.index +" quiz Index");//test
                                             break;
                                         }
                                     }
@@ -58,14 +58,14 @@ public class Player
                                     inputQuiz.playerName = name;
                                     //inputQuiz.correctAnswers = scorePerRound;
                                     scorePerRound = 0;
-                                    System.out.println(inputQuiz.index +" quiz Index");//test
+                                    //System.out.println(inputQuiz.index +" quiz Index");//test
                                     out.writeObject(inputQuiz);
-                                    //break;test
+                                    break;
                                 } else {
                                     System.out.println(inputQuiz.scoreTable.getMapScores());
-                                    System.out.println(inputQuiz.index +" quiz index");//test
+                                    //System.out.println(inputQuiz.index +" quiz index");//test
                                     out.writeObject(inputQuiz);
-                                    //break;test
+                                    break;
                                 }
                             }
                         }

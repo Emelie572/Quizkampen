@@ -45,14 +45,14 @@ public class Protocol {
             }else if (playerRequestCounter == 1) {
                 protcolScoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 inputQuiz.scoreTable.setMapScores(protcolScoreTable.getMapScores());
-                System.out.println(inputQuiz.index+" quiz index"); //test
+                //System.out.println(inputQuiz.index+" quiz index"); //test
                 System.out.println(inputQuiz.scoreTable.getMapScores());//test
                 inputQuiz.readOnly = true;
                 outputQuiz = inputQuiz;
                 playerRequestCounter--;
                 roundsCounter++;
                 if (rounds==roundsCounter){
-                    state = SENDINGQUIZ;//ENDOFGAME test
+                    state = ENDOFGAME;//SENDINGQUIZ;//ENDOFGAME test
                 } else if(playerRequestCounter == 0) {
                     state = SENDINGQUIZ;
                 }
