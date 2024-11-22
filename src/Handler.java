@@ -23,7 +23,7 @@ public class Handler extends Thread {
             out.flush();
 
             multiplayer.addPlayers(out);
-            multiplayer.playerSyncer();
+            //multiplayer.playerSyncer();
             multiplayer.sendProtocalToPlayer();
             //multiplayer.syncerReset();
 
@@ -35,12 +35,14 @@ public class Handler extends Thread {
 
                     multiplayer.sendProtocalToPlayer(playerQuiz);
                 }
-
+/*
                 if (response instanceof String){
-                    multiplayer.playerSyncer();
+                    //multiplayer.playerSyncer();
                     multiplayer.sendProtocalToPlayer();
                     //multiplayer.syncerReset();
                 }
+
+ */
 
 
             }

@@ -15,7 +15,8 @@ public class ScoreTable implements Serializable {
     public void updateScoreTable(String playerName, int score) {
 
         if (mapScores.containsKey(playerName)) {
-            mapScores.put(playerName, mapScores.get(playerName) + score);
+            mapScores.put(playerName, (mapScores.get(playerName) + score));
+            System.out.println(mapScores + " ScoreTable Print");
         } else{
             mapScores.put(playerName, score);
         }

@@ -10,7 +10,7 @@ public class Protocol {
 
     private int rounds;
     private int roundsCounter = 0;
-    private int playerStateCounter = 0;
+    private int playerRequestCounter = 0;
     private Quiz outputQuiz;
     private ScoreTable scoreTable = new ScoreTable();
 
@@ -28,13 +28,14 @@ public class Protocol {
 //TODO Separat metod för playerStateScore hantering.
     public synchronized Quiz proccesQuizInput(Quiz inputQuiz)  {
         if (state == SENDINGQUIZ) {
-             if (playerStateCounter <2) {
-                playerStateCounter++;
+
+             if (playerRequestCounter ==0) {
+                playerRequestCounter++;
                 return null;
-            }else if (playerStateCounter >= 2){
+            }else if (playerRequestCounter == 1){
                 outputQuiz = new Quiz();
-                 playerStateCounter++;
-                if(playerStateCounter == 4){
+                 playerRequestCounter++;
+                if(playerRequestCounter == 2){
                     state = ROUNDSCORE;
                 }
 
@@ -42,25 +43,30 @@ public class Protocol {
 //TODO Definera dataflöde. Ändra så att setScoreMessage skickas när båda spelare har
 // uppdaterat scoreTable.
         } else if (state == ROUNDSCORE) {
-            if (playerStateCounter > 2) {
+            if (playerRequestCounter == 2) {
                 scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
-                playerStateCounter-=2;
+                playerRequestCounter -=2;
                 return null;
-            }else if (playerStateCounter == 2) {
+            }else if (playerRequestCounter == 0) {
+
+
                 scoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
                 inputQuiz.scoreTable =scoreTable;
+                String stringScore = String.valueOf(inputQuiz.scoreTable.getMapScores());
+                System.out.println(stringScore + " Protocol Print");
                 inputQuiz.readOnly = true;
                 outputQuiz = inputQuiz;
-                playerStateCounter--;
+                //playerRequestCounter--;
                 roundsCounter++;
                 if (rounds==roundsCounter){
                     state = GAMEEND;
-                } else {
+                } else if(playerRequestCounter == 0) {
                     state = SENDINGQUIZ;
                 }
             }
         }else if (state == GAMEEND) {
-            System.exit(0);
+            System.out.println("Game ended");
+           while (true){}
         }
         return outputQuiz;
     }
