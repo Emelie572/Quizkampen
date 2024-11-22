@@ -52,7 +52,10 @@ public class QuestionGUI extends JPanel implements ActionListener
     {
         seconds = 20;
         progressBar.setValue(seconds);
-        setBackground(Color.white);
+        for(JButton b : answers){
+            b.setBackground(Color.white);
+        }
+        timer.start();
     }
 
     @Override
