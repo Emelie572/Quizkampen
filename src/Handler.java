@@ -7,7 +7,6 @@ public class Handler extends Thread {
     private final MultiPlayer multiplayer;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private Protocol protocol;
 
 
     public Handler(Socket playerSocket, MultiPlayer multiplayer) {
@@ -21,9 +20,7 @@ public class Handler extends Thread {
             out = new ObjectOutputStream(playerSocket.getOutputStream());
             in = new ObjectInputStream(playerSocket.getInputStream());
             out.flush();
-
             multiplayer.addPlayers(out);
-            multiplayer.sendProtocalToPlayer();
 
             Object response;
             while ((response = in.readObject()) != null) {

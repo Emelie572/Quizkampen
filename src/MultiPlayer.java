@@ -18,24 +18,11 @@ public class MultiPlayer {
         Quiz protocolQuiz = protocol.proccesQuizInput(quiz);
         for (ObjectOutputStream stream : objectStreams) {
             try {
-                //System.out.println(protocolQuiz.scoreTable.getMapScores() + " MultiPlayer Print");//test
-                stream.writeObject(protocolQuiz);
-                stream.flush();
+                if(protocolQuiz!=null) {
+                    stream.writeObject(protocolQuiz);
+                    stream.flush();
+                }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Fel uppstod med quizzet: " + e.getMessage());
-            }
-        }
-    }
-
-    public synchronized void sendProtocalToPlayer() {
-
-        Quiz protocolQuiz = protocol.proccesQuizInput(null);
-        for (ObjectOutputStream stream : objectStreams) {
-            try {
-                stream.writeObject(protocolQuiz);
-                stream.flush();
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("Fel uppstod med quizzet: " + e.getMessage());

@@ -12,7 +12,7 @@ public class Protocol {
     private int roundsCounter = 0;
     private int playerRequestCounter = 0;
     private Quiz outputQuiz;
-    private final ScoreTable protcolScoreTable = new ScoreTable();
+    private  ScoreTable protcolScoreTable = new ScoreTable();
 
     public Protocol() {
         Properties p = new Properties();
@@ -44,11 +44,9 @@ public class Protocol {
                 return null;
             }else if (playerRequestCounter == 1) {
                 protcolScoreTable.updateScoreTable(inputQuiz.playerName,inputQuiz.correctAnswers);
-                inputQuiz.scoreTable = protcolScoreTable;
-                String stringScore = String.valueOf(inputQuiz.scoreTable.getMapScores());
-                System.out.println(stringScore + " Protocol Print");
-                System.out.println(inputQuiz.scoreTable.index+" Protocol Print");
-                System.out.println(inputQuiz.index); //test
+                inputQuiz.scoreTable.setMapScores(protcolScoreTable.getMapScores());
+                System.out.println(inputQuiz.index+" quiz index"); //test
+                System.out.println(inputQuiz.scoreTable.getMapScores());//test
                 inputQuiz.readOnly = true;
                 outputQuiz = inputQuiz;
                 playerRequestCounter--;

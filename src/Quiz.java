@@ -24,10 +24,4 @@ public class Quiz implements Serializable {
         index = Math.random();
 
     }
-    /*
-    public int getIndex() {
-        return index;
-    }
-
-     */
 }

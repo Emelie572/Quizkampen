@@ -14,7 +14,6 @@ public class Player
     private BufferedReader input;
     private int scorePerRound;
     private String name;
-    private List<Object> send;
 
     Player() throws UnknownHostException
     {
@@ -27,27 +26,31 @@ public class Player
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
 
+                Quiz connectionQuiz = new Quiz();
+                out.writeObject(connectionQuiz);
+
                 Object inputLine;
                 String inputAnswer;
-
                 while (true){
                         while ((inputLine = in.readObject()) != null)
                         {
                             if (inputLine instanceof Quiz)
                             {
                                 Quiz inputQuiz = (Quiz) inputLine;
-
+                                System.out.println(inputQuiz.index +" quiz Index");//test
+                                System.out.println(inputQuiz.scoreTable.getMapScores());
                                 if(!inputQuiz.readOnly) {
 
                                     List<String> question;
 
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
                                         question = inputQuiz.allQuestions.get(i);
-
+                                        //System.out.println(inputQuiz.index +" quiz Index");//test
                                         printQuestion(question);
 
                                         while ((inputAnswer = input.readLine()) != null) {
                                             inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
+                                            System.out.println(inputQuiz.index +" quiz Index");//test
                                             break;
                                         }
                                     }
@@ -55,16 +58,12 @@ public class Player
                                     inputQuiz.playerName = name;
                                     //inputQuiz.correctAnswers = scorePerRound;
                                     scorePerRound = 0;
+                                    System.out.println(inputQuiz.index +" quiz Index");//test
                                     out.writeObject(inputQuiz);
                                     //break;test
                                 } else {
                                     System.out.println(inputQuiz.scoreTable.getMapScores());
-                                    System.out.println(inputQuiz.scoreTable.index+" ScoreTable Index");
-                                    System.out.println(inputQuiz.index);//test
-                                    for (TestRondScore round: inputQuiz.scoreTable.getTestRondScores() ) {
-                                        System.out.println(round);
-                                    }
-                                    System.out.println(inputQuiz.scoreTable.getTestRondScores());
+                                    System.out.println(inputQuiz.index +" quiz index");//test
                                     out.writeObject(inputQuiz);
                                     //break;test
                                 }
