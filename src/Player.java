@@ -13,14 +13,14 @@ public class Player
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private BufferedReader input;
-    private int scorePerRound;
     private String name;
 
     Player() throws UnknownHostException
     {
-        name = JOptionPane.showInputDialog(null,"Ange namn:");
+        this.name = JOptionPane.showInputDialog(null,"Ange namn:");
         System.out.println(name);
-       // new Thread(() -> {
+        name += "_"+Math.random(); //Unikt namn för HashMaps.
+
             try (Socket socket = new Socket(ip, port);)
             {
                 input = new BufferedReader(new InputStreamReader(System.in));
@@ -31,37 +31,32 @@ public class Player
                 out.writeObject(connectionQuiz);
 
                 Object inputLine;
-                String inputAnswer;
+
                 while (true){
                         while ((inputLine = in.readObject()) != null)
                         {
-                            if (inputLine instanceof Quiz)
+                            if (inputLine instanceof Quiz )
                             {
-                                Quiz inputQuiz = (Quiz) inputLine;
+                                Quiz inputQuiz = (Quiz)inputLine;
+
                                 if(!inputQuiz.readOnly) {
 
                                     List<String> question;
 
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
+
                                         question = inputQuiz.allQuestions.get(i);
                                         printQuestion(question);
-
-                                        while ((inputAnswer = input.readLine()) != null) {
-                                            inputQuiz.correctAnswers = checkAnswer(inputAnswer, question);
-                                            inputQuiz.scoreTable.updateScoreTable(name,scorePerRound);//Test
-                                            break;
-                                        }
+                                        String inputAnswer = input.readLine().trim();
+                                        inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
                                     }
-
                                     inputQuiz.playerName = name;
-                                    scorePerRound = 0;
-                                    out.writeObject(inputQuiz);
-                                    break;
+
                                 } else {
-                                    System.out.println(inputQuiz.scoreTable.getMapScores());
-                                    out.writeObject(inputQuiz);
-                                    break;
+                                    System.out.println(inputQuiz.scoreTable.toString());
                                 }
+                                out.writeObject(inputQuiz);
+                                break;
                             }
                         }
                 }
@@ -69,19 +64,21 @@ public class Player
             {
                 throw new RuntimeException(e);
             }
-       // }).start();
     }
 
     public int checkAnswer(String input, List<String> question) throws IOException
     {
         int correctAnswer = Integer.parseInt(question.getLast());
-        String correct = question.get(correctAnswer);
-        if (input.toLowerCase().equals(correct.toLowerCase().trim()))
+        String correct = question.get(correctAnswer).trim();
+
+        if (input.equalsIgnoreCase(correct))
         {
-            System.out.println("rätt");
-            scorePerRound++;
-        }
-        return scorePerRound;
+            System.out.println("Rätt!\n");
+            return 1;
+
+        }else {System.out.println("Fel!\n");}
+
+        return 0;
     }
 
     public void printQuestion(List<String> question) throws IOException

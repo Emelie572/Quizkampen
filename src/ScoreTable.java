@@ -1,30 +1,59 @@
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreTable implements Serializable {
     //Development
+    private final List<ConcurrentHashMap<String,Integer>> gameScore = new ArrayList<>();
 
-    private ConcurrentHashMap<String,Integer> mapScores;
-
-    public ScoreTable() {
-    //TODO Listan är inte sorterad.
-        mapScores = new ConcurrentHashMap<>();
-    }
     //TODO Problem om två spelare har samma namn.
-    public void updateScoreTable(String playerName, int score) {
-
-        if (mapScores.containsKey(playerName)) {
-            mapScores.put(playerName, (mapScores.get(playerName) + score));
-        } else{
-            mapScores.put(playerName, score);
+    public ScoreTable(int rounds) {
+        for (int i = 0; i <= rounds; i++) {
+            gameScore.add(new ConcurrentHashMap<>());
         }
     }
+    public void updateScore(String playerName, int score, int round) {
 
-    public ConcurrentHashMap<String, Integer> getMapScores() {
-        return mapScores;
+        if(gameScore.getFirst().containsKey(playerName)){
+            gameScore.getFirst().put(playerName, gameScore.getFirst().get(playerName) + score);
+        } else{
+            gameScore.getFirst().put(playerName, score);
+        }
+        gameScore.get(round).put(playerName, score);
     }
 
-    public void setMapScores(ConcurrentHashMap<String, Integer> mapScores) {
-        this.mapScores = mapScores;
+    @Override
+    public String toString() {
+
+        StringBuilder returnString= new StringBuilder();
+        String gameScoreString;
+
+        for (int i = 0; i <gameScore.size() ; i++) {
+
+                if (i == 0) {
+                    gameScoreString = stringRefactoring(gameScore.get(i).toString());
+                    returnString = new StringBuilder("Total  : " + gameScoreString + "\n");
+
+                } else {
+                    if(!gameScore.get(i).isEmpty()) {
+
+                        gameScoreString = stringRefactoring(gameScore.get(i).toString());
+                        returnString.append("Round ").append(i).append(": ").append(gameScoreString).append("\n");
+                    }else {
+                        returnString.append("Round ").append(i).append(": ").append("\n");
+                    }
+                }
+        }
+        return returnString.toString();
+    }
+
+    private String stringRefactoring(String s){
+
+        String player1 = s.substring(1,s.indexOf("_"));
+        String player1Score = s.substring(s.indexOf("=")+1, s.indexOf(","));
+        String player2 = s.substring(s.indexOf(","), s.lastIndexOf("_"));
+        String player2Score = String.valueOf(s.charAt(s.length()-2));
+        return player1 +" "+player1Score+" "+player2+" "+player2Score;
     }
 }

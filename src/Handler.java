@@ -29,7 +29,7 @@ public class Handler extends Thread {
                 if (response instanceof Quiz) {
                     Quiz playerQuiz = (Quiz) response;
 
-                    multiplayer.sendProtocalToPlayer(playerQuiz);
+                    multiplayer.sendProtocolToPlayer(playerQuiz);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

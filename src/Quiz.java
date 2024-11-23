@@ -9,11 +9,8 @@ public class Quiz implements Serializable {
 
     String playerName;
     int correctAnswers = 0;
-    double index = 0;//test
-
-    ScoreTable scoreTable = new ScoreTable();
-
     boolean readOnly = false;
+    ScoreTable scoreTable;
 
     public Quiz(){
 
@@ -22,7 +19,5 @@ public class Quiz implements Serializable {
 
         allQuestions.add(question1);
         allQuestions.add(question2);
-        index = Math.random();
-
     }
 }

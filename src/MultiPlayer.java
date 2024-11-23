@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MultiPlayer {
     //Development
+    //TODO ända sendProtocalToPlayer till sendProtocolToPlayer
     private final List<ObjectOutputStream> objectStreams = new ArrayList<>();
     private final Protocol protocol = new Protocol();
 
@@ -13,9 +14,10 @@ public class MultiPlayer {
         objectStreams.add(stream);
     }
 
-    public synchronized void sendProtocalToPlayer(Quiz quiz) {
+    public synchronized void sendProtocolToPlayer(Quiz quiz) { //typo
 
-        Quiz protocolQuiz = protocol.proccesQuizInput(quiz);
+        Quiz protocolQuiz = protocol.processQuizInput(quiz);
+
         for (ObjectOutputStream stream : objectStreams) {
             try {
                 if(protocolQuiz!=null) {
