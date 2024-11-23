@@ -32,5 +32,9 @@ public class MultiPlayer {
             }
         }
     }
+
+    public List<ObjectOutputStream> getObjectStreams() {
+        return objectStreams;
+    }
 }
 
