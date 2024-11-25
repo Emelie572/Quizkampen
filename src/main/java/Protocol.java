@@ -1,6 +1,9 @@
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import Database.QuizSource;
+import Database.QuizSourceReader;
+
 public class Protocol {
     //Development
     private final int SENDINGQUIZ = 0;
@@ -13,20 +16,24 @@ public class Protocol {
     private boolean multiPlayerRequest = false;
     private Quiz outputQuiz;
     private final ScoreTable protcolScoreTable;
+    private final QuizSource quizSource;
+    private int chosenCategory;
 
     //TODO Rensa upp kod.
     public Protocol() {
 
         this.MAXROUNDS = getRoundProperty();
         this.protcolScoreTable = new ScoreTable(MAXROUNDS);
+        this.quizSource = new QuizSourceReader(0,0).getQuizSource();
     }
     public synchronized Quiz processQuizInput(Quiz inputQuiz)  {
         if (state == SENDINGQUIZ) {
              if (!multiPlayerRequest) {
+                 chosenCategory = inputQuiz.category;
                  multiPlayerRequest = true;
                 return null;
             }else {
-                outputQuiz = new Quiz();
+                outputQuiz = new Quiz(chosenCategory);
                 multiPlayerRequest = false;
                 state = ROUNDSCORING;
             }
@@ -51,7 +58,7 @@ public class Protocol {
             }
         }else if (state == ENDOFGAME) {
             System.out.println("Game ended");
-           while (true){/*Locks program to simulate end of game, changed later.*/}
+           while (true){/*Locks program to simulate end of game, changed later.*/} //TODO Locks program to simulate end of game, changed later.
         }
         return outputQuiz;
     }
@@ -60,7 +67,7 @@ public class Protocol {
 
         Properties p = new Properties();
         try{
-            p.load(new FileInputStream("src/RoundQuestionsAmount.properties"));
+            p.load(new FileInputStream("src/main/java/RoundQuestionsAmount.properties"));
         }catch(Exception e){
             System.out.println("File not found");
             e.printStackTrace();

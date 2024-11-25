@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.List;
 
 public class Player
@@ -27,7 +28,8 @@ public class Player
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
 
-                Quiz connectionQuiz = new Quiz();
+                int test = 10;//Testa Kategori input
+                Quiz connectionQuiz = new Quiz(test,true);
                 out.writeObject(connectionQuiz);
 
                 Object inputLine;
@@ -45,7 +47,7 @@ public class Player
 
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
 
-                                        question = inputQuiz.allQuestions.get(i);
+                                        question = setCorrectAwnser(inputQuiz.allQuestions.get(i));
                                         printQuestion(question);
                                         String inputAnswer = input.readLine().trim();
                                         inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
@@ -66,6 +68,17 @@ public class Player
             }
     }
 
+    private List<String> setCorrectAwnser(List<String> question) {
+
+        String answer =String.valueOf(question.size() - 1);
+        String q = question.getFirst();
+        question.remove(q);
+        Collections.shuffle(question);
+        question.set(0,q);
+        question.add(answer);
+        return question;
+    }
+
     public int checkAnswer(String input, List<String> question) throws IOException
     {
         int correctAnswer = Integer.parseInt(question.getLast());
@@ -84,7 +97,7 @@ public class Player
     public void printQuestion(List<String> question) throws IOException
     {
         for (int i = 0; i < question.size()-1; i++){
-            System.out.print(question.get(i) + " ");
+            System.out.print(question.get(i) + ", ");
         }
         System.out.println();
     }
