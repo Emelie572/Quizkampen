@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,9 @@ public class MultiPlayer {
     //TODO ända sendProtocalToPlayer till sendProtocolToPlayer
     private final List<ObjectOutputStream> objectStreams = new ArrayList<>();
     private final Protocol protocol = new Protocol();
+
+    public MultiPlayer() throws IOException, InterruptedException {
+    }
 
     public synchronized void addPlayers(ObjectOutputStream stream) {
 

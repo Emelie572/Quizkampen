@@ -1,8 +1,11 @@
+import Database.QuestionsQuiz;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player
@@ -14,6 +17,8 @@ public class Player
     private ObjectInputStream in;
     private BufferedReader input;
     private String name;
+
+    List<QuestionsQuiz> questionsQuiz = new ArrayList<>();
 
     Player() throws UnknownHostException
     {
@@ -27,8 +32,8 @@ public class Player
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
 
-                Quiz connectionQuiz = new Quiz();
-                out.writeObject(connectionQuiz);
+              Quiz connectionQuiz = new Quiz(questionsQuiz);
+              out.writeObject(connectionQuiz);
 
                 Object inputLine;
 
@@ -41,15 +46,25 @@ public class Player
 
                                 if(!inputQuiz.readOnly) {
 
-                                    List<String> question;
+                                    //List<String> question;
+                                    List<QuestionsQuiz> questionList = inputQuiz.getQuestions();
+                                        printQuestion(questionList);
 
+                                    String inputAnswer = input.readLine().trim();
+                                    inputQuiz.correctAnswers += checkAnswer(inputAnswer, questionList);
+
+                                    /*
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
 
                                         question = inputQuiz.allQuestions.get(i);
                                         printQuestion(question);
+
+
                                         String inputAnswer = input.readLine().trim();
                                         inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
                                     }
+
+                                     */
                                     inputQuiz.playerName = name;
 
                                 } else {
@@ -81,6 +96,13 @@ public class Player
         return 0;
     }
 
+    public void printQuestion(List<QuestionsQuiz> questionList) {
+        for (QuestionsQuiz questions : questionList) {
+            System.out.println(questions);
+        }
+    }
+
+    /*
     public void printQuestion(List<String> question) throws IOException
     {
         for (int i = 0; i < question.size()-1; i++){
@@ -89,6 +111,8 @@ public class Player
         System.out.println();
     }
 
+
+     */
     public static void main(String[] args) throws UnknownHostException
     {
         new Player();

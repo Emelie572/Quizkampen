@@ -6,8 +6,8 @@ public class ServerListener {
     //Development
     private int port = 12345;
 
-    ServerListener() throws IOException
-    {
+
+    ServerListener() throws IOException, InterruptedException {
         MultiPlayer multiPlayer = new MultiPlayer();
         while(true)
         {
@@ -29,8 +29,7 @@ public class ServerListener {
         }
     }
 
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException, InterruptedException {
         new ServerListener();
     }
 }
