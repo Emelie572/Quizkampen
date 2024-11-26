@@ -10,6 +10,9 @@ public class ScoretableGUI extends JFrame {
     private JButton continueQuizButton;
     private ScoreTable scoretable;
     private JFrame frame;
+    private String ROUNDTITEL = "Round";
+    private String CONCEALEDROUND = "Dolt";
+
 
 
     public ScoretableGUI(String player1, String player2, int rounds, ScoreTable scoretable) {
@@ -20,7 +23,7 @@ public class ScoretableGUI extends JFrame {
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         add(mainContentPanel, BorderLayout.CENTER);
 
-        addScoreResultTitel(player1, player2);
+        headerForColumns(player1, player2);
 
         JLabel scoreResultTitel = new JLabel("Spelresultat");
         scoreResultTitel.setFont(new Font("Arial", Font.BOLD, 15));
@@ -48,19 +51,27 @@ public class ScoretableGUI extends JFrame {
 
     }
 
-    private void addScoreResultTitel(String player1, String player2) {
+    private void headerForColumns(String player1, String player2) {
         JPanel headerForColumns = new JPanel(new GridLayout(1, 3));
-        headerForColumns.add(createSquare(player1), Font.BOLD);
-        headerForColumns.add(createSquare("Rond"), Font.BOLD);
-        headerForColumns.add(createSquare(player2), Font.BOLD);
+        headerForColumns.add(createSquare(player1, Font.BOLD));
+        headerForColumns.add(createSquare(ROUNDTITEL, Font.BOLD));
+        headerForColumns.add(createSquare(player2, Font.BOLD));
         mainContentPanel.add(headerForColumns);
     }
 
-    private JLabel createSquare(String text) {
+    private JLabel createSquare(String text, int fontStyle) {
         JLabel squareLabel = new JLabel(text, SwingConstants.CENTER);
-        squareLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        squareLabel.setFont(new Font("Arial", fontStyle, 15));
         squareLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return squareLabel;
+    }
+
+    private void createRoundRow(int round) {
+        JPanel roundRow = new JPanel(new GridLayout(1, 3));
+        roundRow.add(createSquare(CONCEALEDROUND,Font.PLAIN));
+        roundRow.add(createSquare(ROUNDTITEL,round), Font.PLAIN);
+        roundRow.add(createSquare(CONCEALEDROUND,Font.PLAIN));
+        mainContentPanel.add(roundRow);
     }
 }
         //Lägg till header metod();
