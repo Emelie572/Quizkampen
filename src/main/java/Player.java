@@ -58,8 +58,11 @@ public class Player
                                 } else { //readOnly
                                     System.out.println(inputQuiz.scoreTable.toString());
                                     System.out.println("Player choosing category: " + inputQuiz.playerChoosingCategory);
-                                    inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
+                                    //inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
                                     inputQuiz.playerName = name;//Test.
+                                    if(name.equalsIgnoreCase(inputQuiz.playerChoosingCategory)) {
+                                        inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.playerName+" Nummer mellan 9-32")));//Test.
+                                    }
                                 }
                                 System.out.println("PlayerName printer"+inputQuiz.playerName+" "+inputQuiz.category);
                                 out.writeObject(inputQuiz); //Test. Efter readOnly skickas båda samtidigt och player 1 går alltid först.
