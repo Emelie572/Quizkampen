@@ -15,7 +15,7 @@ public class Protocol {
     private final ScoreTable protcolScoreTable;
     private int chosenCategory;
     private String playerChoosingCategory;
-    private boolean playerCategoryChosen = true;
+    private boolean ChoosingCategory = true;
 
     //TODO Rensa upp kod.
     public Protocol() {
@@ -29,6 +29,7 @@ public class Protocol {
              if (!multiPlayerRequest) {
                  if(roundsPlayed == 0) { //Connection Quiz.
                      chosenCategory = inputQuiz.category; //Spelare 1
+                     playerChoosingCategory = inputQuiz.playerName;
                      System.out.println("Category set by: " + inputQuiz.playerName + " " + inputQuiz.category);//Test.
                  } else {//Efter runda 1
                      if(inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory)) {
@@ -64,13 +65,13 @@ public class Protocol {
 
         } else if (state == ROUNDSCORING) {
             if (!multiPlayerRequest){
-                playerCategoryChosen = true;
+                ChoosingCategory = true;
                 roundsPlayed++;
                 protcolScoreTable.updateScore(inputQuiz.playerName,inputQuiz.correctAnswers,roundsPlayed);
                 multiPlayerRequest = true;
                 System.out.println("Updating Score from player completing it first: " + inputQuiz.playerName);//Test.
-                if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&&playerCategoryChosen){
-                    playerCategoryChosen = false;
+                if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
+                    ChoosingCategory = false;
                     playerChoosingCategory = inputQuiz.playerName;
                 }
                 return null;
@@ -80,8 +81,8 @@ public class Protocol {
                 System.out.println("Updating Score from player completing it second: " + inputQuiz.playerName);//Test.
                 System.out.println(inputQuiz.scoreTable);//test
                 inputQuiz.readOnly = true;
-                if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&&playerCategoryChosen){
-                    playerCategoryChosen = false;
+                if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
+                    ChoosingCategory = false;
                     playerChoosingCategory = inputQuiz.playerName;
                 } //test
                 System.out.println("Player Choosing Category: " + playerChoosingCategory);

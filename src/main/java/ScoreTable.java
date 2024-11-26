@@ -7,7 +7,6 @@ public class ScoreTable implements Serializable {
     //Development
     private final List<ConcurrentHashMap<String,Integer>> gameScore = new ArrayList<>();
 
-    //TODO Problem om två spelare har samma namn.
     public ScoreTable(int rounds) {
         for (int i = 0; i <= rounds; i++) {
             gameScore.add(new ConcurrentHashMap<>());

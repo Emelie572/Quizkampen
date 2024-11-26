@@ -5,8 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 
-public class Player
-{
+public class Player {
     //Development
     private InetAddress ip = InetAddress.getLocalHost();
     private int port = 12345;
@@ -17,7 +16,7 @@ public class Player
 
     Player() throws UnknownHostException
     {
-        this.name = JOptionPane.showInputDialog(null,"Ange namn:");
+        this.name = JOptionPane.showInputDialog(null,"Ange namn:"); //TODO Panel för namn. Ersätts med GUI.
         System.out.println(name);
         name += "_"+Math.random(); //Unikt namn för HashMaps.
 
@@ -27,23 +26,20 @@ public class Player
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
 
-                //int testCategory = 10;//Test. Kategori input, Books
-                int testCategory = randomCategory(); //Test. Slumpar fram en kategori
+                int testCategory = randomCategory(); //TODO Slumpar fram första kategorin. Ersätts med GUI.
                 Quiz connectionQuiz = new Quiz(testCategory,true);
-                connectionQuiz.playerName = name;//Test. Sätter namn på quiz.
+                connectionQuiz.playerName = name;
                 out.writeObject(connectionQuiz);
 
                 Object inputLine;
 
                 while (true){
-                        while ((inputLine = in.readObject()) != null)
-                        {
-                            if (inputLine instanceof Quiz )
-                            {
+                        while ((inputLine = in.readObject()) != null) {
+
+                            if (inputLine instanceof Quiz ) {
                                 Quiz inputQuiz = (Quiz)inputLine;
 
                                 if(!inputQuiz.readOnly) {
-
                                     List<String> question;
 
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
@@ -56,16 +52,14 @@ public class Player
                                     inputQuiz.playerName = name;
 
                                 } else { //readOnly
-                                    System.out.println(inputQuiz.scoreTable.toString());
-                                    System.out.println("Player choosing category: " + inputQuiz.playerChoosingCategory);
-                                    //inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
-                                    inputQuiz.playerName = name;//Test.
+                                    System.out.println(inputQuiz.scoreTable.toString()); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
+                                    inputQuiz.playerName = name;
+
                                     if(name.equalsIgnoreCase(inputQuiz.playerChoosingCategory)) {
-                                        inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.playerName+" Nummer mellan 9-32")));//Test.
+                                        inputQuiz.setCategory(randomCategory());//TODO Kategori slumpas fram. Ersätts med GUI.
                                     }
                                 }
-                                System.out.println("PlayerName printer"+inputQuiz.playerName+" "+inputQuiz.category);
-                                out.writeObject(inputQuiz); //Test. Efter readOnly skickas båda samtidigt och player 1 går alltid först.
+                                out.writeObject(inputQuiz); //Efter readOnly skickas båda samtidigt och player 1 går först strömmen.
                                 break;
                             }
                         }
@@ -83,15 +77,15 @@ public class Player
 
         if (input.equalsIgnoreCase(correct))
         {
-            System.out.println("Rätt!\n");
+            System.out.println("Rätt!\n");//TODO Ersätts i GUI.
             return 1;
 
-        }else {System.out.println("Fel!\n");}
+        }else {System.out.println("Fel!\n");}//TODO Ersätts i GUI.
 
         return 0;
     }
 
-    public void printQuestion(List<String> question) throws IOException
+    public void printQuestion(List<String> question) throws IOException //TODO Ersätts med GUI.
     {
         for (int i = 0; i < question.size()-1; i++){
             String rewrite = question.get(i).replaceAll("&#039;","'");
@@ -102,7 +96,7 @@ public class Player
         System.out.println();
     }
 
-    private int randomCategory(){ //Test. Metod för att slumpa fram en kategori
+    private int randomCategory(){ //TODO Test. Metod för att slumpa fram en kategori. Ta bort.
         int randomCategory = (int)(Math.random()*(32 - 9 + 1)) + 9;
         System.out.println(randomCategory);
         return randomCategory;
