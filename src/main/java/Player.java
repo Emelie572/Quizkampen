@@ -27,8 +27,10 @@ public class Player
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
 
-                int test = 10;//Testa Kategori input
-                Quiz connectionQuiz = new Quiz(test,true);
+                //int testCategory = 10;//Test. Kategori input, Books
+                int testCategory = randomCategory(); //Test. Slumpar fram en kategori
+                Quiz connectionQuiz = new Quiz(testCategory,true);
+                connectionQuiz.playerName = name;//Test. Sätter namn på quiz.
                 out.writeObject(connectionQuiz);
 
                 Object inputLine;
@@ -53,10 +55,14 @@ public class Player
                                     }
                                     inputQuiz.playerName = name;
 
-                                } else {
+                                } else { //readOnly
                                     System.out.println(inputQuiz.scoreTable.toString());
+                                    System.out.println("Player choosing category: " + inputQuiz.playerChoosingCategory);
+                                    inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
+                                    inputQuiz.playerName = name;//Test.
                                 }
-                                out.writeObject(inputQuiz);
+                                System.out.println("PlayerName printer"+inputQuiz.playerName+" "+inputQuiz.category);
+                                out.writeObject(inputQuiz); //Test. Efter readOnly skickas båda samtidigt och player 1 går alltid först.
                                 break;
                             }
                         }
@@ -87,9 +93,16 @@ public class Player
         for (int i = 0; i < question.size()-1; i++){
             String rewrite = question.get(i).replaceAll("&#039;","'");
             rewrite = rewrite.replaceAll("&quot;","\"");
+            rewrite = rewrite.replaceAll("&amp;","&");
             System.out.print(rewrite + ", ");
         }
         System.out.println();
+    }
+
+    private int randomCategory(){ //Test. Metod för att slumpa fram en kategori
+        int randomCategory = (int)(Math.random()*(32 - 9 + 1)) + 9;
+        System.out.println(randomCategory);
+        return randomCategory;
     }
 
     public static void main(String[] args) throws UnknownHostException

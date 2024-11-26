@@ -1,6 +1,8 @@
 import java.io.ObjectOutputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MultiPlayer {
     //Development
@@ -12,7 +14,7 @@ public class MultiPlayer {
         objectStreams.add(stream);
     }
 
-    public synchronized void sendProtocolToPlayer(Quiz quiz) { //typo
+    public synchronized void sendProtocolToPlayer(Quiz quiz) {//typo
 
         Quiz protocolQuiz = protocol.processQuizInput(quiz);
 

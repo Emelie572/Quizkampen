@@ -13,8 +13,8 @@ public class Protocol {
     private boolean multiPlayerRequest = false;
     private Quiz outputQuiz;
     private final ScoreTable protcolScoreTable;
-    //private final QuizSource quizSource;
     private int chosenCategory;
+    private String playerChoosingCategory;
 
     //TODO Rensa upp kod.
     public Protocol() {
@@ -28,23 +28,34 @@ public class Protocol {
              if (!multiPlayerRequest) {
                  chosenCategory = inputQuiz.category;
                  multiPlayerRequest = true;
+                 System.out.println("Category set by: " + inputQuiz.playerName);//Test.
                 return null;
             }else {
                 outputQuiz = new Quiz(chosenCategory);
+                try {
+                    Thread.sleep(5000); //Undviker request "overload".
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                playerChoosingCategory = inputQuiz.playerName;
                 multiPlayerRequest = false;
                 state = ROUNDSCORING;
+                 System.out.println("Sending New Quiz requested by: " + inputQuiz.playerName);//Test.
             }
         } else if (state == ROUNDSCORING) {
             if (!multiPlayerRequest){
                 roundsPlayed++;
                 protcolScoreTable.updateScore(inputQuiz.playerName,inputQuiz.correctAnswers,roundsPlayed);
                 multiPlayerRequest = true;
+                System.out.println("Updating Score from player completing it first: " + inputQuiz.playerName);//Test.
                 return null;
             }else {
                 protcolScoreTable.updateScore(inputQuiz.playerName,inputQuiz.correctAnswers,roundsPlayed);
                 inputQuiz.scoreTable = protcolScoreTable;
+                System.out.println("Updating Score from player completing it second: " + inputQuiz.playerName);//Test.
                 System.out.println(inputQuiz.scoreTable);//test
                 inputQuiz.readOnly = true;
+                inputQuiz.playerChoosingCategory = playerChoosingCategory; //test
                 outputQuiz = inputQuiz;
                 multiPlayerRequest = false;
                 if (MAXROUNDS == roundsPlayed){

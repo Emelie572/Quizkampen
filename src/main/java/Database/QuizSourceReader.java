@@ -55,7 +55,7 @@ public class QuizSourceReader {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 this.quizSource = mapper.readValue(p.toFile(), QuizSource.class);
-                System.out.println("QuizSourceReader" +quizSource.results.toString()); //test
+                //System.out.println("QuizSourceReader" +quizSource.results.toString()); //test
 
             } catch (Exception e) {
                 e.printStackTrace();

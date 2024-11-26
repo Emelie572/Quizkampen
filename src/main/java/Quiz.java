@@ -16,6 +16,7 @@ public class Quiz implements Serializable {
     int correctAnswers = 0;
     boolean readOnly = false;
     ScoreTable scoreTable;
+    String playerChoosingCategory;
 
 public Quiz(int category,boolean requestQuiz) {
     this.category = category;
@@ -23,9 +24,10 @@ public Quiz(int category,boolean requestQuiz) {
 
     public Quiz(int category) {
 
-        QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
-        questionMaker(quizSourceReader.getQuizSource());
-        System.out.println("Quiz"+quizSourceReader.getQuizSource().results.toString()); //test
+    this.category = category;
+    QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
+    questionMaker(quizSourceReader.getQuizSource());
+    System.out.println("Quiz"+quizSourceReader.getQuizSource().results.toString()); //test
 
     }
 
@@ -65,6 +67,10 @@ public Quiz(int category,boolean requestQuiz) {
             e.printStackTrace();
         }
         return Integer.parseInt(p.getProperty("questions"));
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 }
 
