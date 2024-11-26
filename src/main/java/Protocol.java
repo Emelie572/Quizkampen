@@ -51,14 +51,14 @@ public class Protocol {
                      }
                  }
                 try {
-                    Thread.sleep(1000); //Undviker request "overload". 5000
+                    Thread.sleep(4000); //Undviker request "overload". 5000
                 }catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 //playerChoosingCategory = inputQuiz.playerName;
                 multiPlayerRequest = false;
                 state = ROUNDSCORING;
-                 System.out.println("Sending New Quiz requested by: " + inputQuiz.playerName);//Test.
+                System.out.println("Sending New Quiz requested by: " + inputQuiz.playerName);//Test.
             }
 
 
