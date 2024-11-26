@@ -41,6 +41,7 @@ public class QuizSourceReader {
 
                     temp = sc.next();
                     temp = temp.replaceAll("&#039","'");
+                    //temp = temp.replaceAll("&quot;","\"");
                     bw.write(temp+",");
                     bw.newLine();
                     bw.write("\"");

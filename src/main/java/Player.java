@@ -47,7 +47,7 @@ public class Player
 
                                     for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
 
-                                        question = setCorrectAwnser(inputQuiz.allQuestions.get(i));
+                                        question = inputQuiz.allQuestions.get(i);
                                         printQuestion(question);
                                         String inputAnswer = input.readLine().trim();
                                         inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
