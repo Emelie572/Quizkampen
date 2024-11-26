@@ -3,6 +3,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class CategoryGUI extends JPanel implements ActionListener
 {
@@ -25,21 +26,18 @@ public class CategoryGUI extends JPanel implements ActionListener
             buttons[i].setOpaque(true);
             buttons[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
-
-        //setCategories();
-
         add(panel);
     }
 
-     /* metod för att sätta kategorierna på knapparna
-    public void setCategories(Quiz categories){
+    public void setCategories(List categories){
         for (int i = 0; i < categories.size(); i++){
-            buttons[i].setText(categories[i]);
+            buttons[i].setText(categories.get(i).toString());
             buttons[i].addActionListener(this);
             panel.add(buttons[i]);
             buttons[i].setBackground(Color.WHITE);
         }
-    }*/
+        reset(buttons);
+    }
 
     public void reset(JButton[] categories)
     {

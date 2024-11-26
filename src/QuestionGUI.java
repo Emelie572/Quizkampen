@@ -9,7 +9,10 @@ public class QuestionGUI extends JPanel implements ActionListener
 {
     JButton[] answers = new JButton[4];
     JLabel questionLabel = new JLabel();
-    JPanel bottomPanel = new JPanel(new GridLayout(3,1));
+    JPanel groundPanel = new JPanel(new BorderLayout());
+    JPanel centerPanel = new JPanel(new GridLayout(3,1));
+    JPanel bottomPanel = new JPanel();
+    JButton play = new JButton("Play");
     JPanel top = new JPanel();
     JPanel center = new JPanel();
     JPanel bottom = new JPanel();
@@ -17,6 +20,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     private int seconds = 20;
     private JProgressBar progressBar = new JProgressBar(0, 20);
     private Timer timer;
+    int counter = 0;
 
     QuestionGUI()
     {
@@ -46,20 +50,22 @@ public class QuestionGUI extends JPanel implements ActionListener
             answers[i].addActionListener(this);
             center.add(answers[i]);
             answers[i].setPreferredSize(new Dimension(60, 50));
-            answers[i].setOpaque(true);
             answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
-        bottomPanel.add(top, BorderLayout.NORTH);
-        bottomPanel.add(center, BorderLayout.CENTER);
-        bottomPanel.add(bottom, BorderLayout.SOUTH);
-        bottomPanel.setBackground(Color.CYAN);
-        add(bottomPanel);
+        centerPanel.add(top, BorderLayout.NORTH);
+        centerPanel.add(center, BorderLayout.CENTER);
+        centerPanel.add(bottom, BorderLayout.SOUTH);
+        groundPanel.add(centerPanel, BorderLayout.CENTER);
+        //bottomPanel.add(play);
+        groundPanel.add(bottomPanel, BorderLayout.SOUTH);
+        add(groundPanel);
     }
 
     public void reset()
     {
         for (int i = 0; i < answers.length; i++) {
             answers[i].setBackground(null);
+            answers[i].setEnabled(true);
         }
         seconds = 20;
         progressBar.setValue(seconds);
@@ -79,20 +85,25 @@ public class QuestionGUI extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+
         if (e.getSource() == answers[0])
         {
             checkAnswer(answers[0]);
+                showAnswer();
+
         } else if (e.getSource() == answers[1])
         {
             checkAnswer(answers[1]);
+            showAnswer();
 
         } else if (e.getSource() == answers[2])
         {
             checkAnswer(answers[2]);
-
+            showAnswer();
         } else if (e.getSource() == answers[3])
         {
             checkAnswer(answers[3]);
+            showAnswer();
         }
     }
 
@@ -107,4 +118,27 @@ public class QuestionGUI extends JPanel implements ActionListener
             button.setBackground(Color.red);
         }
     }
+
+    public void showAnswer()
+    {
+            for (int i = 0; i < answers.length; i++)
+            {
+                if (answers[i].getText().equals(correctAnswer))
+                {
+                    answers[i].setBackground(Color.green);
+                }
+                answers[i].setEnabled(false);
+            }
+            play.setVisible(true);
+    }
+
+    /*public JButton getPlay(JButton play){
+        this.play= play;
+        return play;
+    }
+
+    public int getCounter(){
+        return counter;
+    }*/
+
 }

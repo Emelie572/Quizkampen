@@ -22,6 +22,7 @@ public class GUI extends JFrame implements ActionListener
     java.util.List<String> list2 = new ArrayList<>(java.util.List.of("Hur många dagar på 1 vecka? ", "3", "5", "7", "9", "7"));
     java.util.List<String> list3 = new ArrayList<>(java.util.List.of("Hur många bokstäver är det i alfabetet? ", "22", "25", "27", "29", "29"));
     java.util.List<java.util.List> questionsList = new ArrayList<>(List.of(list, list2, list3));
+    List<String> categoriesList = new ArrayList<>(List.of("category 1", "category 2", "category 3"));
 
     GUI() throws IOException
     {
@@ -56,11 +57,9 @@ public class GUI extends JFrame implements ActionListener
         {
             try
             {
-                protocolGUI.metod(questionsList, bottompanel);
+                protocolGUI.metod(questionsList, bottompanel, categoriesList);
                 revalidate();
                 repaint();
-
-
             } catch (IOException ex)
             {
                 throw new RuntimeException(ex);

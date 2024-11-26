@@ -18,34 +18,35 @@ public class ProtocolGUI
 
     protected int state = CHOOSE_CATEGORIES;
 
-    public JPanel metod(List<List> list, JPanel bottomPanel) throws IOException
+    public JPanel metod(List<List> list, JPanel bottomPanel,List<String> categories) throws IOException
     {
-        if(state == START){
+        /*if(state == START){
 
             bottomPanel.add(startGUI);
+            play.setEnabled(false);
             startGUI.setVisible(true);
             state=CHOOSE_CATEGORIES;
+            //play.setEnabled(true);
             return bottomPanel;
-        }
+        }*/
 
-        if (roundCount<3)
+
+        if (roundCount<3) //antalet rundor men behövs nog inte här
         {
             if (state == CHOOSE_CATEGORIES)
             {
                 state = IN_QUESTIONS_LOOP;
                 bottomPanel.removeAll();
+                categoryGUI.setCategories(categories);
                 bottomPanel.add(categoryGUI);
                 categoryGUI.setVisible(true);
-                questionCount=0;
                 return bottomPanel;
             }
 
             if (state == IN_QUESTIONS_LOOP)
             {
-
                 if (questionCount < list.size())
                 {
-
                     bottomPanel.removeAll();
                     bottomPanel.add(questionGUI);
                     questionGUI.printQuestion(list.get(questionCount));
@@ -66,6 +67,5 @@ public class ProtocolGUI
             }
         }
         return bottomPanel;
-
     }
 }
