@@ -1,4 +1,9 @@
+
+import Database.CategorySourceReader;
+import Database.TriviaCategory;
+
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Properties;
 
 public class Protocol {
@@ -7,7 +12,7 @@ public class Protocol {
     private final int ROUNDSCORING = 1;
     private final int ENDOFGAME = 2;
     private int state = SENDINGQUIZ;
-
+    private List<TriviaCategory> triviaCategory;
     private final int MAXROUNDS;
     private int roundsPlayed = 0;
     private boolean multiPlayerRequest = false;
@@ -20,8 +25,11 @@ public class Protocol {
     //TODO Rensa upp kod.
     public Protocol() {
 
+        CategorySourceReader categorySourceReader = new CategorySourceReader();
+        this.triviaCategory = categorySourceReader.getCategorySource().getTrivia_categories();
         this.MAXROUNDS = getRoundProperty();
         this.protcolScoreTable = new ScoreTable(MAXROUNDS);
+
         //this.quizSource = new QuizSourceReader(0,0).getQuizSource();
     }
     public synchronized Quiz processQuizInput(Quiz inputQuiz)  {
