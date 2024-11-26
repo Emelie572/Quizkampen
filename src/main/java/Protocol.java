@@ -20,10 +20,8 @@ public class Protocol {
     private int roundsPlayed = 0;
     private boolean multiPlayerRequest = false;
     private Quiz outputQuiz;
-    private final ScoreTable protcolScoreTable;
     private int chosenCategory;
     private String playerChoosingCategory;
-    private boolean multiPlayerRequest = false;
     private boolean ChoosingCategory = true;
 
     //TODO Rensa upp kod.
@@ -73,7 +71,7 @@ public class Protocol {
                 //playerChoosingCategory = inputQuiz.playerName;
                 multiPlayerRequest = false;
                 state = ROUNDSCORING;
-                System.out.println("Sending New Quiz requested by: " + inputQuiz.playerName);//Test.
+                System.out.println("Sending New Quiz requested by: " + inputQuiz.getPlayerName());//Test.
             }
 
 
@@ -85,10 +83,10 @@ public class Protocol {
                 protcolScoreTable.updateScore(inputQuiz.getPlayerName(),inputQuiz.getCorrectAnswers(),roundsPlayed);
                 setPlayerChoosingCategory(inputQuiz);   //Gör så att varannan spelare väljer Kategori.
                 multiPlayerRequest = true;
-                System.out.println("Updating Score from player completing it first: " + inputQuiz.playerName);//Test.
-                if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
+                System.out.println("Updating Score from player completing it first: " + inputQuiz.getPlayerName());//Test.
+                if((!inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
                     ChoosingCategory = false;
-                    playerChoosingCategory = inputQuiz.playerName;
+                    playerChoosingCategory = inputQuiz.getPlayerName();
                 }
                 return null;
 
