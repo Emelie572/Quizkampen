@@ -10,13 +10,13 @@ import java.util.Properties;
 
 public class Quiz implements Serializable {
 
-    public int category;
-    List<List<String>> allQuestions = new ArrayList<>();
-    String playerName;
-    int correctAnswers = 0;
-    boolean readOnly = false;
-    ScoreTable scoreTable;
-    String playerChoosingCategory;
+    private int category;
+    private List<List<String>> allQuestions = new ArrayList<>();
+    private String playerName;
+    private int correctAnswers = 0;
+    private boolean readOnly = false;
+    private ScoreTable scoreTable;
+    private String playerChoosingCategory;
 
 public Quiz(String playerName) {
     this.readOnly = true;
@@ -35,12 +35,12 @@ public Quiz(String playerName) {
         for(Result result: quizSource.results){
             List<String> question = new ArrayList<>();
             question.add(result.question);
-            question.addAll(shuffleAndSetCorrectAnswers(question,result.incorrect_answers,result.correct_answer));
+            question.addAll(shuffleAndSetCorrectAnswers(result.incorrect_answers,result.correct_answer));
             allQuestions.add(question);
         }
     }
 
-    private List<String> shuffleAndSetCorrectAnswers(List<String> question,List<String> incorrect,String correct){
+    private List<String> shuffleAndSetCorrectAnswers(List<String> incorrect,String correct){
         List<String> shuffledList = new ArrayList<>(incorrect);
         shuffledList.add(correct);
         Collections.shuffle(shuffledList);
@@ -70,6 +70,54 @@ public Quiz(String playerName) {
 
     public void setCategory(int category) {
         this.category = category;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public List<List<String>> getAllQuestions() {
+        return allQuestions;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public int getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void addToCorrectAnswers(int Answers) {
+        this.correctAnswers += Answers;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    public ScoreTable getScoreTable() {
+        return scoreTable;
+    }
+
+    public void setScoreTable(ScoreTable scoreTable) {
+        this.scoreTable = scoreTable;
+    }
+
+    public String getPlayerChoosingCategory() {
+        return playerChoosingCategory;
+    }
+
+    public void setPlayerChoosingCategory(String playerChoosingCategory) {
+        this.playerChoosingCategory = playerChoosingCategory;
     }
 }
 

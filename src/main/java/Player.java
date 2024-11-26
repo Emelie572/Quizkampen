@@ -37,25 +37,27 @@ public class Player {
                             if (inputLine instanceof Quiz ) {
                                 Quiz inputQuiz = (Quiz)inputLine;
 
-                                if(!inputQuiz.readOnly) {
+                                if(!inputQuiz.isReadOnly()) {
                                     List<String> question;
 
-                                    for (int i = 0; i < inputQuiz.allQuestions.size(); i++) {
+                                    for (int i = 0; i < inputQuiz.getAllQuestions().size(); i++) {
 
-                                        question = inputQuiz.allQuestions.get(i);
+                                        question = inputQuiz.getAllQuestions().get(i);
                                         printQuestion(question);
                                         String inputAnswer = input.readLine().trim();
-                                        inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
+                                        //inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
+                                        inputQuiz.addToCorrectAnswers(checkAnswer(inputAnswer, question));
                                     }
-                                    inputQuiz.playerName = name;
+                                    //inputQuiz.playerName = name;
+                                    inputQuiz.setPlayerName(name);
 
                                 } else { //readOnly
-                                    if(inputQuiz.scoreTable!=null) {
-                                        System.out.println(inputQuiz.scoreTable); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
+                                    if(inputQuiz.getScoreTable()!=null) {
+                                        System.out.println(inputQuiz.getScoreTable()); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
                                     }
 
-                                    inputQuiz.playerName = name;
-                                    if(name.equalsIgnoreCase(inputQuiz.playerChoosingCategory)) {
+                                    inputQuiz.setPlayerName(name);
+                                    if(name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory())) {
                                         //inputQuiz.setCategory(randomCategory());//TODO Kategori slumpas fram. Ersätts med GUI.
                                         inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
                                     }

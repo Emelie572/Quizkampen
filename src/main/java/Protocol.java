@@ -30,28 +30,29 @@ public class Protocol {
         if (state == CONNECTION) {//Connection Quiz kommer in.
 
             if (!multiPlayerRequest) {                          //Första spelarn som kopplar upp sig.
-                playerChoosingCategory = inputQuiz.playerName;  //och markeras för att välja kategori
-                System.out.println("First Category gets chosen by: " + inputQuiz.playerName);//Test.
+                playerChoosingCategory = inputQuiz.getPlayerName();  //och markeras för att välja kategori
+                System.out.println("First Category gets chosen by: " + inputQuiz.getPlayerName());//Test.
                 multiPlayerRequest = true;
                 return null;
             }else {                                                       //Andra spelarn som kopplar upp sig.
-                inputQuiz.playerChoosingCategory = playerChoosingCategory;//När andra spelarn kopplar upp sig så skickas
+                inputQuiz.setPlayerChoosingCategory(playerChoosingCategory);//När andra spelarn kopplar upp sig så skickas
                 outputQuiz = inputQuiz;                                  //ett tomt Quiz till första, som väljer kategori.
                 multiPlayerRequest = false;
                 state = SENDINGQUIZ;
+
             }
 
         }else if (state == SENDINGQUIZ) {
 
              if (!multiPlayerRequest) {         //Kollar om spelarn ska välja kategori
-                 if(inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory)) {
-                     outputQuiz = new Quiz(inputQuiz.category);
+                 if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
+                     outputQuiz = new Quiz(inputQuiz.getCategory());
                  }
                  multiPlayerRequest = true;
                  return null;
              }else {                            //Kollar om spelarn ska välja kategori
-                 if(inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory)) {
-                     outputQuiz = new Quiz(inputQuiz.category);
+                 if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
+                     outputQuiz = new Quiz(inputQuiz.getCategory());
                  }
                  try {
                      Thread.sleep(1000); //TODO "overload". sätt till 5000.
@@ -67,25 +68,25 @@ public class Protocol {
             if (!multiPlayerRequest){                   //Uppdaterar ScoreTable med en spelares svar.
                 ChoosingCategory = true;
                 roundsPlayed++;
-                protcolScoreTable.updateScore(inputQuiz.playerName,inputQuiz.correctAnswers,roundsPlayed);
+                protcolScoreTable.updateScore(inputQuiz.getPlayerName(),inputQuiz.getCorrectAnswers(),roundsPlayed);
                 setPlayerChoosingCategory(inputQuiz);   //Gör så att varannan spelare väljer Kategori.
                 multiPlayerRequest = true;
                 return null;
 
             }else {
 
-                protcolScoreTable.updateScore(inputQuiz.playerName,inputQuiz.correctAnswers,roundsPlayed); //Uppdaterar ScoreTable med en spelares svar.
+                protcolScoreTable.updateScore(inputQuiz.getPlayerName(),inputQuiz.getCorrectAnswers(),roundsPlayed); //Uppdaterar ScoreTable med en spelares svar.
                 setPlayerChoosingCategory(inputQuiz);   //Gör så att varannan spelare väljer Kategori.
                 System.out.println("Player Choosing Category: " + playerChoosingCategory);//Test.sout
-                inputQuiz.playerChoosingCategory = playerChoosingCategory;  //Efter att båda spelare har kopplat uppsig
-                inputQuiz.scoreTable = protcolScoreTable;                   //så vet man vem som väljer kategori.
-                inputQuiz.readOnly = true;
+                inputQuiz.setPlayerChoosingCategory(playerChoosingCategory); //Efter att båda spelare har kopplat uppsig //så vet man vem som väljer kategori.
+                inputQuiz.setScoreTable(protcolScoreTable);
+                inputQuiz.setReadOnly(true);
                 outputQuiz = inputQuiz;
                 multiPlayerRequest = false;
 
                 if (MAXROUNDS == roundsPlayed){
                     state = ENDOFGAME;
-                    outputQuiz.playerChoosingCategory =null;
+                    outputQuiz.setPlayerChoosingCategory(null);
                 } else {
                     state = SENDINGQUIZ;
                 }
@@ -101,9 +102,9 @@ public class Protocol {
     }
 
     private void setPlayerChoosingCategory(Quiz inputQuiz) {
-        if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
+        if((!inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
             ChoosingCategory = false;
-            playerChoosingCategory = inputQuiz.playerName;
+            playerChoosingCategory = inputQuiz.getPlayerName();
         }
     }
 
