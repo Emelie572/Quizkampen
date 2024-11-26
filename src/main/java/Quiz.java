@@ -28,6 +28,8 @@ public Quiz(String playerName) {
     this.category = category;
     QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
     questionMaker(quizSourceReader.getQuizSource());
+    System.out.println("Quiz"+quizSourceReader.getQuizSource().results.toString()); //test
+
     }
 
     private void questionMaker (QuizSource quizSource){

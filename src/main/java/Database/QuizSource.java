@@ -3,5 +3,13 @@ package Database;
 import java.util.List;
 
 public class QuizSource {
-    public List<Result> results;
+    private List<Result> results;
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
 }

@@ -1,4 +1,9 @@
+
+import Database.CategorySourceReader;
+import Database.TriviaCategory;
+
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Properties;
 
 public class Protocol {
@@ -9,11 +14,14 @@ public class Protocol {
     private final int ENDOFGAME = 3;
     private int state = CONNECTION;
 
+    private List<TriviaCategory> triviaCategory;
     private final int MAXROUNDS;
     private final ScoreTable protcolScoreTable;
     private int roundsPlayed = 0;
-
+    private boolean multiPlayerRequest = false;
     private Quiz outputQuiz;
+    private final ScoreTable protcolScoreTable;
+    private int chosenCategory;
     private String playerChoosingCategory;
     private boolean multiPlayerRequest = false;
     private boolean ChoosingCategory = true;
@@ -21,8 +29,11 @@ public class Protocol {
     //TODO Rensa upp kod.
     public Protocol() {
 
+        CategorySourceReader categorySourceReader = new CategorySourceReader();
+        this.triviaCategory = categorySourceReader.getCategorySource().getTrivia_categories();
         this.MAXROUNDS = getRoundProperty();
         this.protcolScoreTable = new ScoreTable(MAXROUNDS);
+        //this.quizSource = new QuizSourceReader(0,0).getQuizSource();
     }
 
     public synchronized Quiz processQuizInput(Quiz inputQuiz)  {
@@ -59,9 +70,12 @@ public class Protocol {
                 }catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                //playerChoosingCategory = inputQuiz.playerName;
                 multiPlayerRequest = false;
                 state = ROUNDSCORING;
+                System.out.println("Sending New Quiz requested by: " + inputQuiz.playerName);//Test.
             }
+
 
         } else if (state == ROUNDSCORING) {
 
@@ -71,6 +85,11 @@ public class Protocol {
                 protcolScoreTable.updateScore(inputQuiz.getPlayerName(),inputQuiz.getCorrectAnswers(),roundsPlayed);
                 setPlayerChoosingCategory(inputQuiz);   //Gör så att varannan spelare väljer Kategori.
                 multiPlayerRequest = true;
+                System.out.println("Updating Score from player completing it first: " + inputQuiz.playerName);//Test.
+                if((!inputQuiz.playerName.equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
+                    ChoosingCategory = false;
+                    playerChoosingCategory = inputQuiz.playerName;
+                }
                 return null;
 
             }else {
@@ -91,6 +110,7 @@ public class Protocol {
                     state = SENDINGQUIZ;
                 }
             }
+
 
         }else if (state == ENDOFGAME) {
 
@@ -117,6 +137,7 @@ public class Protocol {
             System.out.println("File not found");
             e.printStackTrace();
         }
+
         return Integer.parseInt(p.getProperty("rounds"));
     }
 }
