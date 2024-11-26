@@ -17,18 +17,16 @@ public class Player {
     Player() throws UnknownHostException
     {
         this.name = JOptionPane.showInputDialog(null,"Ange namn:"); //TODO Panel för namn. Ersätts med GUI.
-        System.out.println(name);
+        System.out.println(name); //TODO Ersätts med GUI.
         name += "_"+Math.random(); //Unikt namn för HashMaps.
 
-            try (Socket socket = new Socket(ip, port);)
+            try (Socket socket = new Socket(ip, port))
             {
                 input = new BufferedReader(new InputStreamReader(System.in));
                 out = new ObjectOutputStream(socket.getOutputStream());
                 in = new ObjectInputStream(socket.getInputStream());
 
-                int testCategory = randomCategory(); //TODO Slumpar fram första kategorin. Ersätts med GUI.
-                Quiz connectionQuiz = new Quiz(true);
-                connectionQuiz.playerName = name;
+                Quiz connectionQuiz = new Quiz(name);
                 out.writeObject(connectionQuiz);
 
                 Object inputLine;
@@ -53,16 +51,16 @@ public class Player {
 
                                 } else { //readOnly
                                     if(inputQuiz.scoreTable!=null) {
-                                        System.out.println(inputQuiz.scoreTable.toString()); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
+                                        System.out.println(inputQuiz.scoreTable); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
                                     }
-                                    inputQuiz.playerName = name;
 
+                                    inputQuiz.playerName = name;
                                     if(name.equalsIgnoreCase(inputQuiz.playerChoosingCategory)) {
                                         //inputQuiz.setCategory(randomCategory());//TODO Kategori slumpas fram. Ersätts med GUI.
                                         inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
                                     }
                                 }
-                                out.writeObject(inputQuiz); //Efter readOnly skickas båda samtidigt och player 1 går först strömmen.
+                                out.writeObject(inputQuiz); //Efter readOnly skickas båda samtidigt och player 1 går först i strömmen.
                                 break;
                             }
                         }
@@ -96,6 +94,7 @@ public class Player {
             rewrite = rewrite.replaceAll("&amp;","&");
             rewrite = rewrite.replaceAll("&Delta;","Δ");
             rewrite = rewrite.replaceAll("&Uuml;","Ü");
+            rewrite = rewrite.replaceAll("&ouml;","ö");
             System.out.print(rewrite + ", ");
         }
         System.out.println();

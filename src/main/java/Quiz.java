@@ -18,8 +18,9 @@ public class Quiz implements Serializable {
     ScoreTable scoreTable;
     String playerChoosingCategory;
 
-public Quiz(boolean readOnly) {
-    this.readOnly = readOnly;
+public Quiz(String playerName) {
+    this.readOnly = true;
+    this.playerName = playerName;
 }
 
     public Quiz(int category) {
@@ -27,8 +28,6 @@ public Quiz(boolean readOnly) {
     this.category = category;
     QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
     questionMaker(quizSourceReader.getQuizSource());
-    System.out.println("Quiz"+quizSourceReader.getQuizSource().results.toString()); //test
-
     }
 
     private void questionMaker (QuizSource quizSource){
