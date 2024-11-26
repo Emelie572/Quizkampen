@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +13,13 @@ public class StartGUI extends JPanel
 
     StartGUI()
     {
-
         panel.add(label);
         panel.add(textField);
         panel.add(button);
         add(panel);
-
+        button.setBorder(new LineBorder(Color.BLUE,1, true));
+        button.setPreferredSize(new Dimension(80, 30));
+        label.setFont(new Font("Arial", Font.PLAIN, 15));
         button.addActionListener(new ActionListener()
         {
             @Override

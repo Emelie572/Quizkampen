@@ -24,7 +24,6 @@ public class ProtocolGUI
 
             bottomPanel.add(startGUI);
             startGUI.setVisible(true);
-            System.out.println("start");
             state=CHOOSE_CATEGORIES;
             return bottomPanel;
         }
@@ -36,7 +35,6 @@ public class ProtocolGUI
                 state = IN_QUESTIONS_LOOP;
                 bottomPanel.removeAll();
                 bottomPanel.add(categoryGUI);
-                System.out.println("kategori");
                 categoryGUI.setVisible(true);
                 questionCount=0;
                 return bottomPanel;
@@ -47,7 +45,7 @@ public class ProtocolGUI
 
                 if (questionCount < list.size())
                 {
-                    System.out.println("här då");
+
                     bottomPanel.removeAll();
                     bottomPanel.add(questionGUI);
                     questionGUI.printQuestion(list.get(questionCount));
@@ -56,7 +54,6 @@ public class ProtocolGUI
                     questionCount++;
                 }
 
-                System.out.println("hej");
                 if (questionCount == list.size())
                 {
                     state = RESULT;

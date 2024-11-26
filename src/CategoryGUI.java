@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +14,16 @@ public class CategoryGUI extends JPanel implements ActionListener
     {
         panel.add(label);
 
+        label.setFont(new Font("Arial", Font.PLAIN, 15));
         for (int i = 0; i < buttons.length; i++)
         {
             buttons[i] = new JButton("Category " + (i + 1));
             buttons[i].addActionListener(this);
             panel.add(buttons[i]);
             buttons[i].setBackground(Color.WHITE);
+            buttons[i].setPreferredSize(new Dimension(50, 40));
+            buttons[i].setOpaque(true);
+            buttons[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
 
         //setCategories();

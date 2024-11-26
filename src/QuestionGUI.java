@@ -1,15 +1,18 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class QuestionGUI extends JPanel implements ActionListener
 {
     JButton[] answers = new JButton[4];
-    JLabel question = new JLabel();
-    JPanel bottomPanel = new JPanel(new BorderLayout());
+    JLabel questionLabel = new JLabel();
+    JPanel bottomPanel = new JPanel(new GridLayout(3,1));
+    JPanel top = new JPanel();
+    JPanel center = new JPanel();
+    JPanel bottom = new JPanel();
     String correctAnswer;
     private int seconds = 20;
     private JProgressBar progressBar = new JProgressBar(0, 20);
@@ -17,9 +20,12 @@ public class QuestionGUI extends JPanel implements ActionListener
 
     QuestionGUI()
     {
+
         progressBar.setValue(20);
-        add(question);
-        add(progressBar);
+        top.add(questionLabel);
+        bottom.add(progressBar, BorderLayout.SOUTH);
+        questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
 
         timer = new Timer(1000, new ActionListener()
         {
@@ -38,9 +44,16 @@ public class QuestionGUI extends JPanel implements ActionListener
         for (int i = 0; i < answers.length; i++) {
             answers[i] = new JButton();
             answers[i].addActionListener(this);
-            add(answers[i]);
-
+            center.add(answers[i]);
+            answers[i].setPreferredSize(new Dimension(60, 50));
+            answers[i].setOpaque(true);
+            answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
+        bottomPanel.add(top, BorderLayout.NORTH);
+        bottomPanel.add(center, BorderLayout.CENTER);
+        bottomPanel.add(bottom, BorderLayout.SOUTH);
+        bottomPanel.setBackground(Color.CYAN);
+        add(bottomPanel);
     }
 
     public void reset()
@@ -55,20 +68,10 @@ public class QuestionGUI extends JPanel implements ActionListener
 
     public void printQuestion(java.util.List<String> question) throws IOException
     {
-        this.question.setText(question.get(0));
+        this.questionLabel.setText(question.get(0));
         for (int i = 0; i < answers.length; i++)
         {
             answers[i].setText(question.get(i+1));
-        }
-        correctAnswer = question.getLast();
-    }
-
-    public void m(java.util.List<String> question) throws IOException
-    {
-        this.question.setText(question.get(0));
-        for (int i = 0; i < answers.length; i++)
-        {
-            answers[i].setText(question.get(i + 1));
         }
         correctAnswer = question.getLast();
     }

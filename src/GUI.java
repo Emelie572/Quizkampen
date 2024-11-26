@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,9 @@ public class GUI extends JFrame implements ActionListener
     {
         play.addActionListener(this);
         continueButton.addActionListener(this);
+        play.setPreferredSize(new Dimension(70, 50));
+        play.setOpaque(true);
+        play.setBorder(new LineBorder(Color.BLACK,1, true));
 
         setTitle("Quizkampen");
 
@@ -41,7 +45,7 @@ public class GUI extends JFrame implements ActionListener
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         bottompanel.add(protocolGUI.startGUI);
-        setSize(300, 400);
+        setSize(400, 300);
         add(bottompanel, BorderLayout.CENTER);
     }
 
@@ -56,11 +60,11 @@ public class GUI extends JFrame implements ActionListener
                 revalidate();
                 repaint();
 
+
             } catch (IOException ex)
             {
                 throw new RuntimeException(ex);
             }
-            System.out.println("här");
         }
     }
 
