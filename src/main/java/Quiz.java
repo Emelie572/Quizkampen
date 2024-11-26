@@ -27,13 +27,13 @@ public Quiz(int category,boolean requestQuiz) {
     this.category = category;
     QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
     questionMaker(quizSourceReader.getQuizSource());
-    System.out.println("Quiz"+quizSourceReader.getQuizSource().results.toString()); //test
+    System.out.println("Quiz"+quizSourceReader.getQuizSource().getResults().toString()); //test
 
     }
 
     private void questionMaker (QuizSource quizSource){
 
-        for(Result result: quizSource.results){
+        for(Result result: quizSource.getResults()){
             List<String> question = new ArrayList<>();
             question.add(result.question);
             question.addAll(shuffleAndSetCorrectAnswers(question,result.incorrect_answers,result.correct_answer));
