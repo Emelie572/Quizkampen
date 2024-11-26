@@ -1,30 +1,44 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StartGUI extends JPanel
 {
-    JButton button = new JButton("knapp 3");
+    JButton button = new JButton("Enter");
+    JPanel panel = new JPanel(new GridLayout(3,1));
+    JTextField textField = new JTextField(20);
+    JLabel label = new JLabel("Enter Your Name:");
 
     StartGUI()
     {
-        add(new Label("kort 3"));
-
-        add(button);
-
+        panel.add(label);
+        panel.add(textField);
+        panel.add(button);
+        add(panel);
+        button.setBorder(new LineBorder(Color.BLUE,1, true));
+        button.setPreferredSize(new Dimension(80, 30));
+        label.setFont(new Font("Arial", Font.PLAIN, 15));
         button.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                setBackground(Color.green);
+                label.setText("Välkommen " + textField.getText());
+                label.setFont((new Font("Arial", Font.PLAIN, 20)));
+                button.setVisible(false);
+                textField.setVisible(false);
             }
         });
     }
 
     public void reset()
     {
-        setBackground(Color.white);
+        label.setText("Enter Your Name:");
+        textField.setVisible(true);
+        textField.setFont(getFont().deriveFont(Font.PLAIN));
+        button.setVisible(true);
+        textField.setText("");
     }
 }
