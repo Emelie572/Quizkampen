@@ -27,7 +27,7 @@ public class Player {
                 in = new ObjectInputStream(socket.getInputStream());
 
                 int testCategory = randomCategory(); //TODO Slumpar fram första kategorin. Ersätts med GUI.
-                Quiz connectionQuiz = new Quiz(testCategory,true);
+                Quiz connectionQuiz = new Quiz(true);
                 connectionQuiz.playerName = name;
                 out.writeObject(connectionQuiz);
 
@@ -52,11 +52,14 @@ public class Player {
                                     inputQuiz.playerName = name;
 
                                 } else { //readOnly
-                                    System.out.println(inputQuiz.scoreTable.toString()); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
+                                    if(inputQuiz.scoreTable!=null) {
+                                        System.out.println(inputQuiz.scoreTable.toString()); //TODO ScoreTable Skrivs ut. Ersätts med GUI.
+                                    }
                                     inputQuiz.playerName = name;
 
                                     if(name.equalsIgnoreCase(inputQuiz.playerChoosingCategory)) {
-                                        inputQuiz.setCategory(randomCategory());//TODO Kategori slumpas fram. Ersätts med GUI.
+                                        //inputQuiz.setCategory(randomCategory());//TODO Kategori slumpas fram. Ersätts med GUI.
+                                        inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
                                     }
                                 }
                                 out.writeObject(inputQuiz); //Efter readOnly skickas båda samtidigt och player 1 går först strömmen.
@@ -91,15 +94,15 @@ public class Player {
             String rewrite = question.get(i).replaceAll("&#039;","'");
             rewrite = rewrite.replaceAll("&quot;","\"");
             rewrite = rewrite.replaceAll("&amp;","&");
+            rewrite = rewrite.replaceAll("&Delta;","Δ");
+            rewrite = rewrite.replaceAll("&Uuml;","Ü");
             System.out.print(rewrite + ", ");
         }
         System.out.println();
     }
 
     private int randomCategory(){ //TODO Test. Metod för att slumpa fram en kategori. Ta bort.
-        int randomCategory = (int)(Math.random()*(32 - 9 + 1)) + 9;
-        System.out.println(randomCategory);
-        return randomCategory;
+        return (int)(Math.random()*(32 - 9 + 1)) + 9;
     }
 
     public static void main(String[] args) throws UnknownHostException

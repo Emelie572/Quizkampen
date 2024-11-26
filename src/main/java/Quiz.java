@@ -18,8 +18,8 @@ public class Quiz implements Serializable {
     ScoreTable scoreTable;
     String playerChoosingCategory;
 
-public Quiz(int category,boolean requestQuiz) {
-    this.category = category;
+public Quiz(boolean readOnly) {
+    this.readOnly = readOnly;
 }
 
     public Quiz(int category) {
