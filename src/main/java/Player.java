@@ -3,7 +3,6 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Collections;
 import java.util.List;
 
 public class Player
@@ -68,17 +67,6 @@ public class Player
             }
     }
 
-    private List<String> setCorrectAwnser(List<String> question) {
-
-        String answer =String.valueOf(question.size() - 1);
-        String q = question.getFirst();
-        question.remove(q);
-        Collections.shuffle(question);
-        question.set(0,q);
-        question.add(answer);
-        return question;
-    }
-
     public int checkAnswer(String input, List<String> question) throws IOException
     {
         int correctAnswer = Integer.parseInt(question.getLast());
@@ -97,7 +85,9 @@ public class Player
     public void printQuestion(List<String> question) throws IOException
     {
         for (int i = 0; i < question.size()-1; i++){
-            System.out.print(question.get(i) + ", ");
+            String rewrite = question.get(i).replaceAll("&#039;","'");
+            rewrite = rewrite.replaceAll("&quot;","\"");
+            System.out.print(rewrite + ", ");
         }
         System.out.println();
     }

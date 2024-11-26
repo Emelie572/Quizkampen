@@ -30,7 +30,7 @@ public class QuizSourceReader {
             Path p = Paths.get("src/main/java/Database/QuizSource.json");
 
             try (
-                    //BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                    //BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream())); //se to-do
                     Scanner sc = new Scanner(new InputStreamReader(url.openStream()));
                     BufferedWriter bw = Files.newBufferedWriter(p)
             ) {
@@ -40,14 +40,12 @@ public class QuizSourceReader {
                 while (sc.hasNext()) {//TODO tabort, är till för att göra .json filen lättläslig.
 
                     temp = sc.next();
-                    temp = temp.replaceAll("&#039","'");
-                    //temp = temp.replaceAll("&quot;","\"");
                     bw.write(temp+",");
                     bw.newLine();
                     bw.write("\"");
                 }
 
-                //temp = br.readLine();
+                //temp = br.readLine(); //se to-do
                 //bw.write(temp);
 
             } catch (IOException e) {
@@ -72,10 +70,4 @@ public class QuizSourceReader {
     public QuizSource getQuizSource() {
         return quizSource;
     }
-/*
-    public static void main(String[] args) {
-        QuizSourceReader reader = new QuizSourceReader(3,11);
-    }
-
- */
 }

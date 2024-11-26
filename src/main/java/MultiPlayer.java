@@ -2,10 +2,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MultiPlayer {
     //Development
-    //TODO ända sendProtocalToPlayer till sendProtocolToPlayer
     private final List<ObjectOutputStream> objectStreams = new ArrayList<>();
     private final Protocol protocol = new Protocol();
 
