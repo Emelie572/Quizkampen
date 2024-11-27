@@ -10,6 +10,12 @@ public class StartGUI extends JPanel
     JPanel panel = new JPanel(new GridLayout(3,1));
     JTextField textField = new JTextField(20);
     JLabel label = new JLabel("Enter Your Name:");
+    String name;
+    private ActionListener nameListener;
+
+    public String getname(){
+        return name;
+    }
 
     StartGUI()
     {
@@ -20,17 +26,28 @@ public class StartGUI extends JPanel
         button.setBorder(new LineBorder(Color.BLUE,1, true));
         button.setPreferredSize(new Dimension(80, 30));
         label.setFont(new Font("Arial", Font.PLAIN, 15));
+
         button.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                name = textField.getText();
                 label.setText("Välkommen " + textField.getText());
                 label.setFont((new Font("Arial", Font.PLAIN, 20)));
                 button.setVisible(false);
                 textField.setVisible(false);
+                getname();
+
+                if (nameListener != null) {
+                    nameListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Name Entered"));
+                }
             }
         });
+    }
+
+    public void setNameListener(ActionListener listener){
+        this.nameListener =  listener;
     }
 
     public void reset()
