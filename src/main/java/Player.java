@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Player extends JFrame implements ActionListener
 {
-    //Development
     private InetAddress ip = InetAddress.getLocalHost();
     private int port = 12345;
     private ObjectOutputStream out;
@@ -97,6 +96,7 @@ public class Player extends JFrame implements ActionListener
             {
                 while ((inputLine = in.readObject()) != null)
                 {
+                    /*
                     if (inputLine instanceof HashMap<?,?>){
                         List categoryList=null;
                         for(Object key: ((HashMap<?, ?>) inputLine).keySet()){
@@ -104,6 +104,8 @@ public class Player extends JFrame implements ActionListener
                         }
                         categoryGUI.setCategories(categoryList);
                     }
+
+                     */
 
                     if (inputLine instanceof Quiz)
                     {
@@ -124,18 +126,20 @@ public class Player extends JFrame implements ActionListener
                                 inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
                             }
                             inputQuiz.setPlayerName(name);
-                        } else
-                        { //readOnly
+                        } else //readOnly
+                        {
                             if(inputQuiz.getScoreTable()!=null){
                                 System.out.println(inputQuiz.getScoreTable().toString());
                             }
                             System.out.println("Player choosing category: " + inputQuiz.getPlayerChoosingCategory());
-                            //inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
-                            inputQuiz.setPlayerName(name);//Test.
+
+                            inputQuiz.setPlayerName(name);
+
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory()))
                             {
+                                categoryGUI.setCategories(inputQuiz.getTriviaCategories());
                                 getToCategory.setVisible(true);
-                                //inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.getPlayerName() + " Nummer mellan 9-32")));//Test.
+                                //inputQuiz.setCategory();//Skicka in Category id.
                             }
                         }
                         System.out.println("PlayerName printer" + inputQuiz.getPlayerName() + " " + inputQuiz.getCategory());
