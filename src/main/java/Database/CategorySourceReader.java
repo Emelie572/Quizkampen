@@ -45,7 +45,6 @@ public class CategorySourceReader {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 this.categorySource = mapper.readValue(p.toFile(), CategorySource.class);
-                System.out.println(this.categorySource);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,3 +1,4 @@
+import Database.TriviaCategory;
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -58,7 +59,9 @@ public class Player {
 
                                     inputQuiz.setPlayerName(name);
                                     if(name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory())) {
-                                        //inputQuiz.setCategory(randomCategory());//TODO Kategori slumpas fram. Ersätts med GUI.
+                                        // TODO Kategori slumpas fram. Ersätts med GUI.
+                                        //inputQuiz.setCategory(randomCategory());
+                                        printCategories(inputQuiz.getTriviaCategories());
                                         inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
                                     }
                                 }
@@ -72,6 +75,8 @@ public class Player {
                 throw new RuntimeException(e);
             }
     }
+
+
 
     public int checkAnswer(String input, List<String> question) throws IOException
     {
@@ -104,6 +109,13 @@ public class Player {
 
     private int randomCategory(){ //TODO Test. Metod för att slumpa fram en kategori. Ta bort.
         return (int)(Math.random()*(32 - 9 + 1)) + 9;
+    }
+
+    private void printCategories(List<TriviaCategory> triviaCategories) { //TODO test metod för val of kategori. Ersätt med GUI.
+        for (TriviaCategory triviaCategory : triviaCategories) {
+            System.out.println(triviaCategory.getName()+" Nr: "+triviaCategory.getId());
+        }
+
     }
 
     public static void main(String[] args) throws UnknownHostException

@@ -1,4 +1,3 @@
-
 import Database.CategorySourceReader;
 import Database.TriviaCategory;
 
@@ -51,24 +50,26 @@ public class Protocol {
                  */
             }else {
                 inputQuiz.setPlayerChoosingCategory(playerChoosingCategory);
+                inputQuiz.setTriviaCategories(triviaCategory);
                 outputQuiz = inputQuiz;
                 multiPlayerRequest = false;
                 state = SENDINGQUIZ;
-
             }
 
         }else if (state == SENDINGQUIZ) {
              if (!multiPlayerRequest) {
                  //Kollar om spelarn ska välja kategori
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
-                     outputQuiz = new Quiz(inputQuiz.getCategory());
+                     outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
+                     setCategoryUsed(inputQuiz.getCategory());
                  }
                  multiPlayerRequest = true;
                  return null;
              }else {
                  //Kollar om spelarn ska välja kategori
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
-                     outputQuiz = new Quiz(inputQuiz.getCategory());
+                     outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
+                     setCategoryUsed(inputQuiz.getCategory());
                  }
                  try {
                      Thread.sleep(1000); //TODO "overload". sätt till 5000.
@@ -91,10 +92,13 @@ public class Protocol {
                 setPlayerChoosingCategory(inputQuiz);
                 multiPlayerRequest = true;
                 System.out.println("Updating Score from player completing it first: " + inputQuiz.getPlayerName());//Test.
+                /*Tabort?
                 if((!inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
                     ChoosingCategory = false;
                     playerChoosingCategory = inputQuiz.getPlayerName();
                 }
+
+                 */
                 return null;
 
             }else {
@@ -132,6 +136,14 @@ public class Protocol {
         if((!inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory))&& ChoosingCategory){
             ChoosingCategory = false;
             playerChoosingCategory = inputQuiz.getPlayerName();
+        }
+    }
+
+    private void setCategoryUsed (int id){
+        for(TriviaCategory trivia: triviaCategory) {
+            if(trivia.getId() == id) {
+                trivia.setUsed(true);
+            }
         }
     }
 
