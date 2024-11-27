@@ -55,4 +55,8 @@ public class ScoreTable implements Serializable {
         String player2Score = String.valueOf(s.charAt(s.length()-2));
         return player1 +" "+player1Score+" "+player2+" "+player2Score;
     }
+
+    public List<ConcurrentHashMap<String, Integer>> getGameScore() {
+        return gameScore;
+    }
 }
