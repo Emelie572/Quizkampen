@@ -1,3 +1,4 @@
+import Database.TriviaCategory;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -96,42 +97,31 @@ public class Player extends JFrame implements ActionListener
             {
                 while ((inputLine = in.readObject()) != null)
                 {
-                    /*
-                    if (inputLine instanceof HashMap<?,?>){
-                        List categoryList=null;
-                        for(Object key: ((HashMap<?, ?>) inputLine).keySet()){
-                            categoryList= new ArrayList(List.of(key));
-                        }
-                        categoryGUI.setCategories(categoryList);
-                    }
+                        //categoryGUI.setCategories(categoryList);
+                    if (inputLine instanceof Quiz) {
 
-                     */
-
-                    if (inputLine instanceof Quiz)
-                    {
                         Quiz inputQuiz = (Quiz) inputLine;
 
-                        if (!inputQuiz.isReadOnly())
-                        {
+                        if (!inputQuiz.isReadOnly()) {
                             List<String> question;
 
                             for (int i = 0; i < inputQuiz.getAllQuestions().size(); i++)
                             {
                                 question = inputQuiz.getAllQuestions().get(i);
                                 printQuestion(question);
-                                    questionGUI.reset();
-                                    questionGUI.printQuestion(inputQuiz.getAllQuestions().get(i));
-                                    questionGUI.reset();
+                                questionGUI.reset();
+                                questionGUI.printQuestion(inputQuiz.getAllQuestions().get(i));
+                                questionGUI.reset();
                                 String inputAnswer = input.readLine().trim();
-                                inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
+                                inputQuiz.addToCorrectAnswers(checkAnswer(inputAnswer, question));
                             }
                             inputQuiz.setPlayerName(name);
-                        } else //readOnly
-                        {
+                        } else {//readOnly
+
                             if(inputQuiz.getScoreTable()!=null){
                                 System.out.println(inputQuiz.getScoreTable().toString());
                             }
-                            System.out.println("Player choosing category: " + inputQuiz.getPlayerChoosingCategory());
+                            //System.out.println("Player choosing category: " + inputQuiz.getPlayerChoosingCategory());
 
                             inputQuiz.setPlayerName(name);
 
@@ -139,6 +129,10 @@ public class Player extends JFrame implements ActionListener
                             {
                                 categoryGUI.setCategories(inputQuiz.getTriviaCategories());
                                 getToCategory.setVisible(true);
+                                // TODO Kategori slumpas fram. Ersätts med GUI.
+                                //inputQuiz.setCategory(randomCategory());
+                                printCategories(inputQuiz.getTriviaCategories());
+                                inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
                                 //inputQuiz.setCategory();//Skicka in Category id.
                             }
                         }
@@ -177,33 +171,37 @@ public class Player extends JFrame implements ActionListener
 
         if (input.equalsIgnoreCase(correct))
         {
-            System.out.println("Rätt!\n");
+            System.out.println("Rätt!\n");//TODO Ersätts i GUI.
             return 1;
 
-        } else
-        {
-            System.out.println("Fel!\n");
-        }
+        }else {System.out.println("Fel!\n");}//TODO Ersätts i GUI.
+
         return 0;
     }
 
-    public void printQuestion(List<String> question) throws IOException
+    public void printQuestion(List<String> question) throws IOException //TODO Ersätts med GUI.
     {
-        for (int i = 0; i < question.size() - 1; i++)
-        {
-            String rewrite = question.get(i).replaceAll("&#039;", "'");
-            rewrite = rewrite.replaceAll("&quot;", "\"");
-            rewrite = rewrite.replaceAll("&amp;", "&");
+        for (int i = 0; i < question.size()-1; i++){
+            String rewrite = question.get(i).replaceAll("&#039;","'");
+            rewrite = rewrite.replaceAll("&quot;","\"");
+            rewrite = rewrite.replaceAll("&amp;","&");
+            rewrite = rewrite.replaceAll("&Delta;","Δ");
+            rewrite = rewrite.replaceAll("&Uuml;","Ü");
+            rewrite = rewrite.replaceAll("&ouml;","ö");
             System.out.print(rewrite + ", ");
         }
         System.out.println();
     }
 
-    private int randomCategory()
-    { //Test. Metod för att slumpa fram en kategori
-        int randomCategory = (int) (Math.random() * (32 - 9 + 1)) + 9;
-        System.out.println(randomCategory);
-        return randomCategory;
+    private void printCategories(List<TriviaCategory> triviaCategories) { //TODO test metod för val of kategori. Ersätt med GUI.
+        for (TriviaCategory triviaCategory : triviaCategories) {
+            System.out.println(triviaCategory.getName()+" Nr: "+triviaCategory.getId());
+        }
+
+    }
+
+    private int randomCategory(){ //TODO Test. Metod för att slumpa fram en kategori. Ta bort.
+        return (int)(Math.random()*(32 - 9 + 1)) + 9;
     }
 
     public static void main(String[] args) throws UnknownHostException
