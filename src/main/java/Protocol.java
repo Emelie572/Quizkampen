@@ -76,11 +76,14 @@ public class Protocol {
                      outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
                      setCategoryUsed(inputQuiz.getCategory());
                  }
+                 /*
                  try {
                      Thread.sleep(1000); //TODO "overload". sätt till 5000.
                 }catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                  */
                 multiPlayerRequest = false;
                 state = ROUNDSCORING;
                 System.out.println("Sending New Quiz requested by: " + inputQuiz.getPlayerName());//Test.

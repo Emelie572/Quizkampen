@@ -155,5 +155,15 @@ public class Quiz implements Serializable {
     public void setCategoryString(String categoryString) {
         this.categoryString = categoryString;
     }
+
+    public boolean triviaContains (String s)
+    {
+        for(TriviaCategory trivia: triviaCategories) {
+            if(trivia.getName().equalsIgnoreCase(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

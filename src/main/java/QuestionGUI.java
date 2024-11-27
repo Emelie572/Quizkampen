@@ -6,13 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class QuestionGUI extends JPanel implements ActionListener
 {
-    private static BlockingQueue<ActionEvent> eventQueue = new LinkedBlockingQueue<>();//test
-
     JButton[] answers = new JButton[4];
     JLabel questionLabel = new JLabel();
     JPanel groundPanel = new JPanel(new BorderLayout());
@@ -26,11 +22,15 @@ public class QuestionGUI extends JPanel implements ActionListener
     private int seconds = 20;
     private JProgressBar progressBar = new JProgressBar(0, 20);
     private Timer timer;
-    List<String> list = new ArrayList<>();
+    JButton complete = new JButton("COMPLETE");
 
-    QuestionGUI()
+    List<List<String>> list = new ArrayList<>();
+    int numberOfCorrectAnswers;
+    int QuestionNumber = 0;
+
+    QuestionGUI(ActionListener playerListener)
     {
-
+        complete.addActionListener(playerListener);
         progressBar.setValue(20);
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
@@ -56,15 +56,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             answers[i] = new JButton();
             //test this annars
             int bi = i;
-            answers[i].addActionListener(e -> { //this. test
-                try {
-                    checkAnswer(answers[bi], list);
-                    showAnswer();
-                    eventQueue.put(e); // Add event to the queue
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt(); // Handle interruption
-                }
-            });
+            answers[i].addActionListener(this);
             center.add(answers[i]);
             //answers[i].setPreferredSize(new Dimension(60, 50));
             answers[i].setMinimumSize(new Dimension(60,50));
@@ -90,56 +82,102 @@ public class QuestionGUI extends JPanel implements ActionListener
         timer.restart();
     }
 
-    public void printQuestion(List<List<String>> allQuestions) throws IOException {
-        List<String> question;
+    public void setAllquestions(List<List<String>> allQuestions){
+        this.list = allQuestions;
+    }
 
-        for (List<String> allQuestion : allQuestions) {
-            question = allQuestion;
+    public void printQuestion() throws IOException {
+
+        List<String>question = list.get(QuestionNumber);
+
             timer.restart();
             this.questionLabel.setText(question.getFirst());
-            list = question;
             correctAnswer = question.getLast();
-
-            for (int j = 0; j < answers.length; j++) {
-                answers[j].setText(question.get(j + 1));
-                answers[j].setMinimumSize(new Dimension(60, 50));
+            for (int i = 0; i < answers.length; i++) {
+                answers[i].setText(question.get(i + 1));
+                answers[i].setMinimumSize(new Dimension(60, 50));
             }
-            reset();
-            ActionEvent event = waitForEvent();
-            try{
-                Thread.sleep(3000);
-            }catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-
-            //inputQuiz.addToCorrectAnswers(checkAnswer(inputAnswer, question));
         }
-
-
-    }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-
         if (e.getSource() == answers[0])
         {
-            checkAnswer(answers[0], list);
-                showAnswer();
+            checkAnswer(answers[0], list.get(QuestionNumber));
+            showAnswer();
+            QuestionNumber++;
+            if(QuestionNumber<list.size()){
+                try {
+                    reset();
+                    printQuestion();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else {
+                QuestionNumber=0;
+                reset();
+                complete.doClick();
+                numberOfCorrectAnswers=0;
+            }
 
         } else if (e.getSource() == answers[1])
         {
-            checkAnswer(answers[1],list);
+            checkAnswer(answers[1],list.get(QuestionNumber));
             showAnswer();
+            QuestionNumber++;
+            if(QuestionNumber<list.size()){
+                try {
+                    reset();
+                    printQuestion();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else {
+                QuestionNumber=0;
+                reset();
+                complete.doClick();
+                numberOfCorrectAnswers=0;
+            }
 
         } else if (e.getSource() == answers[2])
         {
-            checkAnswer(answers[2],list);
+            checkAnswer(answers[2],list.get(QuestionNumber));
             showAnswer();
+            QuestionNumber++;
+            if(QuestionNumber<list.size()){
+                try {
+                    reset();
+                    printQuestion();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else {
+                QuestionNumber=0;
+                reset();
+                complete.doClick();
+                numberOfCorrectAnswers=0;
+            }
+
         } else if (e.getSource() == answers[3])
         {
-            checkAnswer(answers[3],list);
+            checkAnswer(answers[3],list.get(QuestionNumber));
             showAnswer();
+            QuestionNumber++;
+            if(QuestionNumber<list.size()){
+                try {
+                    reset();
+                    printQuestion();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else {
+                QuestionNumber=0;
+                reset();
+                complete.doClick();
+                numberOfCorrectAnswers=0;
+            }
+
         }
     }
 
@@ -150,6 +188,7 @@ public class QuestionGUI extends JPanel implements ActionListener
         if (button.getText().equals(correct))
         {
             button.setBackground(Color.green);
+            numberOfCorrectAnswers++;
         } else
         {
             button.setBackground(Color.red);
@@ -168,23 +207,4 @@ public class QuestionGUI extends JPanel implements ActionListener
             }
             play.setVisible(true);
     }
-
-    public static ActionEvent waitForEvent() { //test
-        try {
-            return eventQueue.take(); // Block until an event is available
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Handle interruption
-            throw new RuntimeException("Thread interrupted while waiting for an event", e);
-        }
-    }
-
-    /*public JButton getPlay(JButton play){
-        this.play= play;
-        return play;
-    }
-
-    public int getCounter(){
-        return counter;
-    }*/
-
 }
