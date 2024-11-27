@@ -20,7 +20,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     private int seconds = 20;
     private JProgressBar progressBar = new JProgressBar(0, 20);
     private Timer timer;
-    int counter = 0;
+    java.util.List<String> list = new java.util.ArrayList();
 
     QuestionGUI()
     {
@@ -29,6 +29,7 @@ public class QuestionGUI extends JPanel implements ActionListener
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
 
 
         timer = new Timer(1000, new ActionListener()
@@ -49,16 +50,17 @@ public class QuestionGUI extends JPanel implements ActionListener
             answers[i] = new JButton();
             answers[i].addActionListener(this);
             center.add(answers[i]);
-            answers[i].setPreferredSize(new Dimension(60, 50));
+            //answers[i].setPreferredSize(new Dimension(60, 50));
+            answers[i].setMinimumSize(new Dimension(60,50));
             answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
         centerPanel.add(top, BorderLayout.NORTH);
         centerPanel.add(center, BorderLayout.CENTER);
         centerPanel.add(bottom, BorderLayout.SOUTH);
         groundPanel.add(centerPanel, BorderLayout.CENTER);
-        //bottomPanel.add(play);
         groundPanel.add(bottomPanel, BorderLayout.SOUTH);
         add(groundPanel);
+        setMinimumSize(new Dimension(400, 300));
     }
 
     public void reset()
@@ -74,11 +76,14 @@ public class QuestionGUI extends JPanel implements ActionListener
 
     public void printQuestion(java.util.List<String> question) throws IOException
     {
+        timer.restart();
         this.questionLabel.setText(question.get(0));
         for (int i = 0; i < answers.length; i++)
         {
             answers[i].setText(question.get(i+1));
+            answers[i].setMinimumSize(new Dimension(60,50));
         }
+        list =question;
         correctAnswer = question.getLast();
     }
 
@@ -88,29 +93,31 @@ public class QuestionGUI extends JPanel implements ActionListener
 
         if (e.getSource() == answers[0])
         {
-            checkAnswer(answers[0]);
+            checkAnswer(answers[0], list);
                 showAnswer();
 
         } else if (e.getSource() == answers[1])
         {
-            checkAnswer(answers[1]);
+            checkAnswer(answers[1],list);
             showAnswer();
 
         } else if (e.getSource() == answers[2])
         {
-            checkAnswer(answers[2]);
+            checkAnswer(answers[2],list);
             showAnswer();
         } else if (e.getSource() == answers[3])
         {
-            checkAnswer(answers[3]);
+            checkAnswer(answers[3],list);
             showAnswer();
         }
     }
 
-    public void checkAnswer(JButton button)
+    public void checkAnswer(JButton button, java.util.List<String> question)
     {
         timer.stop();
-        if (button.getText().equals(correctAnswer))
+        int correctAnswer = Integer.parseInt(question.getLast());
+        String correct = question.get(correctAnswer).trim();
+        if (button.getText().equals(correct))
         {
             button.setBackground(Color.green);
         } else
@@ -127,7 +134,7 @@ public class QuestionGUI extends JPanel implements ActionListener
                 {
                     answers[i].setBackground(Color.green);
                 }
-                answers[i].setEnabled(false);
+                //answers[i].setEnabled(false);
             }
             play.setVisible(true);
     }

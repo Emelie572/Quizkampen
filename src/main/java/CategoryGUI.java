@@ -14,6 +14,7 @@ public class CategoryGUI extends JPanel implements ActionListener
     CategoryGUI()
     {
         panel.add(label);
+        setMinimumSize(new Dimension(400, 300));
 
         label.setFont(new Font("Arial", Font.PLAIN, 15));
         for (int i = 0; i < buttons.length; i++)

@@ -27,7 +27,7 @@ public class GUI extends JFrame implements ActionListener
     GUI() throws IOException
     {
         play.addActionListener(this);
-        continueButton.addActionListener(this);
+        //continueButton.addActionListener(this);
         play.setPreferredSize(new Dimension(70, 50));
         play.setOpaque(true);
         play.setBorder(new LineBorder(Color.BLACK,1, true));
