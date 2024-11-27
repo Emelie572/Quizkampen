@@ -4,112 +4,130 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Map;
 
-public class ScoretableGUI extends JFrame {
+public class ScoretableGUI extends JPanel {
 
     private JPanel mainContentPanel;
-    private JButton continueQuizButton;
+    private JPanel resultPanel;
+    private JLabel resultLabelMessage;
+    private JLabel resultLabelResult;
     private ScoreTable scoretable;
-    private String ROUNDTITEL = "Round";
-    private String CONCEALEDROUND = "Dolt";
-    private String SCORETABLETITEL = "Spelresultat";
-    private String CONTINUEBUTTONTEXT = "Fortsätt";
-    //private JFrame frame;
-
+    private final int rounds;
+    private final String ROUND_TITEL = "Spelresultat";
+    private final String CONCEALED_ROUND = "Dolt";
+    private final String WINNER_MESSAGE = " vann! ";
+    private final String LOSER_MESSAGE = " förlorade! ";
+    private final String TIE_MESSAGE = "Oavgjort! ";
+    private final Color BLUE_COLOR = new Color(30, 70, 150);
+    private final Color WHITE_COLOR = new Color(255, 255, 255);
 
     public ScoretableGUI(String player1, String player2, int rounds, ScoreTable scoretable) {
         this.scoretable = scoretable;
-
+        this.rounds = rounds;
 
         setLayout(new BorderLayout());
+        setBackground(BLUE_COLOR);
+
+        createMainContent(player1, player2, rounds);
+        createResultPanel();
+    }
+
+    private void createMainContent(String player1, String player2, int rounds) {
         mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
-        add(mainContentPanel, BorderLayout.CENTER);
+        mainContentPanel.setBackground(BLUE_COLOR);
 
-        headerForColumns(player1, player2);
+        headerForColumns(player1, player2, mainContentPanel);
 
-        for (int i = 1; i < rounds; i++) {
-            createRoundRow(i);
-
-            JLabel scoreResultTitel = new JLabel(SCORETABLETITEL, SwingConstants.CENTER);
-            scoreResultTitel.setFont(new Font("Arial", Font.BOLD, 15));
-            add(scoreResultTitel, BorderLayout.NORTH);
-
-            JPanel bottomButtonPanel = new JPanel();
-            continueQuizButton = new JButton(CONTINUEBUTTONTEXT);
-            bottomButtonPanel.add(continueQuizButton);
-            add(continueQuizButton, BorderLayout.SOUTH);
-            continueQuizButton.setBackground(Color.WHITE);
-            continueQuizButton.setPreferredSize(new Dimension(50, 40));
-            continueQuizButton.setBorder(new LineBorder(Color.BLUE, 1, true));
-            //lambauttryck /knapp för att fortsätta spelet?
-            //  continueQuizButton.addActionListener(e -> här behövs metod för knapptryck());
-
+        for (int i = 1; i <= rounds; i++) {
+            createRoundRow(i, mainContentPanel);
         }
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 500);
-        setLocationRelativeTo(null);
+        add(mainContentPanel, BorderLayout.CENTER);
+    }
+
+    private void createResultPanel() {
+        resultPanel = new JPanel(new BorderLayout());
+        resultPanel.setBackground(BLUE_COLOR);
+
+        resultLabelMessage = new JLabel("", SwingConstants.CENTER);
+        resultLabelMessage.setFont(new Font("Arial", Font.BOLD, 20));
+        resultLabelMessage.setForeground(WHITE_COLOR);
+
+        resultLabelResult = new JLabel("", SwingConstants.CENTER);
+        resultLabelResult.setFont(new Font("Arial", Font.PLAIN, 15));
+        resultLabelResult.setForeground(WHITE_COLOR);
+
+        resultPanel.add(resultLabelMessage, BorderLayout.NORTH);
+        resultPanel.add(resultLabelResult, BorderLayout.SOUTH);
 
     }
 
-    private void headerForColumns(String player1, String player2) {
-        JPanel headerForColumns = new JPanel(new GridLayout(1, 3));
-        headerForColumns.add(createSquare(player1, Font.BOLD));
-        headerForColumns.add(createSquare(ROUNDTITEL, Font.BOLD));
-        headerForColumns.add(createSquare(player2, Font.BOLD));
-        mainContentPanel.add(headerForColumns);
+    private void headerForColumns(String player1, String player2, JPanel mainContentPanel) {
+        JPanel header = new JPanel(new GridLayout(1, 3));
+        header.setBackground(BLUE_COLOR);
+        header.add(createSquare(player1, Font.PLAIN));
+        header.add(createSquare(ROUND_TITEL, Font.PLAIN));
+        header.add(createSquare(player2, Font.PLAIN));
+        mainContentPanel.add(header);
     }
 
-    private void createRoundRow(int round) {
+    private void createRoundRow(int round, JPanel mainContentPanel) {
         JPanel roundRow = new JPanel(new GridLayout(1, 3));
-        JLabel player1Label = createSquare(CONCEALEDROUND, Font.PLAIN);
-        player1Label.setName("Spelare 1");
-        roundRow.add(player1Label);
-
-        roundRow.add(createSquare("Runda " + round, Font.PLAIN));
-
-        JLabel player2Label = createSquare(CONCEALEDROUND, Font.PLAIN);
-        player2Label.setName("Spelare 2");
-        roundRow.add(player2Label);
-
+        roundRow.setBackground(BLUE_COLOR);
+        roundRow.add(createSquare(CONCEALED_ROUND, Font.ITALIC));
+        roundRow.add(createSquare(String.valueOf(round), Font.PLAIN));
+        roundRow.add(createSquare(CONCEALED_ROUND, Font.ITALIC));
         mainContentPanel.add(roundRow);
     }
 
     private JLabel createSquare(String text, int fontStyle) {
         JLabel squareLabel = new JLabel(text, SwingConstants.CENTER);
-        squareLabel.setFont(new Font("Arial", fontStyle, 15));
-        squareLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        squareLabel.setFont(new Font("Arial", fontStyle, 16));
+        squareLabel.setForeground(WHITE_COLOR);
         return squareLabel;
     }
 
     public void updatedScoreTable() {
-        for (int round = 1; round < scoretable.getGameScore().size(); round++) {
-            Map<String, Integer> roundscores = scoretable.getGameScore().get(round);
-            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round);
+        int playerOneTotalScore = 0;
+        int playerTwoTotalScore = 0;
 
-            JLabel player1 = (JLabel) roundRow.getComponent(0);
-            String playerOneName = player1.getName();
-            Integer playarOneScore = roundscores.get(playerOneName);
-            player1.setText(playarOneScore == null ? CONCEALEDROUND : String.valueOf(playarOneScore));
+        for (int round = 0; round < scoretable.getGameScore().size(); round++) {
+            Map<String, Integer> roundScores = scoretable.getGameScore().get(round);
+            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round + 1);
 
-            JLabel player2 = (JLabel) roundRow.getComponent(2);
-            String playerTwoName = player2.getName();
-            Integer playerTwoScore = roundscores.get(playerTwoName);
-            player2.setText(playerTwoScore == null ? CONCEALEDROUND : String.valueOf(playerTwoScore));
+            JLabel player1Label = (JLabel) roundRow.getComponent(0);
+            String playerOneName = player1Label.getName();
+            Integer playerOneScore = roundScores.get(playerOneName);
+            player1Label.setText(playerOneScore == null ? CONCEALED_ROUND : String.valueOf(playerOneScore));
+
+            playerOneTotalScore += playerOneScore == null ? 0 : playerOneScore;
+
+            JLabel player2Label = (JLabel) roundRow.getComponent(2);
+            String playerTwoName = player2Label.getName();
+            Integer playerTwoScore = roundScores.get(playerTwoName);
+            player2Label.setText(playerTwoScore == null ? CONCEALED_ROUND : String.valueOf(playerTwoScore));
+
+            playerTwoTotalScore += playerTwoScore == null ? 0 : playerTwoScore;
+
+            if (scoretable.getGameScore().size() == rounds) {
+                add(resultPanel, BorderLayout.SOUTH);
+
+                if (playerOneTotalScore > playerTwoTotalScore) {
+                    resultLabelMessage.setText(playerOneName + WINNER_MESSAGE + playerTwoName);
+                } else if (playerTwoTotalScore > playerOneTotalScore) {
+                    resultLabelMessage.setText(playerTwoName + WINNER_MESSAGE + playerOneName);
+                } else {
+                    resultLabelMessage.setText(TIE_MESSAGE);
+                }
+
+                resultLabelResult.setText("Poängställning: " + playerOneTotalScore + " - " + playerTwoTotalScore);
+                //fixa så att poängen visas rätt beronde på vilken spelare som visas först
+            }
+
+            revalidate();
+            repaint();
+
+
         }
     }
 }
-
-//Lägg till header metod();
-
-//Lägg till rundor metod();
-
-//Lägg till en tabell eller celler metod();
-
-//Metod för att uppdatera poängen
-
-//lägg till en knapp som fortsätter spelet
-
-//Lägg till resultat rad för båda spelarna
-
-
