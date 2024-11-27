@@ -90,8 +90,8 @@ public class Player extends JFrame implements ActionListener
 
             //int testCategory = 10;//Test. Kategori input, Books
             int testCategory = randomCategory(); //Test. Slumpar fram en kategori
-            Quiz connectionQuiz = new Quiz(testCategory, true);
-            connectionQuiz.playerName = name;//Test. Sätter namn på quiz.
+            Quiz connectionQuiz = new Quiz(name);
+            connectionQuiz.setPlayerName(name);//Test. Sätter namn på quiz.
             out.writeObject(connectionQuiz);
             Object inputLine;
 
@@ -111,33 +111,33 @@ public class Player extends JFrame implements ActionListener
                     {
                         Quiz inputQuiz = (Quiz) inputLine;
 
-                        if (!inputQuiz.readOnly)
+                        if (!inputQuiz.isReadOnly())
                         {
                             List<String> question;
 
-                            for (int i = 0; i < inputQuiz.allQuestions.size(); i++)
+                            for (int i = 0; i < inputQuiz.getAllQuestions().size(); i++)
                             {
-                                question = inputQuiz.allQuestions.get(i);
+                                question = inputQuiz.getAllQuestions().get(i);
                                 printQuestion(question);
                                     questionGUI.reset();
-                                    questionGUI.printQuestion(inputQuiz.allQuestions.get(i));
+                                    questionGUI.printQuestion(inputQuiz.getAllQuestions().get(i));
                                     questionGUI.reset();
                                 String inputAnswer = input.readLine().trim();
                                 inputQuiz.correctAnswers += checkAnswer(inputAnswer, question);
                             }
-                            inputQuiz.playerName = name;
+                            inputQuiz.setPlayerName(name);
                         } else
                         { //readOnly
-                            System.out.println(inputQuiz.scoreTable.toString());
-                            System.out.println("Player choosing category: " + inputQuiz.playerChoosingCategory);
+                            System.out.println(inputQuiz.getScoreTable().toString());
+                            System.out.println("Player choosing category: " + inputQuiz.getPlayerChoosingCategory());
                             //inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
-                            inputQuiz.playerName = name;//Test.
-                            if (name.equalsIgnoreCase(inputQuiz.playerChoosingCategory))
+                            inputQuiz.setPlayerName(name);//Test.
+                            if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory()))
                             {
-                                inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.playerName + " Nummer mellan 9-32")));//Test.
+                                inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.getPlayerName() + " Nummer mellan 9-32")));//Test.
                             }
                         }
-                        System.out.println("PlayerName printer" + inputQuiz.playerName + " " + inputQuiz.category);
+                        System.out.println("PlayerName printer" + inputQuiz.getPlayerName() + " " + inputQuiz.getCategory());
                         out.writeObject(inputQuiz); //Test. Efter readOnly skickas båda samtidigt och player 1 går alltid först.
                         break;
                     }
@@ -153,8 +153,8 @@ public class Player extends JFrame implements ActionListener
 
     private void showNextQuest(Quiz inputquiz) throws IOException
     {
-        if (inputquiz != null && currentQuestion < inputquiz.allQuestions.size()) {
-            List<String> question = inputquiz.allQuestions.get(currentQuestion);
+        if (inputquiz != null && currentQuestion < inputquiz.getAllQuestions().size()) {
+            List<String> question = inputquiz.getAllQuestions().get(currentQuestion);
             bottompanel.removeAll();
             bottompanel.add(questionGUI);
             questionGUI.printQuestion(question);
