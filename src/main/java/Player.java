@@ -78,8 +78,6 @@ public class Player extends JFrame implements ActionListener
                 e.printStackTrace();
             }
         }
-
-        getToCategory.setVisible(true);
         try (Socket socket = new Socket(ip, port);)
         {
             input = new BufferedReader(new InputStreamReader(System.in));
@@ -128,13 +126,16 @@ public class Player extends JFrame implements ActionListener
                             inputQuiz.setPlayerName(name);
                         } else
                         { //readOnly
-                            System.out.println(inputQuiz.getScoreTable().toString());
+                            if(inputQuiz.getScoreTable()!=null){
+                                System.out.println(inputQuiz.getScoreTable().toString());
+                            }
                             System.out.println("Player choosing category: " + inputQuiz.getPlayerChoosingCategory());
                             //inputQuiz.setCategory(randomCategory());//Test. Kategori ska sättas.
                             inputQuiz.setPlayerName(name);//Test.
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory()))
                             {
-                                inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.getPlayerName() + " Nummer mellan 9-32")));//Test.
+                                getToCategory.setVisible(true);
+                                //inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(inputQuiz.getPlayerName() + " Nummer mellan 9-32")));//Test.
                             }
                         }
                         System.out.println("PlayerName printer" + inputQuiz.getPlayerName() + " " + inputQuiz.getCategory());
