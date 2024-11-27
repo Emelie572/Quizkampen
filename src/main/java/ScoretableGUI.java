@@ -83,8 +83,8 @@ public class ScoretableGUI extends JFrame {
     }
 
     public void updatedScoreTable() {
-        for (int round = 1; round < scoretable.gameScore.size(); round++) {
-            Map<String, Integer> roundscores = scoretable.gameScore.get(round);
+        for (int round = 1; round < scoretable.getGameScore().size(); round++) {
+            Map<String, Integer> roundscores = scoretable.getGameScore().get(round);
             JPanel roundRow = (JPanel) mainContentPanel.getComponent(round);
 
             JLabel player1 = (JLabel) roundRow.getComponent(0);
