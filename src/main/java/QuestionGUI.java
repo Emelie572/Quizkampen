@@ -1,12 +1,18 @@
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class QuestionGUI extends JPanel implements ActionListener
 {
+    private static BlockingQueue<ActionEvent> eventQueue = new LinkedBlockingQueue<>();//test
+
     JButton[] answers = new JButton[4];
     JLabel questionLabel = new JLabel();
     JPanel groundPanel = new JPanel(new BorderLayout());
@@ -20,7 +26,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     private int seconds = 20;
     private JProgressBar progressBar = new JProgressBar(0, 20);
     private Timer timer;
-    java.util.List<String> list = new java.util.ArrayList();
+    List<String> list = new ArrayList<>();
 
     QuestionGUI()
     {
@@ -48,7 +54,17 @@ public class QuestionGUI extends JPanel implements ActionListener
 
         for (int i = 0; i < answers.length; i++) {
             answers[i] = new JButton();
-            answers[i].addActionListener(this);
+            //test this annars
+            int bi = i;
+            answers[i].addActionListener(e -> { //this. test
+                try {
+                    checkAnswer(answers[bi], list);
+                    showAnswer();
+                    eventQueue.put(e); // Add event to the queue
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt(); // Handle interruption
+                }
+            });
             center.add(answers[i]);
             //answers[i].setPreferredSize(new Dimension(60, 50));
             answers[i].setMinimumSize(new Dimension(60,50));
@@ -74,17 +90,32 @@ public class QuestionGUI extends JPanel implements ActionListener
         timer.restart();
     }
 
-    public void printQuestion(java.util.List<String> question) throws IOException
-    {
-        timer.restart();
-        this.questionLabel.setText(question.get(0));
-        for (int i = 0; i < answers.length; i++)
-        {
-            answers[i].setText(question.get(i+1));
-            answers[i].setMinimumSize(new Dimension(60,50));
+    public void printQuestion(List<List<String>> allQuestions) throws IOException {
+        List<String> question;
+
+        for (List<String> allQuestion : allQuestions) {
+            question = allQuestion;
+            timer.restart();
+            this.questionLabel.setText(question.getFirst());
+            list = question;
+            correctAnswer = question.getLast();
+
+            for (int j = 0; j < answers.length; j++) {
+                answers[j].setText(question.get(j + 1));
+                answers[j].setMinimumSize(new Dimension(60, 50));
+            }
+            reset();
+            ActionEvent event = waitForEvent();
+            try{
+                Thread.sleep(3000);
+            }catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+
+            //inputQuiz.addToCorrectAnswers(checkAnswer(inputAnswer, question));
         }
-        list =question;
-        correctAnswer = question.getLast();
+
+
     }
 
     @Override
@@ -112,8 +143,7 @@ public class QuestionGUI extends JPanel implements ActionListener
         }
     }
 
-    public void checkAnswer(JButton button, java.util.List<String> question)
-    {
+    public void checkAnswer(JButton button, List<String> question) {
         timer.stop();
         int correctAnswer = Integer.parseInt(question.getLast());
         String correct = question.get(correctAnswer).trim();
@@ -134,9 +164,18 @@ public class QuestionGUI extends JPanel implements ActionListener
                 {
                     answers[i].setBackground(Color.green);
                 }
-                //answers[i].setEnabled(false);
+                answers[i].setEnabled(false);
             }
             play.setVisible(true);
+    }
+
+    public static ActionEvent waitForEvent() { //test
+        try {
+            return eventQueue.take(); // Block until an event is available
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Handle interruption
+            throw new RuntimeException("Thread interrupted while waiting for an event", e);
+        }
     }
 
     /*public JButton getPlay(JButton play){

@@ -11,11 +11,12 @@ import java.util.Properties;
 
 public class Quiz implements Serializable {
 
+    private String categoryString;
     private int category;
     private final List<List<String>> allQuestions = new ArrayList<>();
     private List<TriviaCategory> triviaCategories;
     private String playerName;
-    int correctAnswers = 0;
+    private int correctAnswers = 0;
     private boolean readOnly = false;
     private ScoreTable scoreTable;
     private String playerChoosingCategory;
@@ -145,6 +146,14 @@ public class Quiz implements Serializable {
 
     public void setTriviaCategories(List<TriviaCategory> triviaCategories) {
         this.triviaCategories = threeRandomUnusedCategories(triviaCategories);
+    }
+
+    public String getCategoryString() {
+        return categoryString;
+    }
+
+    public void setCategoryString(String categoryString) {
+        this.categoryString = categoryString;
     }
 }
 

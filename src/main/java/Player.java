@@ -8,8 +8,6 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Player extends JFrame implements ActionListener
@@ -20,12 +18,14 @@ public class Player extends JFrame implements ActionListener
     private ObjectInputStream in;
     private BufferedReader input;
     private String name;
+    private Quiz playerOutputQuiz;
 
     private JPanel bottompanel = new JPanel();
     JPanel buttonSpace = new JPanel();
-    JButton getToCategory = new JButton("Play");
-    JButton getToQuestion = new JButton("Play");
-    JButton getToScoreTable = new JButton("Play");
+    JButton getToCategory = new JButton("Category");
+    JButton getToQuestion = new JButton("Questions");
+    JButton getToStartGUI = new JButton("Answer");
+    //JButton getToScoreTable = new JButton("Play"); //Behöver ingen knapp för score just nu.
     int currentQuestion = 0;
 
     StartGUI startGUI;
@@ -35,12 +35,29 @@ public class Player extends JFrame implements ActionListener
     Player() throws UnknownHostException
     {
         startGUI = new StartGUI();
-        categoryGUI = new CategoryGUI();
+        categoryGUI = new CategoryGUI(this);
         questionGUI = new QuestionGUI();
 
-        getToCategory.addActionListener(this);
-        getToQuestion.addActionListener(this);
-        getToScoreTable.addActionListener(this);
+        getToStartGUI.addActionListener(e->{
+            startGUI.setVisible(true);
+            categoryGUI.setVisible(false);
+            getToCategory.setVisible(false);
+            getToQuestion.setVisible(false);});
+
+        getToCategory.addActionListener(e->{
+            startGUI.setVisible(false);
+            categoryGUI.setVisible(true);
+            getToCategory.setVisible(false);
+            getToQuestion.setVisible(true);});
+
+        getToQuestion.addActionListener(e->{
+            startGUI.setVisible(false);
+            categoryGUI.setVisible(false);
+            questionGUI.setVisible(true);
+            getToQuestion.setVisible(true);});
+            //getToScoreTable.setVisible(false); //Behöver ingen knapp för score just nu.
+        //getToScoreTable.addActionListener(this); //Behöver ingen knapp för score just nu.
+
         getToCategory.setPreferredSize(new Dimension(70, 50));
         getToCategory.setOpaque(true);
         getToCategory.setBorder(new LineBorder(Color.BLACK, 1, true));
@@ -49,16 +66,20 @@ public class Player extends JFrame implements ActionListener
 
         buttonSpace.add(getToCategory);
         buttonSpace.add(getToQuestion);
-        buttonSpace.add(getToScoreTable);
+        //buttonSpace.add(getToScoreTable); //Behöver ingen knapp för score just nu.
         getToQuestion.setVisible(false);
-        getToScoreTable.setVisible(false);
+        //getToScoreTable.setVisible(false); //Behöver ingen knapp för score just nu.
         setLayout(new BorderLayout());
 
         add(buttonSpace, BorderLayout.SOUTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        categoryGUI.setVisible(false);
+        questionGUI.setVisible(false);
         bottompanel.add(startGUI);
+        bottompanel.add(categoryGUI);
+        bottompanel.add(questionGUI);
         setSize(400, 300);
         add(bottompanel, BorderLayout.CENTER);
 
@@ -103,6 +124,8 @@ public class Player extends JFrame implements ActionListener
                         Quiz inputQuiz = (Quiz) inputLine;
 
                         if (!inputQuiz.isReadOnly()) {
+                            getToQuestion.doClick();
+                            /*
                             List<String> question;
 
                             for (int i = 0; i < inputQuiz.getAllQuestions().size(); i++)
@@ -115,7 +138,11 @@ public class Player extends JFrame implements ActionListener
                                 String inputAnswer = input.readLine().trim();
                                 inputQuiz.addToCorrectAnswers(checkAnswer(inputAnswer, question));
                             }
+                            */
                             inputQuiz.setPlayerName(name);
+                            questionGUI.printQuestion(inputQuiz.getAllQuestions());//Test
+                            System.out.println("Frågor klara");
+
                         } else {//readOnly
 
                             if(inputQuiz.getScoreTable()!=null){
@@ -128,16 +155,23 @@ public class Player extends JFrame implements ActionListener
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory()))
                             {
                                 categoryGUI.setCategories(inputQuiz.getTriviaCategories());
-                                getToCategory.setVisible(true);
+                                getToCategory.doClick();
+
                                 // TODO Kategori slumpas fram. Ersätts med GUI.
                                 //inputQuiz.setCategory(randomCategory());
                                 printCategories(inputQuiz.getTriviaCategories());
-                                inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
+                                //inputQuiz.setCategory(Integer.parseInt(JOptionPane.showInputDialog(name+" is Choosing Category.")));
                                 //inputQuiz.setCategory();//Skicka in Category id.
+                            }else {
+
+                                out.writeObject(inputQuiz);
                             }
                         }
+
+                        //printCategories(inputQuiz.getTriviaCategories());
                         System.out.println("PlayerName printer" + inputQuiz.getPlayerName() + " " + inputQuiz.getCategory());
-                        out.writeObject(inputQuiz); //Test. Efter readOnly skickas båda samtidigt och player 1 går alltid först.
+                        playerOutputQuiz = inputQuiz; //test
+                        //out.writeObject(playerOutputQuiz); //Test. Efter readOnly skickas båda samtidigt och player 1 går alltid först.
                         break;
                     }
                 }
@@ -156,7 +190,7 @@ public class Player extends JFrame implements ActionListener
             List<String> question = inputquiz.getAllQuestions().get(currentQuestion);
             bottompanel.removeAll();
             bottompanel.add(questionGUI);
-            questionGUI.printQuestion(question);
+            //questionGUI.printQuestion(question); test
             questionGUI.reset();
             currentQuestion++;
             revalidate();
@@ -212,27 +246,16 @@ public class Player extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == getToCategory){
-            startGUI.setVisible(false);
-            bottompanel.add(categoryGUI);
-            categoryGUI.setVisible(true);
-            getToQuestion.setVisible(true);
-            getToCategory.setVisible(false);
-
+        if(e.getSource().equals(categoryGUI)) {
+            System.out.println(e.getActionCommand());
+            try {
+                playerOutputQuiz.setCategoryString(e.getActionCommand());
+                out.writeObject(playerOutputQuiz);
+                getToQuestion.doClick();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
-
-       if (e.getSource() == getToQuestion){
-            categoryGUI.setVisible(false);
-            bottompanel.add(questionGUI);
-            questionGUI.setVisible(true);
-           getToScoreTable.setVisible(false);
-           getToQuestion.setVisible(true);
-
-        }
-       /*else if(e.getSource() == getToScoreTable){
-           getToQuestion.setVisible(false);
-           questionGUI.setVisible(false);
-           getToCategory.setVisible(false);
-       }*/
     }
 }
+

@@ -1,3 +1,4 @@
+/*
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +21,8 @@ public class ProtocolGUI
 
     public JPanel metod(List<List> list, JPanel bottomPanel,List<String> categories) throws IOException
     {
+
+ */
         /*if(state == START){
 
             bottomPanel.add(startGUI);
@@ -30,14 +33,14 @@ public class ProtocolGUI
             return bottomPanel;
         }*/
 
-
+/*
         if (roundCount<3) //antalet rundor men behövs nog inte här
         {
             if (state == CHOOSE_CATEGORIES)
             {
                 state = IN_QUESTIONS_LOOP;
                 bottomPanel.removeAll();
-                categoryGUI.setCategories(categories);
+                //categoryGUI.setCategories(categories);//ändrad till List<TriviaCategory>
                 bottomPanel.add(categoryGUI);
                 categoryGUI.setVisible(true);
                 return bottomPanel;
@@ -69,3 +72,5 @@ public class ProtocolGUI
         return bottomPanel;
     }
 }
+
+ */

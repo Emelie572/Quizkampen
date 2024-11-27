@@ -13,6 +13,7 @@ public class Protocol {
     private final int ENDOFGAME = 3;
     private int state = CONNECTION;
 
+    private int inputCategoryStringtoInt;
     private final List<TriviaCategory> triviaCategory;
     private final int MAXROUNDS;
     private final ScoreTable protcolScoreTable;
@@ -60,6 +61,8 @@ public class Protocol {
              if (!multiPlayerRequest) {
                  //Kollar om spelarn ska välja kategori
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
+                     inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString())); //Hotfix
+                     System.out.println(inputQuiz.getCategory()); //test
                      outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
                      setCategoryUsed(inputQuiz.getCategory());
                  }
@@ -68,6 +71,8 @@ public class Protocol {
              }else {
                  //Kollar om spelarn ska välja kategori
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
+                     inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString())); //Hotfix
+                     System.out.println(inputQuiz.getCategory()); //Test
                      outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
                      setCategoryUsed(inputQuiz.getCategory());
                  }
@@ -145,6 +150,15 @@ public class Protocol {
                 trivia.setUsed(true);
             }
         }
+    }
+
+    private int StringToInt(String input) {
+        for(TriviaCategory trivia: triviaCategory) {
+            if(trivia.getName().equalsIgnoreCase(input)) {
+                return trivia.getId();
+            }
+        }
+        return 0;
     }
 
     private int getRoundProperty(){
