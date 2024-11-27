@@ -15,7 +15,7 @@ public class Quiz implements Serializable {
     private final List<List<String>> allQuestions = new ArrayList<>();
     private List<TriviaCategory> triviaCategories;
     private String playerName;
-    private int correctAnswers = 0;
+    int correctAnswers = 0;
     private boolean readOnly = false;
     private ScoreTable scoreTable;
     private String playerChoosingCategory;
