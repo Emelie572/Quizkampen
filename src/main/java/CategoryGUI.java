@@ -9,10 +9,21 @@ public class CategoryGUI extends JPanel implements ActionListener
 {
     JPanel panel = new JPanel(new GridLayout(4, 1));
     JButton[] buttons = new JButton[3];
-    JLabel label = new JLabel("Choose one category");
+    JLabel label = new JLabel("Choose one category", JLabel.CENTER);
+    private final Color BLUE_COLOR = new Color(30, 70, 150);
+    private final Color WHITE_COLOR = new Color(255, 255, 255);
 
     CategoryGUI()
     {
+        setBackground(BLUE_COLOR);
+
+        panel.setBackground(BLUE_COLOR);
+        panel.setOpaque(true);
+
+        label.setFont(new Font("Arial", Font.PLAIN, 16));
+        label.setForeground(WHITE_COLOR);
+        label.setOpaque(false);
+
         panel.add(label);
         setMinimumSize(new Dimension(400, 300));
 
@@ -21,11 +32,14 @@ public class CategoryGUI extends JPanel implements ActionListener
         {
             buttons[i] = new JButton("Category " + (i + 1));
             buttons[i].addActionListener(this);
-            panel.add(buttons[i]);
-            buttons[i].setBackground(Color.WHITE);
             buttons[i].setPreferredSize(new Dimension(50, 40));
             buttons[i].setOpaque(true);
-            buttons[i].setBorder(new LineBorder(Color.BLUE,1, true));
+            buttons[i].setBackground(WHITE_COLOR);
+            buttons[i].setForeground(BLUE_COLOR);
+            buttons[i].setFont(new Font("Arial", Font.PLAIN, 16));
+            buttons[i].setBorder(new LineBorder(BLUE_COLOR,1, true));
+            panel.add(buttons[i]);
+
         }
         add(panel);
     }
@@ -35,7 +49,6 @@ public class CategoryGUI extends JPanel implements ActionListener
             buttons[i].setText(categories.get(i).toString());
             buttons[i].addActionListener(this);
             panel.add(buttons[i]);
-            buttons[i].setBackground(Color.WHITE);
         }
         reset(buttons);
     }
