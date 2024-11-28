@@ -25,7 +25,7 @@ public class StartGUI extends JPanel implements ActionListener
         textField.addActionListener(this);
     }
 
-    public void waitingForPlayerLable(Quiz inputQuiz) {
+    public void waitingForPlayerLable(Quiz inputQuiz) { //TODO Fixa så att den kommer upp när den ska.
         label.setText("Väntar på : " +
                 inputQuiz.getPlayerChoosingCategory().replaceAll(
                         "[^a-zA-Z]","")+"...");
