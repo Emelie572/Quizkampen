@@ -73,6 +73,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     public void setAllQuestions(List<List<String>> allQuestions, String category){
         this.category = category;
         this.list = allQuestions;
+        play.setText("Next Question");
         timer.start();
     }
 
