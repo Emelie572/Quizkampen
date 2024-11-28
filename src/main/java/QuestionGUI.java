@@ -111,18 +111,9 @@ public class QuestionGUI extends JPanel implements ActionListener
         reset();
         if (e.getSource() == answers[0])
         {
-            //checkAnswer(answers[0], list.get(QuestionNumber));
-            //showAnswer();
-            try
-            {
-                Thread.sleep(2000);
-                checkAnswer(answers[0],list.get(QuestionNumber));
-                showAnswer();
+            checkAnswer(answers[0], list.get(QuestionNumber));
+            showAnswer();
 
-            } catch (InterruptedException ex)
-            {
-                throw new RuntimeException(ex);
-            }
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
@@ -141,8 +132,8 @@ public class QuestionGUI extends JPanel implements ActionListener
             }
         } else if (e.getSource() == answers[1])
         {
-            //checkAnswer(answers[1],list.get(QuestionNumber));
-            //showAnswer();
+            checkAnswer(answers[1],list.get(QuestionNumber));
+            showAnswer();
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
@@ -189,19 +180,10 @@ public class QuestionGUI extends JPanel implements ActionListener
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
-
-
-                    //reset();
-                    printQuestion();
-                    checkAnswer(answers[3],list.get(QuestionNumber));
-                    revalidate();
-                    repaint();
-                    Thread.sleep(2000);
                     reset();
+                    printQuestion();
+
                 } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (InterruptedException ex)
-                {
                     throw new RuntimeException(ex);
                 }
 
@@ -211,7 +193,6 @@ public class QuestionGUI extends JPanel implements ActionListener
                 complete.doClick();
                 numberOfCorrectAnswers=0;
             }
-
         }
     }
 

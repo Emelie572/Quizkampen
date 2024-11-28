@@ -29,7 +29,7 @@ public class CategoryGUI extends JPanel implements ActionListener
         label.setOpaque(false);
 
         panel.add(label);
-        panel.setMinimumSize(new Dimension(600,400));
+        panel.setSize(new Dimension(400,300));
         setMinimumSize(new Dimension(600, 400));
 
         label.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -37,7 +37,7 @@ public class CategoryGUI extends JPanel implements ActionListener
         {
             buttons[i] = new JButton();
             buttons[i].addActionListener(listener);
-            buttons[i].setPreferredSize(new Dimension(70, 50));
+            buttons[i].setSize(new Dimension(300, 120));
             buttons[i].setOpaque(true);
             buttons[i].setBackground(WHITE_COLOR);
             buttons[i].setForeground(BLUE_COLOR);

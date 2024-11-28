@@ -22,6 +22,7 @@ public class Player extends JFrame implements ActionListener
     private Quiz playerOutputQuiz;
 
     private JPanel bottompanel = new JPanel();
+    private JPanel scorepanel = new JPanel();
     JPanel buttonSpace = new JPanel();
     JButton getToCategory = new JButton("Category");
     JButton getToQuestion = new JButton("Questions");
@@ -32,12 +33,14 @@ public class Player extends JFrame implements ActionListener
     StartGUI startGUI;
     CategoryGUI categoryGUI;
     QuestionGUI questionGUI;
+    ScoretableGUI scoretabelGUI;
 
     Player() throws UnknownHostException
     {
         startGUI = new StartGUI();
         categoryGUI = new CategoryGUI(this);
         questionGUI = new QuestionGUI(this);
+
 
         getToStartGUI.addActionListener(e->{
             startGUI.setVisible(true);
@@ -84,6 +87,7 @@ public class Player extends JFrame implements ActionListener
         setMinimumSize(new Dimension(1000, 400));
         add(bottompanel, BorderLayout.CENTER);
 
+
         getToCategory.setVisible(false);
 
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
@@ -125,6 +129,7 @@ public class Player extends JFrame implements ActionListener
 
                             if(inputQuiz.getScoreTable()!=null){
                                 System.out.println(inputQuiz.getScoreTable().toString());
+
                             }
                             inputQuiz.setPlayerName(name);
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory()))
