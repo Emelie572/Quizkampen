@@ -26,16 +26,11 @@ public class Player extends JFrame implements ActionListener
     private final CategoryGUI categoryGUI;
     private final QuestionGUI questionGUI;
     private final ScoretableGUI scoretabelGUI;
-    private ScoreTable scoreTable;
-    int rounds;
 
     Player() throws UnknownHostException
     {
         setTitle("Quizkampen");
-        setBackground(BLUE_COLOR);
-        setSize(800,600);
 
-        scoretabelGUI = new ScoretableGUI();
         startGUI = new StartGUI();
         categoryGUI = new CategoryGUI(this);
         categoryGUI.setVisible(false);
@@ -59,9 +54,8 @@ public class Player extends JFrame implements ActionListener
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
-
-
-
+        bottompanel.setBackground(BLUE_COLOR); //lagt till färg på panel
+        buttonSpace.setBackground(BLUE_COLOR); //lagt till färg på panel
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
             try {
                 Thread.sleep(100); //TODO testa utan
@@ -157,11 +151,6 @@ public class Player extends JFrame implements ActionListener
         startGUI.setVisible(false);
         categoryGUI.setVisible(false);
         questionGUI.setVisible(true);
-    }
-
-    public void getScoreTableGUI() {
-        scoretabelGUI.setVisible(true);
-
     }
     public static void main(String[] args) throws UnknownHostException {new Player();}
 }
