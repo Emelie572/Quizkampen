@@ -27,6 +27,7 @@ public class Player extends JFrame implements ActionListener
     JButton getToQuestion = new JButton("Questions");
     JButton getToStartGUI = new JButton("Answer");
     int currentQuestion = 0;
+    private final Color BLUE_COLOR = new Color(30, 70, 150);
 
     StartGUI startGUI;
     CategoryGUI categoryGUI;
@@ -61,6 +62,8 @@ public class Player extends JFrame implements ActionListener
         getToCategory.setOpaque(true);
         getToCategory.setBorder(new LineBorder(Color.BLACK, 1, true));
 
+        bottompanel.setBackground(BLUE_COLOR);
+
         setTitle("Quizkampen");
 
         buttonSpace.add(getToCategory);
@@ -77,7 +80,8 @@ public class Player extends JFrame implements ActionListener
         bottompanel.add(startGUI);
         bottompanel.add(categoryGUI);
         bottompanel.add(questionGUI);
-        setSize(400, 300);
+        //setSize(400, 300);
+        setMinimumSize(new Dimension(1000, 400));
         add(bottompanel, BorderLayout.CENTER);
 
         getToCategory.setVisible(false);

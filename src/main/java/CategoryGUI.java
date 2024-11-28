@@ -29,14 +29,15 @@ public class CategoryGUI extends JPanel implements ActionListener
         label.setOpaque(false);
 
         panel.add(label);
-        setMinimumSize(new Dimension(400, 300));
+        panel.setMinimumSize(new Dimension(600,400));
+        setMinimumSize(new Dimension(600, 400));
 
         label.setFont(new Font("Arial", Font.PLAIN, 15));
         for (int i = 0; i < buttons.length; i++)
         {
-            buttons[i] = new JButton("Category " + (i + 1));
+            buttons[i] = new JButton();
             buttons[i].addActionListener(listener);
-            buttons[i].setPreferredSize(new Dimension(50, 40));
+            buttons[i].setPreferredSize(new Dimension(70, 50));
             buttons[i].setOpaque(true);
             buttons[i].setBackground(WHITE_COLOR);
             buttons[i].setForeground(BLUE_COLOR);

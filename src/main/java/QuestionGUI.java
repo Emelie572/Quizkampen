@@ -16,13 +16,15 @@ public class QuestionGUI extends JPanel implements ActionListener
     JPanel bottomPanel = new JPanel();
     JButton play = new JButton("Play");
     JPanel top = new JPanel();
-    JPanel center = new JPanel();
+    JPanel center = new JPanel(new GridLayout(4,1));
     JPanel bottom = new JPanel();
     String correctAnswer;
     private int seconds = 20;
     private JProgressBar progressBar = new JProgressBar(0, 20);
     private Timer timer;
     JButton complete = new JButton("COMPLETE");
+
+    List<String>question;
 
     List<List<String>> list = new ArrayList<>();
     int numberOfCorrectAnswers;
@@ -32,6 +34,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     {
         complete.addActionListener(playerListener);
         progressBar.setValue(20);
+        top.setSize(new Dimension(600,50));
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -57,8 +60,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             int bi = i;
             answers[i].addActionListener(this);
             center.add(answers[i]);
-            //answers[i].setPreferredSize(new Dimension(60, 50));
-            answers[i].setMinimumSize(new Dimension(60,50));
+            answers[i].setPreferredSize(new Dimension(60,35));
             answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
         centerPanel.add(top, BorderLayout.NORTH);
@@ -66,8 +68,13 @@ public class QuestionGUI extends JPanel implements ActionListener
         centerPanel.add(bottom, BorderLayout.SOUTH);
         groundPanel.add(centerPanel, BorderLayout.CENTER);
         groundPanel.add(bottomPanel, BorderLayout.SOUTH);
+        //top.setBackground(new Color(30, 70, 150));
+        //bottom.setBackground(new Color(30, 70, 150));
+        //center.setBackground(new Color(30, 70, 150));
+        centerPanel.setSize(600,400);
+        groundPanel.setSize(600, 400);
         add(groundPanel);
-        setMinimumSize(new Dimension(400, 300));
+
     }
 
     public void reset()
@@ -87,7 +94,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     }
 
     public void printQuestion() throws IOException {
-        List<String>question = list.get(QuestionNumber);
+        question = list.get(QuestionNumber);
 
             timer.restart();
             this.questionLabel.setText(question.getFirst());
@@ -101,11 +108,21 @@ public class QuestionGUI extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        reset();
         if (e.getSource() == answers[0])
         {
-            checkAnswer(answers[0], list.get(QuestionNumber));
-            showAnswer();
+            //checkAnswer(answers[0], list.get(QuestionNumber));
+            //showAnswer();
+            try
+            {
+                Thread.sleep(2000);
+                checkAnswer(answers[0],list.get(QuestionNumber));
+                showAnswer();
 
+            } catch (InterruptedException ex)
+            {
+                throw new RuntimeException(ex);
+            }
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
@@ -124,9 +141,8 @@ public class QuestionGUI extends JPanel implements ActionListener
             }
         } else if (e.getSource() == answers[1])
         {
-            checkAnswer(answers[1],list.get(QuestionNumber));
-            showAnswer();
-
+            //checkAnswer(answers[1],list.get(QuestionNumber));
+            //showAnswer();
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
@@ -147,10 +163,8 @@ public class QuestionGUI extends JPanel implements ActionListener
 
         } else if (e.getSource() == answers[2])
         {
-
             checkAnswer(answers[2],list.get(QuestionNumber));
             showAnswer();
-
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
@@ -175,10 +189,19 @@ public class QuestionGUI extends JPanel implements ActionListener
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
-                    reset();
-                    printQuestion();
 
+
+                    //reset();
+                    printQuestion();
+                    checkAnswer(answers[3],list.get(QuestionNumber));
+                    revalidate();
+                    repaint();
+                    Thread.sleep(2000);
+                    reset();
                 } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex)
+                {
                     throw new RuntimeException(ex);
                 }
 
