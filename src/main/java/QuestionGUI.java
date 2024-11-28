@@ -80,15 +80,25 @@ public class QuestionGUI extends JPanel implements ActionListener
     public void printQuestion() throws IOException {
 
         List<String>question = list.get(questionNumber);
+        List<String>questionReformat = new ArrayList<>();
+        for(String q : question){
+            String rewrite = q.replaceAll("&#039;","'");
+            rewrite = rewrite.replaceAll("&quot;","\"");
+            rewrite = rewrite.replaceAll("&amp;","&");
+            rewrite = rewrite.replaceAll("&Delta;","Δ");
+            rewrite = rewrite.replaceAll("&Uuml;","Ü");
+            rewrite = rewrite.replaceAll("&ouml;","ö");
+            questionReformat.add(rewrite);
+        }
         play.setVisible(false);
         if (questionNumber ==list.size()-1){
             play.setText("End Round");
         }
         timer.restart();
-        this.questionLabel.setText(question.getFirst());
+        this.questionLabel.setText(questionReformat.getFirst());
 
         for (int i = 0; i < answers.length; i++) {
-            answers[i].setText(question.get(i + 1));
+            answers[i].setText(questionReformat.get(i + 1));
             answers[i].setMinimumSize(new Dimension(60, 50));
             }
         }
