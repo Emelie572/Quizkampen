@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreTable implements Serializable {
-    //Development
+
     private final List<ConcurrentHashMap<String,Integer>> gameScore = new ArrayList<>();
 
     public ScoreTable(int rounds) {

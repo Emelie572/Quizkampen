@@ -9,28 +9,28 @@ import java.io.IOException;
 
 public class QuestionGUI extends JPanel implements ActionListener
 {
-    JButton[] answers = new JButton[4];
-    JLabel questionLabel = new JLabel();
-    JPanel groundPanel = new JPanel(new BorderLayout());
-    JPanel centerPanel = new JPanel(new GridLayout(3,1));
-    JPanel bottomPanel = new JPanel();
-    JButton play = new JButton("Play");
-    JPanel top = new JPanel();
-    JPanel center = new JPanel();
-    JPanel bottom = new JPanel();
-    String correctAnswer;
-    private int seconds = 20;
-    private JProgressBar progressBar = new JProgressBar(0, 20);
-    private Timer timer;
-    JButton complete = new JButton("COMPLETE");
 
+    private final JLabel questionLabel = new JLabel();
+    private final JPanel groundPanel = new JPanel(new BorderLayout());
+    private final JPanel centerPanel = new JPanel(new GridLayout(3,1));
+    private final JPanel bottomPanel = new JPanel();
+    private final JPanel top = new JPanel();
+    private final JPanel center = new JPanel();
+    private final JPanel bottom = new JPanel();
+    private final JProgressBar progressBar = new JProgressBar(0, 20);
+    private final Timer timer;
+    private final JButton play = new JButton("Play");
+    private final JButton notVisibleButton = new JButton("COMPLETE");
+    private final JButton[] answers = new JButton[4];
     List<List<String>> list = new ArrayList<>();
+    private String correctAnswer;
+    private int seconds = 20;
     int numberOfCorrectAnswers;
     int QuestionNumber = 0;
 
     QuestionGUI(ActionListener playerListener)
     {
-        complete.addActionListener(playerListener);
+        notVisibleButton.addActionListener(playerListener);
         progressBar.setValue(20);
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
@@ -50,15 +50,12 @@ public class QuestionGUI extends JPanel implements ActionListener
                 }
             }
         });
-        timer.start();
+        //timer.start();
 
         for (int i = 0; i < answers.length; i++) {
             answers[i] = new JButton();
-            //test this annars
-            int bi = i;
             answers[i].addActionListener(this);
             center.add(answers[i]);
-            //answers[i].setPreferredSize(new Dimension(60, 50));
             answers[i].setMinimumSize(new Dimension(60,50));
             answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
@@ -82,8 +79,9 @@ public class QuestionGUI extends JPanel implements ActionListener
         timer.restart();
     }
 
-    public void setAllquestions(List<List<String>> allQuestions){
+    public void setAllQuestions(List<List<String>> allQuestions){
         this.list = allQuestions;
+        timer.start();
     }
 
     public void printQuestion() throws IOException {
@@ -102,81 +100,26 @@ public class QuestionGUI extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == answers[0])
+
+        if (e.getSource().equals(answers[0]))
         {
             checkAnswer(answers[0], list.get(QuestionNumber));
-            showAnswer();
-            QuestionNumber++;
-            if(QuestionNumber<list.size()){
-                try {
-                    reset();
-                    printQuestion();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }else {
-                QuestionNumber=0;
-                reset();
-                complete.doClick(1);
-                numberOfCorrectAnswers=0;
-            }
+            selectAnswer();
 
-        } else if (e.getSource() == answers[1])
+        } else if (e.getSource().equals(answers[1]))
         {
             checkAnswer(answers[1],list.get(QuestionNumber));
-            showAnswer();
-            QuestionNumber++;
-            if(QuestionNumber<list.size()){
-                try {
-                    reset();
-                    printQuestion();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }else {
-                QuestionNumber=0;
-                reset();
-                complete.doClick(1);
-                numberOfCorrectAnswers=0;
-            }
+            selectAnswer();
 
-        } else if (e.getSource() == answers[2])
+        } else if (e.getSource().equals(answers[2]))
         {
             checkAnswer(answers[2],list.get(QuestionNumber));
-            showAnswer();
-            QuestionNumber++;
-            if(QuestionNumber<list.size()){
-                try {
-                    reset();
-                    printQuestion();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }else {
-                QuestionNumber=0;
-                reset();
-                complete.doClick(1);
-                numberOfCorrectAnswers=0;
-            }
+            selectAnswer();
 
-        } else if (e.getSource() == answers[3])
+        } else if (e.getSource().equals(answers[3]))
         {
             checkAnswer(answers[3],list.get(QuestionNumber));
-            showAnswer();
-            QuestionNumber++;
-            if(QuestionNumber<list.size()){
-                try {
-                    reset();
-                    printQuestion();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }else {
-                QuestionNumber=0;
-                reset();
-                complete.doClick(1);
-                numberOfCorrectAnswers=0;
-            }
+            selectAnswer();
 
         }
     }
@@ -192,6 +135,23 @@ public class QuestionGUI extends JPanel implements ActionListener
         } else
         {
             button.setBackground(Color.red);
+        }
+    }
+    private void selectAnswer() {
+        showAnswer();
+        QuestionNumber++;
+        if(QuestionNumber<list.size()){
+            try {
+                reset();
+                printQuestion();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }else {
+            QuestionNumber=0;
+            reset();
+            notVisibleButton.doClick(1);
+            numberOfCorrectAnswers=0;
         }
     }
 

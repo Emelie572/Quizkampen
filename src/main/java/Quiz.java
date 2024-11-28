@@ -2,7 +2,6 @@ import Database.QuizSource;
 import Database.QuizSourceReader;
 import Database.Result;
 import Database.TriviaCategory;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +60,7 @@ public class Quiz implements Serializable {
     }
 
     private List<String> shuffleAndSetCorrectAnswers(List<String> incorrect,String correct){
+
         List<String> shuffledList = new ArrayList<>(incorrect);
         shuffledList.add(correct);
         Collections.shuffle(shuffledList);
@@ -71,7 +71,6 @@ public class Quiz implements Serializable {
                 correctIndex = String.valueOf(i+1);
             }
         }
-
         shuffledList.add(correctIndex);
         return shuffledList;
     }
@@ -88,82 +87,66 @@ public class Quiz implements Serializable {
         return Integer.parseInt(p.getProperty("questions"));
     }
 
-    public void setCategory(int category) {
-        this.category = category;
-    }
+    public boolean triviaContains (String s) {
 
-    public int getCategory() {
-        return category;
-    }
-
-    public List<List<String>> getAllQuestions() {
-        return allQuestions;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public int getCorrectAnswers() {
-        return correctAnswers;
-    }
-
-    public void addToCorrectAnswers(int Answers) {
-        this.correctAnswers += Answers;
-    }
-
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
-    }
-
-    public ScoreTable getScoreTable() {
-        return scoreTable;
-    }
-
-    public void setScoreTable(ScoreTable scoreTable) {
-        this.scoreTable = scoreTable;
-    }
-
-    public String getPlayerChoosingCategory() {
-        return playerChoosingCategory;
-    }
-
-    public void setPlayerChoosingCategory(String playerChoosingCategory) {
-        this.playerChoosingCategory = playerChoosingCategory;
-    }
-
-    public List<TriviaCategory> getTriviaCategories() {
-        return triviaCategories;
-    }
-
-    public void setTriviaCategories(List<TriviaCategory> triviaCategories) {
-        this.triviaCategories = threeRandomUnusedCategories(triviaCategories);
-    }
-
-    public String getCategoryString() {
-        return categoryString;
-    }
-
-    public void setCategoryString(String categoryString) {
-        this.categoryString = categoryString;
-    }
-
-    public boolean triviaContains (String s)
-    {
         for(TriviaCategory trivia: triviaCategories) {
             if(trivia.getName().equalsIgnoreCase(s)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+    public int getCategory() {
+        return category;
+    }
+    public List<List<String>> getAllQuestions() {
+        return allQuestions;
+    }
+    public String getPlayerName() {
+        return playerName;
+    }
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+    public int getCorrectAnswers() {
+        return correctAnswers;
+    }
+    public void addToCorrectAnswers(int Answers) {
+        this.correctAnswers += Answers;
+    }
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+    }
+    public ScoreTable getScoreTable() {
+        return scoreTable;
+    }
+    public void setScoreTable(ScoreTable scoreTable) {
+        this.scoreTable = scoreTable;
+    }
+    public String getPlayerChoosingCategory() {
+        return playerChoosingCategory;
+    }
+    public void setPlayerChoosingCategory(String playerChoosingCategory) {
+        this.playerChoosingCategory = playerChoosingCategory;
+    }
+    public List<TriviaCategory> getTriviaCategories() {
+        return triviaCategories;
+    }
+    public void setTriviaCategories(List<TriviaCategory> triviaCategories) {
+        this.triviaCategories = threeRandomUnusedCategories(triviaCategories);
+    }
+    public String getCategoryString() {
+        return categoryString;
+    }
+    public void setCategoryString(String categoryString) {
+        this.categoryString = categoryString;
     }
 }
 
