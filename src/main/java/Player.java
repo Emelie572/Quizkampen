@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class Player extends JFrame implements ActionListener
 {
     private InetAddress ip = InetAddress.getLocalHost();
-    private int port = 2345;
+    private int port = 12345;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String name;
@@ -108,7 +108,6 @@ public class Player extends JFrame implements ActionListener
                                     startGUI.waitingForPlayerLable(inputQuiz);
                                 }
                                 out.writeObject(inputQuiz);
-                                getScoreTableGUI();
                             }
                         }
                         playerOutputQuiz = inputQuiz;
@@ -139,7 +138,6 @@ public class Player extends JFrame implements ActionListener
                     playerOutputQuiz.addToCorrectAnswers(questionGUI.numberOfCorrectAnswers);
                     getToStartGUI();
                     out.writeObject(playerOutputQuiz);
-                    getScoreTableGUI();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

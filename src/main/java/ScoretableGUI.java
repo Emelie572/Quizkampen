@@ -21,6 +21,7 @@ public class ScoretableGUI extends JPanel {
     private final String TIE_MESSAGE = "Oavgjort! ";
     private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final Color WHITE_COLOR = new Color(255, 255, 255);
+    private int roundsPlayed = 0;
 
     public ScoretableGUI() {
 
@@ -28,7 +29,7 @@ public class ScoretableGUI extends JPanel {
         setBackground(BLUE_COLOR);
 
         createResultPanel();
-        createMainContent();
+        //createMainContent();
 
     }
 
@@ -37,10 +38,10 @@ public class ScoretableGUI extends JPanel {
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         mainContentPanel.setBackground(BLUE_COLOR);
 
-        headerForColumns(player1, player2, mainContentPanel);
+        headerForColumns(mainContentPanel);
 
-        for (int i = 1; i <= rounds; i++) {
-            createRoundRow(i, mainContentPanel);
+        for (int i = 0; i < rounds; i++) {
+            createRoundRow(i+1, mainContentPanel);
         }
 
         add(mainContentPanel, BorderLayout.CENTER);
@@ -63,12 +64,12 @@ public class ScoretableGUI extends JPanel {
 
     }
 
-    private void headerForColumns(String player1, String player2, JPanel mainContentPanel) {
+    private void headerForColumns(JPanel mainContentPanel) {
         JPanel header = new JPanel(new GridLayout(1, 3));
         header.setBackground(BLUE_COLOR);
-        header.add(createSquare(player1, Font.PLAIN));
+        header.add(createSquare(player1.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
         header.add(createSquare(ROUND_TITEL, Font.PLAIN));
-        header.add(createSquare(player2, Font.PLAIN));
+        header.add(createSquare(player2.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
         mainContentPanel.add(header);
     }
 
@@ -91,32 +92,37 @@ public class ScoretableGUI extends JPanel {
     public void updatedScoreTable(ScoreTable scoreTable) {
         int playerOneTotalScore = 0;
         int playerTwoTotalScore = 0;
+        roundsPlayed++;
+        player1 = scoreTable.getPlayerNames().getFirst();
+        player2 = scoreTable.getPlayerNames().getLast();
+        rounds = scoreTable.getGameScore().size()-1;
+        if(mainContentPanel==null){
+            createMainContent();
+        }
 
         for (int round = 0; round < scoreTable.getGameScore().size(); round++) {
             Map<String, Integer> roundScores = scoreTable.getGameScore().get(round);
             JPanel roundRow = (JPanel) mainContentPanel.getComponent(round);
 
             JLabel player1Label = (JLabel) roundRow.getComponent(0);
-            String playerOneName = player1Label.getName();
-            Integer playerOneScore = roundScores.get(playerOneName);
+            Integer playerOneScore = roundScores.get(scoreTable.getPlayerNames().getFirst());
             player1Label.setText(playerOneScore == null ? CONCEALED_ROUND : String.valueOf(playerOneScore));
 
             playerOneTotalScore += playerOneScore == null ? 0 : playerOneScore;
 
             JLabel player2Label = (JLabel) roundRow.getComponent(2);
-            String playerTwoName = player2Label.getName();
-            Integer playerTwoScore = roundScores.get(playerTwoName);
+            Integer playerTwoScore = roundScores.get(scoreTable.getPlayerNames().getLast());
             player2Label.setText(playerTwoScore == null ? CONCEALED_ROUND : String.valueOf(playerTwoScore));
 
             playerTwoTotalScore += playerTwoScore == null ? 0 : playerTwoScore;
 
-            if (scoreTable.getGameScore().size() == rounds) {
+            if (roundsPlayed == rounds) {
                 add(resultPanel, BorderLayout.SOUTH);
 
                 if (playerOneTotalScore > playerTwoTotalScore) {
-                    resultLabelMessage.setText(playerOneName + WINNER_MESSAGE + playerTwoName);
+                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2);
                 } else if (playerTwoTotalScore > playerOneTotalScore) {
-                    resultLabelMessage.setText(playerTwoName + WINNER_MESSAGE + playerOneName);
+                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1);
                 } else {
                     resultLabelMessage.setText(TIE_MESSAGE);
                 }
