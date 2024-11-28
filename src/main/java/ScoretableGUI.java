@@ -101,9 +101,9 @@ public class ScoretableGUI extends JPanel {
             createMainContent();
         }
 
-        for (int round = 0; round < scoreTable.getGameScore().size(); round++) {
+        for (int round = 1; round < scoreTable.getGameScore().size(); round++) {
             Map<String, Integer> roundScores = scoreTable.getGameScore().get(round);
-            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round +1);
+            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round);
 
             JLabel player1Label = (JLabel) roundRow.getComponent(0);
             Integer playerOneScore = roundScores.get(scoreTable.getPlayerNames().getFirst());
@@ -121,9 +121,9 @@ public class ScoretableGUI extends JPanel {
                 add(resultPanel, BorderLayout.SOUTH);
 
                 if (playerOneTotalScore > playerTwoTotalScore) {
-                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2);
+                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2.replaceAll("[^a-zA-Z]",""));
                 } else if (playerTwoTotalScore > playerOneTotalScore) {
-                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1);
+                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1.replaceAll("[^a-zA-Z]",""));
                 } else {
                     resultLabelMessage.setText(TIE_MESSAGE);
                 }
