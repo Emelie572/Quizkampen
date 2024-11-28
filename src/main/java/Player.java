@@ -1,4 +1,3 @@
-import Database.TriviaCategory;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -39,23 +38,30 @@ public class Player extends JFrame implements ActionListener
         questionGUI = new QuestionGUI(this);
 
         getToStartGUI.addActionListener(e->{
+            System.out.println("Byter till StartGUI");
             startGUI.setVisible(true);
             categoryGUI.setVisible(false);
+            questionGUI.setVisible(false);
             getToCategory.setVisible(false);
-            getToQuestion.setVisible(false);});
+            getToQuestion.setVisible(false);
+        });
 
         getToCategory.addActionListener(e->{
+            System.out.println("Byter till CategoryGUI");
             categoryGUI.setVisible(true);
             startGUI.setVisible(false);
             questionGUI.setVisible(false);
             getToCategory.setVisible(false);
-            getToQuestion.setVisible(false);});
+            getToQuestion.setVisible(false);
+        });
 
         getToQuestion.addActionListener(e->{
+            questionGUI.setVisible(true);
             startGUI.setVisible(false);
             categoryGUI.setVisible(false);
-            questionGUI.setVisible(true);
-            getToQuestion.setVisible(true);});
+            getToQuestion.setVisible(false);
+            getToCategory.setVisible(false);
+        });
 
         getToCategory.setPreferredSize(new Dimension(70, 50));
         getToCategory.setOpaque(true);
@@ -111,7 +117,8 @@ public class Player extends JFrame implements ActionListener
                         Quiz inputQuiz = (Quiz) inputLine;
 
                         if (!inputQuiz.isReadOnly()) {
-                            getToQuestion.doClick();
+                            getToQuestion.doClick(1);
+                            System.out.println("Byter till QuestionGUI rad121");
                             inputQuiz.setPlayerName(name);
                             questionGUI.setAllquestions(inputQuiz.getAllQuestions());
                             questionGUI.printQuestion();
@@ -126,8 +133,15 @@ public class Player extends JFrame implements ActionListener
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory()))
                             {
                                 categoryGUI.setCategories(inputQuiz.getTriviaCategories());
-                                getToCategory.doClick();
+                                getToCategory.doClick(1);
+                                System.out.println("Byter till CategoryGUI rad136");
                             }else {
+                                if(inputQuiz.getPlayerChoosingCategory()!=null){
+                                    startGUI.label.setText("Väntar på : " +
+                                                            inputQuiz.getPlayerChoosingCategory().replaceAll("[^a-zA-Z]","")+
+                                                            "...");
+                                }
+                                getToStartGUI.doClick(1); System.out.println("Byter till StartGUI rad141");
                                 out.writeObject(inputQuiz);
                             }
                         }
@@ -152,8 +166,10 @@ public class Player extends JFrame implements ActionListener
             if(playerOutputQuiz.triviaContains(e.getActionCommand())){
                 try {
                     playerOutputQuiz.setCategoryString(e.getActionCommand());
+
+                    //getToQuestion.doClick(1);
+                    //System.out.println("Byter till QuestionGUI rad171");
                     out.writeObject(playerOutputQuiz);
-                    getToQuestion.doClick();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -163,8 +179,8 @@ public class Player extends JFrame implements ActionListener
 
                 try {
                     playerOutputQuiz.addToCorrectAnswers(questionGUI.numberOfCorrectAnswers);
+                    getToStartGUI.doClick(1);System.out.println("Byter till StartGUI rad181");
                     out.writeObject(playerOutputQuiz);
-                    getToCategory.doClick();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

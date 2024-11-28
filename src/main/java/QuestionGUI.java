@@ -117,7 +117,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             }else {
                 QuestionNumber=0;
                 reset();
-                complete.doClick();
+                complete.doClick(1);
                 numberOfCorrectAnswers=0;
             }
 
@@ -136,7 +136,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             }else {
                 QuestionNumber=0;
                 reset();
-                complete.doClick();
+                complete.doClick(1);
                 numberOfCorrectAnswers=0;
             }
 
@@ -155,7 +155,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             }else {
                 QuestionNumber=0;
                 reset();
-                complete.doClick();
+                complete.doClick(1);
                 numberOfCorrectAnswers=0;
             }
 
@@ -174,7 +174,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             }else {
                 QuestionNumber=0;
                 reset();
-                complete.doClick();
+                complete.doClick(1);
                 numberOfCorrectAnswers=0;
             }
 

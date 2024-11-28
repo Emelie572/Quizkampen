@@ -31,7 +31,7 @@ public class Quiz implements Serializable {
         this.category = category;
         QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
         questionMaker(quizSourceReader.getQuizSource());
-        System.out.println("Quiz"+ quizSourceReader.getQuizSource().getResults().toString()); //test
+        System.out.println("Quiz Class "+ quizSourceReader.getQuizSource().getResults().toString()+" Quiz Class"); //test
 
     }
 

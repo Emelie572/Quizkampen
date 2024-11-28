@@ -5,17 +5,15 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryGUI extends JPanel implements ActionListener
 {
-    JPanel panel = new JPanel(new GridLayout(4, 1));
-    JButton[] buttons = new JButton[3];
-    JLabel label = new JLabel("Choose one category", JLabel.CENTER);
+    private final JPanel panel = new JPanel(new GridLayout(4, 1));
+    private final JButton[] buttons = new JButton[3];
+    private final JLabel label = new JLabel("Choose one category", JLabel.CENTER);
     private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final Color WHITE_COLOR = new Color(255, 255, 255);
-    List <TriviaCategory> guiCategories = new ArrayList<>();
 
     CategoryGUI(ActionListener listener)
     {
@@ -50,7 +48,6 @@ public class CategoryGUI extends JPanel implements ActionListener
 
     public void setCategories(List <TriviaCategory> categories){
 
-        this.guiCategories = categories;
         for (int i = 0; i < categories.size(); i++){
             buttons[i].setText(categories.get(i).getName());
             buttons[i].addActionListener(this);
@@ -64,14 +61,14 @@ public class CategoryGUI extends JPanel implements ActionListener
         label.setText("Choose one category");
         for (JButton b : categories)
         {
-            b.setVisible(true);
+            b.setEnabled(true);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        System.out.println("Category selected");
+        System.out.println("actionPerformed in CategoryGUI");//
         if (e.getSource() == buttons[0])
         {
             label.setText("you choosed " + buttons[0].getText());
@@ -82,8 +79,8 @@ public class CategoryGUI extends JPanel implements ActionListener
         {
             label.setText("you choosed " + buttons[2].getText());
         }
-        buttons[0].setVisible(false);
-        buttons[1].setVisible(false);
-        buttons[2].setVisible(false);
+        buttons[0].setEnabled(false);
+        buttons[1].setEnabled(false);
+        buttons[2].setEnabled(false);
     }
 }

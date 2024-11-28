@@ -33,11 +33,12 @@ public class StartGUI extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 name = textField.getText();
-                label.setText("Välkommen " + textField.getText() +"\n"+"Väntar på motståndare..."); //label.setText("Välkommen " + textField.getText());
+                label.setText("Välkommen " + textField.getText()+"!"); //label.setText("Välkommen " + textField.getText() +". Väntar på motståndare...");
                 label.setFont((new Font("Arial", Font.PLAIN, 20)));
                 button.setVisible(false);
                 textField.setVisible(false);
-                getname();
+                getname();//test
+                System.out.println(getname());//
 
                 if (nameListener != null) {
                     nameListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Name Entered"));
