@@ -53,11 +53,15 @@ public class Quiz implements Serializable {
     private void questionMaker (QuizSource quizSource){
 
         for(Result result: quizSource.getResults()){
-            setCategoryString(result.category);
+            setCategoryString(stringReformating(result.category));
             List<String> question = new ArrayList<>();
             question.add(result.question);
             question.addAll(shuffleAndSetCorrectAnswers(result.incorrect_answers,result.correct_answer));
-            allQuestions.add(question);
+            List<String> reformatedStrings = new ArrayList<>();
+            for (String oldString: question){
+                reformatedStrings.add(stringReformating(oldString));
+            }
+            allQuestions.add(reformatedStrings);
         }
     }
 
@@ -75,6 +79,18 @@ public class Quiz implements Serializable {
         }
         shuffledList.add(correctIndex);
         return shuffledList;
+    }
+
+    private String stringReformating(String s){
+        String rewrite = s.replaceAll("&#039;","'");
+        rewrite = rewrite.replaceAll("&quot;","\"");
+        rewrite = rewrite.replaceAll("&amp;","&");
+        rewrite = rewrite.replaceAll("&Delta;","Δ");
+        rewrite = rewrite.replaceAll("&Uuml;","Ü");
+        rewrite = rewrite.replaceAll("&ouml;","ö");
+        rewrite = rewrite.replaceAll("&rsquo;","’");
+        rewrite = rewrite.replaceAll("&eacute;","é");
+        return rewrite.trim();
     }
 
     private int getNumberOfQuestionsProperty(){
