@@ -100,7 +100,15 @@ public class Player extends JFrame implements ActionListener
                             inputQuiz.setPlayerName(name);
                             if(inputQuiz.getScoreTable()!=null){
                                 scoretabelGUI.updatedScoreTable(inputQuiz.getScoreTable());
-                               // System.out.println(inputQuiz.getScoreTable().toString());//TODO Ersätt med GUI.
+                            }
+                            if(inputQuiz.isEndOfGame()){
+                                startGUI.setVisible(false);
+                                categoryGUI.setVisible(false);
+                                questionGUI.setVisible(false);
+                                pack();
+                                System.out.println("END OF GAME");
+                                inputQuiz = new Quiz();
+
                             }
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory())){
                                 categoryGUI.setCategories(inputQuiz.getTriviaCategories());

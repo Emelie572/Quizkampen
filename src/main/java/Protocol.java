@@ -12,6 +12,7 @@ public class Protocol {
     private final int SENDINGQUIZ = 1;
     private final int ROUNDSCORING = 2;
     private final int ENDOFGAME = 3;
+    private final int STOPGAME = 4;
     private int state = CONNECTION;
 
 
@@ -100,12 +101,21 @@ public class Protocol {
                 if (MAXROUNDS == roundsPlayed){
                     state = ENDOFGAME;
                     outputQuiz.setPlayerChoosingCategory(null);
-                    //outputQuiz = new Quiz(ENDGAME);
+
                 } else {
                     state = SENDINGQUIZ;
                 }
             }
-        }else if (state == ENDOFGAME) {while (true){}}//Locks program to simulate end of game, changed later.
+        }else if (state == ENDOFGAME) {
+            outputQuiz = new Quiz();
+            state =STOPGAME;
+        }
+
+        else if(state == STOPGAME){
+            while (true);
+        }
+
+        //Locks program to simulate end of game, changed later.
 
         return outputQuiz;
     }

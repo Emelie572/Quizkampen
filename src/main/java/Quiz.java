@@ -18,6 +18,7 @@ public class Quiz implements Serializable {
     private String playerName;
     private int correctAnswers = 0;
     private boolean readOnly = false;
+    private boolean endOfGame = false;
     private ScoreTable scoreTable;
     private String playerChoosingCategory;
 
@@ -25,6 +26,11 @@ public class Quiz implements Serializable {
         this.readOnly = true;
         this.playerName = playerName;
     }
+    public Quiz(){
+        this.readOnly = true;
+        this.endOfGame = true;
+    }
+
     public Quiz(int category,List<TriviaCategory> triviaCategories) {
 
         this.triviaCategories = threeRandomUnusedCategories(triviaCategories);
@@ -171,6 +177,9 @@ public class Quiz implements Serializable {
     }
     public void setPlayersInGame(List<String> playersInGame) {
         this.playersInGame = playersInGame;
+    }
+    public boolean isEndOfGame() {
+        return endOfGame;
     }
 }
 
