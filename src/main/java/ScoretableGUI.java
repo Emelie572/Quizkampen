@@ -38,7 +38,14 @@ public class ScoretableGUI extends JPanel {
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         mainContentPanel.setBackground(BLUE_COLOR);
 
-        headerForColumns(mainContentPanel);
+        JPanel header = new JPanel(new GridLayout(1, 3));
+
+            header.setBackground(BLUE_COLOR);
+            header.add(createSquare(player1.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
+            header.add(createSquare(ROUND_TITEL, Font.PLAIN));
+            header.add(createSquare(player2.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
+            mainContentPanel.add(header);
+
 
         for (int i = 0; i < rounds; i++) {
             createRoundRow(i+1, mainContentPanel);
@@ -64,14 +71,6 @@ public class ScoretableGUI extends JPanel {
 
     }
 
-    private void headerForColumns(JPanel mainContentPanel) {
-        JPanel header = new JPanel(new GridLayout(1, 3));
-        header.setBackground(BLUE_COLOR);
-        header.add(createSquare(player1.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
-        header.add(createSquare(ROUND_TITEL, Font.PLAIN));
-        header.add(createSquare(player2.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
-        mainContentPanel.add(header);
-    }
 
     private void createRoundRow(int round, JPanel mainContentPanel) {
         JPanel roundRow = new JPanel(new GridLayout(1, 3));
@@ -93,16 +92,18 @@ public class ScoretableGUI extends JPanel {
         int playerOneTotalScore = 0;
         int playerTwoTotalScore = 0;
         roundsPlayed++;
+
         player1 = scoreTable.getPlayerNames().getFirst();
         player2 = scoreTable.getPlayerNames().getLast();
         rounds = scoreTable.getGameScore().size()-1;
+
         if(mainContentPanel==null){
             createMainContent();
         }
 
         for (int round = 0; round < scoreTable.getGameScore().size(); round++) {
             Map<String, Integer> roundScores = scoreTable.getGameScore().get(round);
-            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round);
+            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round +1);
 
             JLabel player1Label = (JLabel) roundRow.getComponent(0);
             Integer playerOneScore = roundScores.get(scoreTable.getPlayerNames().getFirst());
@@ -136,7 +137,6 @@ public class ScoretableGUI extends JPanel {
 
 
         }
-
 
     }
 }
