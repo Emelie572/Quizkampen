@@ -120,9 +120,9 @@ public class ScoretableGUI extends JPanel {
                 add(resultPanel, BorderLayout.SOUTH);
 
                 if (playerOneTotalScore > playerTwoTotalScore) {
-                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2);
+                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2.replaceAll("[^a-zA-Z]",""));
                 } else if (playerTwoTotalScore > playerOneTotalScore) {
-                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1);
+                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1.replaceAll("[^a-zA-Z]",""));
                 } else {
                     resultLabelMessage.setText(TIE_MESSAGE);
                 }
