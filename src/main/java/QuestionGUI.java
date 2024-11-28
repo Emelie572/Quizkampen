@@ -11,9 +11,7 @@ public class QuestionGUI extends JPanel implements ActionListener
 {
 
     private final JLabel questionLabel = new JLabel();
-    private final JPanel groundPanel = new JPanel(new BorderLayout());
     private final JPanel centerPanel = new JPanel(new GridLayout(3,1));
-    private final JPanel bottomPanel = new JPanel();
     private final JPanel top = new JPanel();
     private final JPanel center = new JPanel(new GridLayout(4,1));
     private final JPanel bottom = new JPanel();
@@ -37,7 +35,7 @@ public class QuestionGUI extends JPanel implements ActionListener
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         play.addActionListener(e-> nextQuestion());
-        bottomPanel.add(play);
+        bottom.add(play);
 
         timer = new Timer(1000, new ActionListener()
         {
@@ -62,15 +60,13 @@ public class QuestionGUI extends JPanel implements ActionListener
         centerPanel.add(top, BorderLayout.NORTH);
         centerPanel.add(center, BorderLayout.CENTER);
         centerPanel.add(bottom, BorderLayout.SOUTH);
-        groundPanel.add(centerPanel, BorderLayout.CENTER);
-        groundPanel.add(bottomPanel, BorderLayout.SOUTH);
         centerPanel.setSize(600,400);
-        groundPanel.setSize(600, 400);
-        add(groundPanel);
+        add(centerPanel);
         setMinimumSize(new Dimension(400, 300));
     }
 
     public void setAllQuestions(List<List<String>> allQuestions, String category){
+        play.setText("Next Question");
         this.category = category;
         this.list = allQuestions;
         timer.start();

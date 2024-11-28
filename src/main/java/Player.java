@@ -47,7 +47,8 @@ public class Player extends JFrame implements ActionListener
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
-
+        bottompanel.setBackground(BLUE_COLOR); //lagt till färg på panel
+        buttonSpace.setBackground(BLUE_COLOR); //lagt till färg på panel
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
             try {
                 Thread.sleep(100); //TODO testa utan
