@@ -19,7 +19,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     private final JPanel bottom = new JPanel();
     private final JProgressBar progressBar = new JProgressBar(0, 20);
     private final Timer timer;
-    private final JButton play = new JButton("Play");
+    private final JButton play = new JButton("Next Question");
     private final JButton notVisibleButton = new JButton("COMPLETE");
     private final JButton[] answers = new JButton[4];
     List<List<String>> list = new ArrayList<>();
@@ -35,6 +35,8 @@ public class QuestionGUI extends JPanel implements ActionListener
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        play.addActionListener(e-> selectAnswer());
+        bottomPanel.add(play);
 
 
 
@@ -87,13 +89,14 @@ public class QuestionGUI extends JPanel implements ActionListener
     public void printQuestion() throws IOException {
 
         List<String>question = list.get(QuestionNumber);
+        play.setVisible(false);
+        timer.restart();
+        this.questionLabel.setText(question.getFirst());
+        correctAnswer = question.getLast();
 
-            timer.restart();
-            this.questionLabel.setText(question.getFirst());
-            correctAnswer = question.getLast();
-            for (int i = 0; i < answers.length; i++) {
-                answers[i].setText(question.get(i + 1));
-                answers[i].setMinimumSize(new Dimension(60, 50));
+        for (int i = 0; i < answers.length; i++) {
+            answers[i].setText(question.get(i + 1));
+            answers[i].setMinimumSize(new Dimension(60, 50));
             }
         }
 
@@ -104,22 +107,22 @@ public class QuestionGUI extends JPanel implements ActionListener
         if (e.getSource().equals(answers[0]))
         {
             checkAnswer(answers[0], list.get(QuestionNumber));
-            selectAnswer();
+            showAnswer();
 
         } else if (e.getSource().equals(answers[1]))
         {
             checkAnswer(answers[1],list.get(QuestionNumber));
-            selectAnswer();
+            showAnswer();
 
         } else if (e.getSource().equals(answers[2]))
         {
             checkAnswer(answers[2],list.get(QuestionNumber));
-            selectAnswer();
+            showAnswer();
 
         } else if (e.getSource().equals(answers[3]))
         {
             checkAnswer(answers[3],list.get(QuestionNumber));
-            selectAnswer();
+            showAnswer();
 
         }
     }
@@ -138,7 +141,7 @@ public class QuestionGUI extends JPanel implements ActionListener
         }
     }
     private void selectAnswer() {
-        showAnswer();
+
         QuestionNumber++;
         if(QuestionNumber<list.size()){
             try {

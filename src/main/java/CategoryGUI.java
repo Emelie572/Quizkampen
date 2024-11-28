@@ -68,7 +68,6 @@ public class CategoryGUI extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        System.out.println("actionPerformed in CategoryGUI");//
         if (e.getSource() == buttons[0])
         {
             label.setText("you choosed " + buttons[0].getText());
