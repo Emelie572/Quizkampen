@@ -4,18 +4,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StartGUI extends JPanel
+public class StartGUI extends JPanel implements ActionListener
 {
-    JButton button = new JButton("Enter");
-    JPanel panel = new JPanel(new GridLayout(3,1));
-    JTextField textField = new JTextField(20);
-    JLabel label = new JLabel("Enter Your Name:");
-    String name;
-    private ActionListener nameListener;
-
-    public String getname(){
-        return name;
-    }
+    private final JButton button = new JButton("Enter");
+    private final JPanel panel = new JPanel(new GridLayout(3,1));
+    private final JTextField textField = new JTextField(20);
+    private final JLabel label = new JLabel("Enter Your Name:");
+    private String name;
 
     StartGUI()
     {
@@ -26,43 +21,26 @@ public class StartGUI extends JPanel
         button.setBorder(new LineBorder(Color.BLUE,1, true));
         button.setPreferredSize(new Dimension(80, 30));
         label.setFont(new Font("Arial", Font.PLAIN, 15));
-
-        button.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                name = textField.getText();
-                label.setText("Välkommen " + textField.getText()+"!"); //label.setText("Välkommen " + textField.getText() +". Väntar på motståndare...");
-                label.setFont((new Font("Arial", Font.PLAIN, 20)));
-                button.setVisible(false);
-                textField.setVisible(false);
-                getname();//test
-                System.out.println(getname());//
-
-                if (nameListener != null) {
-                    nameListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Name Entered"));
-                }
-            }
-        });
-    }
-
-    public void setNameListener(ActionListener listener){
-        this.nameListener =  listener;
-    }
-
-    public void reset()
-    {
-        label.setText("Enter Your Name:");
-        textField.setVisible(true);
-        textField.setFont(getFont().deriveFont(Font.PLAIN));
-        button.setVisible(true);
-        textField.setText("");
+        button.addActionListener(this);
+        textField.addActionListener(this);
     }
 
     public void waitingForPlayerLable(Quiz inputQuiz) {
         label.setText("Väntar på : " +
                 inputQuiz.getPlayerChoosingCategory().replaceAll(
                         "[^a-zA-Z]","")+"...");
+    }
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        name = textField.getText();
+        label.setText("Välkommen " + textField.getText()+"!");
+        label.setFont((new Font("Arial", Font.PLAIN, 20)));
+        button.setVisible(false);
+        textField.setVisible(false);
+    }
+
+    public String getname(){
+        return name;
     }
 }

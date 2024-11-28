@@ -27,14 +27,6 @@ public class Player extends JFrame implements ActionListener
     {
         setTitle("Quizkampen");
 
-        this.setLayout(new BorderLayout());
-        this.add(bottompanel, BorderLayout.CENTER);
-        this.add(buttonSpace, BorderLayout.SOUTH);
-        this.setSize(400, 300);
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         startGUI = new StartGUI();
         categoryGUI = new CategoryGUI(this);
         categoryGUI.setVisible(false);
@@ -43,6 +35,13 @@ public class Player extends JFrame implements ActionListener
         bottompanel.add(startGUI);
         bottompanel.add(categoryGUI);
         bottompanel.add(questionGUI);
+        this.setLayout(new BorderLayout());
+        this.add(bottompanel, BorderLayout.CENTER);
+        this.add(buttonSpace, BorderLayout.SOUTH);
+        this.setSize(400, 300);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setVisible(true);
 
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
             try {
