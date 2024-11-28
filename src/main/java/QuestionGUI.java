@@ -15,7 +15,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     private final JPanel centerPanel = new JPanel(new GridLayout(3,1));
     private final JPanel bottomPanel = new JPanel();
     private final JPanel top = new JPanel();
-    private final JPanel center = new JPanel();
+    private final JPanel center = new JPanel(new GridLayout(4,1));
     private final JPanel bottom = new JPanel();
     private final JProgressBar progressBar = new JProgressBar(0, 20);
     private final Timer timer;
@@ -32,6 +32,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     {
         notVisibleButton.addActionListener(playerListener);
         progressBar.setValue(20);
+        top.setSize(new Dimension(600,50));
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -55,7 +56,7 @@ public class QuestionGUI extends JPanel implements ActionListener
             answers[i] = new JButton();
             answers[i].addActionListener(this);
             center.add(answers[i]);
-            answers[i].setMinimumSize(new Dimension(60,50));
+            answers[i].setPreferredSize(new Dimension(60,35));
             answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
         }
         centerPanel.add(top, BorderLayout.NORTH);
@@ -63,6 +64,8 @@ public class QuestionGUI extends JPanel implements ActionListener
         centerPanel.add(bottom, BorderLayout.SOUTH);
         groundPanel.add(centerPanel, BorderLayout.CENTER);
         groundPanel.add(bottomPanel, BorderLayout.SOUTH);
+        centerPanel.setSize(600,400);
+        groundPanel.setSize(600, 400);
         add(groundPanel);
         setMinimumSize(new Dimension(400, 300));
     }

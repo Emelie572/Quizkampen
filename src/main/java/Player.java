@@ -18,10 +18,14 @@ public class Player extends JFrame implements ActionListener
 
     private final JPanel bottompanel = new JPanel();
     private final JPanel buttonSpace = new JPanel();
+    private JPanel scorepanel = new JPanel();
 
+    private int currentQuestion = 0;
+    private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final StartGUI startGUI;
     private final CategoryGUI categoryGUI;
     private final QuestionGUI questionGUI;
+    private final ScoretableGUI scoretabelGUI;
 
     Player() throws UnknownHostException
     {
@@ -38,7 +42,8 @@ public class Player extends JFrame implements ActionListener
         this.setLayout(new BorderLayout());
         this.add(bottompanel, BorderLayout.CENTER);
         this.add(buttonSpace, BorderLayout.SOUTH);
-        this.setSize(400, 300);
+        //setSize(400, 300);
+        setMinimumSize(new Dimension(1000, 400));
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -95,7 +100,7 @@ public class Player extends JFrame implements ActionListener
                         break; //TODO behövs den?
                     }
                 }
-                pack();
+                //pack();
             }
         } catch (IOException | ClassNotFoundException ex)
         {

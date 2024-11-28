@@ -27,14 +27,15 @@ public class CategoryGUI extends JPanel implements ActionListener
         label.setOpaque(false);
 
         panel.add(label);
-        setMinimumSize(new Dimension(400, 300));
+        panel.setSize(new Dimension(400,300));
+        setMinimumSize(new Dimension(600, 400));
 
         label.setFont(new Font("Arial", Font.PLAIN, 15));
         for (int i = 0; i < buttons.length; i++)
         {
-            buttons[i] = new JButton("Category " + (i + 1));
+            buttons[i] = new JButton();
             buttons[i].addActionListener(listener);
-            buttons[i].setPreferredSize(new Dimension(50, 40));
+            buttons[i].setSize(new Dimension(300, 120));
             buttons[i].setOpaque(true);
             buttons[i].setBackground(WHITE_COLOR);
             buttons[i].setForeground(BLUE_COLOR);
@@ -70,13 +71,16 @@ public class CategoryGUI extends JPanel implements ActionListener
     {
         if (e.getSource() == buttons[0])
         {
-            label.setText("you choosed " + buttons[0].getText());
+           label.setText("väntar på motståndare");
+           //label.setText("you choosed " + buttons[0].getText());
         } else if (e.getSource() == buttons[1])
         {
-            label.setText("you choosed " + buttons[1].getText());
+            label.setText("väntar på motståndare");
+            //label.setText("you choosed " + buttons[1].getText());
         } else if (e.getSource() == buttons[2])
         {
-            label.setText("you choosed " + buttons[2].getText());
+           label.setText("väntar på motståndare");
+            //label.setText("you choosed " + buttons[2].getText());
         }
         buttons[0].setEnabled(false);
         buttons[1].setEnabled(false);

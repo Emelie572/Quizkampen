@@ -9,16 +9,22 @@ public class StartGUI extends JPanel implements ActionListener
     private final JButton button = new JButton("Enter");
     private final JPanel panel = new JPanel(new GridLayout(3,1));
     private final JTextField textField = new JTextField(20);
-    private final JLabel label = new JLabel("Enter Your Name:");
+    private final JLabel label = new JLabel("Enter Your Name:",SwingConstants.CENTER);
     private String name;
+    private final Color BLUE_COLOR = new Color(30, 70, 150);
+    private final Color WHITE_COLOR = new Color(255, 255, 255);
 
     StartGUI()
     {
+        setBackground(BLUE_COLOR);
+        panel.setBackground(BLUE_COLOR);
+        label.setForeground(WHITE_COLOR);
+
         panel.add(label);
         panel.add(textField);
         panel.add(button);
         add(panel);
-        button.setBorder(new LineBorder(Color.BLUE,1, true));
+        button.setBorder(new LineBorder(WHITE_COLOR,1, true));
         button.setPreferredSize(new Dimension(80, 30));
         label.setFont(new Font("Arial", Font.PLAIN, 15));
         button.addActionListener(this);
