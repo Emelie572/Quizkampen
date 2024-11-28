@@ -6,7 +6,7 @@ public class ServerListener {
 
     private int port = 12345;
 
-    ServerListener() throws IOException
+    ServerListener()
     {
         MultiPlayer multiPlayer = new MultiPlayer();
         while(true)
@@ -29,7 +29,7 @@ public class ServerListener {
         }
     }
 
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args)
     {
         new ServerListener();
     }

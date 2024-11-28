@@ -71,7 +71,7 @@ public class Player extends JFrame implements ActionListener
                         if (!inputQuiz.isReadOnly()) {
                             inputQuiz.setPlayerName(name);
                             getToQuestion();
-                            questionGUI.setAllQuestions(inputQuiz.getAllQuestions());
+                            questionGUI.setAllQuestions(inputQuiz.getAllQuestions(),inputQuiz.getCategoryString());
                             questionGUI.printQuestion();
 
                         } else {

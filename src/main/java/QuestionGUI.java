@@ -23,10 +23,10 @@ public class QuestionGUI extends JPanel implements ActionListener
     private final JButton notVisibleButton = new JButton("COMPLETE");
     private final JButton[] answers = new JButton[4];
     List<List<String>> list = new ArrayList<>();
-    private String correctAnswer;
+    private String category;
     private int seconds = 20;
     int numberOfCorrectAnswers;
-    int QuestionNumber = 0;
+    int questionNumber = 0;
 
     QuestionGUI(ActionListener playerListener)
     {
@@ -35,10 +35,8 @@ public class QuestionGUI extends JPanel implements ActionListener
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        play.addActionListener(e-> selectAnswer());
+        play.addActionListener(e-> nextQuestion());
         bottomPanel.add(play);
-
-
 
         timer = new Timer(1000, new ActionListener()
         {
@@ -52,7 +50,6 @@ public class QuestionGUI extends JPanel implements ActionListener
                 }
             }
         });
-        //timer.start();
 
         for (int i = 0; i < answers.length; i++) {
             answers[i] = new JButton();
@@ -70,29 +67,21 @@ public class QuestionGUI extends JPanel implements ActionListener
         setMinimumSize(new Dimension(400, 300));
     }
 
-    public void reset()
-    {
-        for (int i = 0; i < answers.length; i++) {
-            answers[i].setBackground(null);
-            answers[i].setEnabled(true);
-        }
-        seconds = 20;
-        progressBar.setValue(seconds);
-        timer.restart();
-    }
-
-    public void setAllQuestions(List<List<String>> allQuestions){
+    public void setAllQuestions(List<List<String>> allQuestions, String category){
+        this.category = category;
         this.list = allQuestions;
         timer.start();
     }
 
     public void printQuestion() throws IOException {
 
-        List<String>question = list.get(QuestionNumber);
+        List<String>question = list.get(questionNumber);
         play.setVisible(false);
+        if (questionNumber ==list.size()-1){
+            play.setText("End Round");
+        }
         timer.restart();
         this.questionLabel.setText(question.getFirst());
-        correctAnswer = question.getLast();
 
         for (int i = 0; i < answers.length; i++) {
             answers[i].setText(question.get(i + 1));
@@ -106,31 +95,29 @@ public class QuestionGUI extends JPanel implements ActionListener
 
         if (e.getSource().equals(answers[0]))
         {
-            checkAnswer(answers[0], list.get(QuestionNumber));
+            checkAnswer(answers[0]);
             showAnswer();
 
         } else if (e.getSource().equals(answers[1]))
         {
-            checkAnswer(answers[1],list.get(QuestionNumber));
+            checkAnswer(answers[1]);
             showAnswer();
 
         } else if (e.getSource().equals(answers[2]))
         {
-            checkAnswer(answers[2],list.get(QuestionNumber));
+            checkAnswer(answers[2]);
             showAnswer();
 
         } else if (e.getSource().equals(answers[3]))
         {
-            checkAnswer(answers[3],list.get(QuestionNumber));
+            checkAnswer(answers[3]);
             showAnswer();
 
         }
     }
-
-    public void checkAnswer(JButton button, List<String> question) {
+    public void checkAnswer(JButton button) {
         timer.stop();
-        int correctAnswer = Integer.parseInt(question.getLast());
-        String correct = question.get(correctAnswer).trim();
+        String correct = correctAnswerString(list.get(questionNumber));
         if (button.getText().equals(correct))
         {
             button.setBackground(Color.green);
@@ -140,10 +127,28 @@ public class QuestionGUI extends JPanel implements ActionListener
             button.setBackground(Color.red);
         }
     }
-    private void selectAnswer() {
+    public void showAnswer() {
+        for (int i = 0; i < answers.length; i++)
+        {
+            String correct = correctAnswerString(list.get(questionNumber));
+            if (answers[i].getText().equals(correct))
+            {
+                answers[i].setBackground(Color.green);
+            }
+            answers[i].setEnabled(false);
+        }
+        play.setVisible(true);
+    }
 
-        QuestionNumber++;
-        if(QuestionNumber<list.size()){
+    public String correctAnswerString (List<String> question){
+        int correctAnswer = Integer.parseInt(question.getLast());
+        return question.get(correctAnswer).trim();
+    }
+
+    private void nextQuestion() {
+
+        questionNumber++;
+        if(questionNumber <list.size()){
             try {
                 reset();
                 printQuestion();
@@ -151,23 +156,21 @@ public class QuestionGUI extends JPanel implements ActionListener
                 throw new RuntimeException(ex);
             }
         }else {
-            QuestionNumber=0;
+            questionNumber =0;
             reset();
             notVisibleButton.doClick(1);
             numberOfCorrectAnswers=0;
         }
     }
 
-    public void showAnswer()
+    public void reset()
     {
-            for (int i = 0; i < answers.length; i++)
-            {
-                if (answers[i].getText().equals(correctAnswer))
-                {
-                    answers[i].setBackground(Color.green);
-                }
-                answers[i].setEnabled(false);
-            }
-            play.setVisible(true);
+        for (int i = 0; i < answers.length; i++) {
+            answers[i].setBackground(null);
+            answers[i].setEnabled(true);
+        }
+        seconds = 20;
+        progressBar.setValue(seconds);
+        timer.restart();
     }
 }

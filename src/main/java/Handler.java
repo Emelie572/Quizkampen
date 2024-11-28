@@ -2,7 +2,6 @@ import java.io.*;
 import java.net.Socket;
 
 public class Handler extends Thread {
-    //Development
 
     private final Socket playerSocket;
     private final MultiPlayer multiplayer;

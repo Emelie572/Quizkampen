@@ -52,6 +52,7 @@ public class Quiz implements Serializable {
     private void questionMaker (QuizSource quizSource){
 
         for(Result result: quizSource.getResults()){
+            setCategoryString(result.category);
             List<String> question = new ArrayList<>();
             question.add(result.question);
             question.addAll(shuffleAndSetCorrectAnswers(result.incorrect_answers,result.correct_answer));

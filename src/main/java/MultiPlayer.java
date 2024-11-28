@@ -1,11 +1,9 @@
 import java.io.ObjectOutputStream;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MultiPlayer {
-    //Development
+
     private final List<ObjectOutputStream> objectStreams = new ArrayList<>();
     private final Protocol protocol = new Protocol();
 
