@@ -174,3 +174,14 @@ public class QuestionGUI extends JPanel implements ActionListener
         timer.restart();
     }
 }
+
+/*
+for (int i = 0; i < question.size()-1; i++){ //TODO Gör om HTML kod.
+            String rewrite = question.get(i).replaceAll("&#039;","'");
+            rewrite = rewrite.replaceAll("&quot;","\"");
+            rewrite = rewrite.replaceAll("&amp;","&");
+            rewrite = rewrite.replaceAll("&Delta;","Δ");
+            rewrite = rewrite.replaceAll("&Uuml;","Ü");
+            rewrite = rewrite.replaceAll("&ouml;","ö");
+            System.out.print(rewrite + ", ");
+ */
