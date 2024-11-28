@@ -11,7 +11,9 @@ public class ScoretableGUI extends JPanel {
     private JLabel resultLabelMessage;
     private JLabel resultLabelResult;
     private ScoreTable scoretable;
-    private final int rounds;
+    private String player1;
+    private String player2;
+    private  int rounds;
     private final String ROUND_TITEL = "Spelresultat";
     private final String CONCEALED_ROUND = "Dolt";
     private final String WINNER_MESSAGE = " vann! ";
@@ -19,27 +21,34 @@ public class ScoretableGUI extends JPanel {
     private final String TIE_MESSAGE = "Oavgjort! ";
     private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final Color WHITE_COLOR = new Color(255, 255, 255);
+    private int roundsPlayed = 0;
 
-    public ScoretableGUI(String player1, String player2, int rounds, ScoreTable scoretable) {
-        this.scoretable = scoretable;
-        this.rounds = rounds;
+    public ScoretableGUI() {
 
         setLayout(new BorderLayout());
         setBackground(BLUE_COLOR);
 
-        createMainContent(player1, player2, rounds);
         createResultPanel();
+        //createMainContent();
+
     }
 
-    private void createMainContent(String player1, String player2, int rounds) {
+        private void createMainContent() {
         mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         mainContentPanel.setBackground(BLUE_COLOR);
 
-        headerForColumns(player1, player2, mainContentPanel);
+        JPanel header = new JPanel(new GridLayout(1, 3));
 
-        for (int i = 1; i <= rounds; i++) {
-            createRoundRow(i, mainContentPanel);
+            header.setBackground(BLUE_COLOR);
+            header.add(createSquare(player1.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
+            header.add(createSquare(ROUND_TITEL, Font.PLAIN));
+            header.add(createSquare(player2.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
+            mainContentPanel.add(header);
+
+
+        for (int i = 0; i < rounds; i++) {
+            createRoundRow(i+1, mainContentPanel);
         }
 
         add(mainContentPanel, BorderLayout.CENTER);
@@ -62,14 +71,6 @@ public class ScoretableGUI extends JPanel {
 
     }
 
-    private void headerForColumns(String player1, String player2, JPanel mainContentPanel) {
-        JPanel header = new JPanel(new GridLayout(1, 3));
-        header.setBackground(BLUE_COLOR);
-        header.add(createSquare(player1, Font.PLAIN));
-        header.add(createSquare(ROUND_TITEL, Font.PLAIN));
-        header.add(createSquare(player2, Font.PLAIN));
-        mainContentPanel.add(header);
-    }
 
     private void createRoundRow(int round, JPanel mainContentPanel) {
         JPanel roundRow = new JPanel(new GridLayout(1, 3));
@@ -87,35 +88,42 @@ public class ScoretableGUI extends JPanel {
         return squareLabel;
     }
 
-    public void updatedScoreTable() {
+    public void updatedScoreTable(ScoreTable scoreTable) {
         int playerOneTotalScore = 0;
         int playerTwoTotalScore = 0;
+        roundsPlayed++;
 
-        for (int round = 0; round < scoretable.getGameScore().size(); round++) {
-            Map<String, Integer> roundScores = scoretable.getGameScore().get(round);
-            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round + 1);
+        player1 = scoreTable.getPlayerNames().getFirst();
+        player2 = scoreTable.getPlayerNames().getLast();
+        rounds = scoreTable.getGameScore().size()-1;
+
+        if(mainContentPanel==null){
+            createMainContent();
+        }
+
+        for (int round = 1; round < scoreTable.getGameScore().size(); round++) {
+            Map<String, Integer> roundScores = scoreTable.getGameScore().get(round);
+            JPanel roundRow = (JPanel) mainContentPanel.getComponent(round);
 
             JLabel player1Label = (JLabel) roundRow.getComponent(0);
-            String playerOneName = player1Label.getName();
-            Integer playerOneScore = roundScores.get(playerOneName);
+            Integer playerOneScore = roundScores.get(scoreTable.getPlayerNames().getFirst());
             player1Label.setText(playerOneScore == null ? CONCEALED_ROUND : String.valueOf(playerOneScore));
 
             playerOneTotalScore += playerOneScore == null ? 0 : playerOneScore;
 
             JLabel player2Label = (JLabel) roundRow.getComponent(2);
-            String playerTwoName = player2Label.getName();
-            Integer playerTwoScore = roundScores.get(playerTwoName);
+            Integer playerTwoScore = roundScores.get(scoreTable.getPlayerNames().getLast());
             player2Label.setText(playerTwoScore == null ? CONCEALED_ROUND : String.valueOf(playerTwoScore));
 
             playerTwoTotalScore += playerTwoScore == null ? 0 : playerTwoScore;
 
-            if (scoretable.getGameScore().size() == rounds) {
+            if (roundsPlayed == rounds) {
                 add(resultPanel, BorderLayout.SOUTH);
 
                 if (playerOneTotalScore > playerTwoTotalScore) {
-                    resultLabelMessage.setText(playerOneName + WINNER_MESSAGE + playerTwoName);
+                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2.replaceAll("[^a-zA-Z]",""));
                 } else if (playerTwoTotalScore > playerOneTotalScore) {
-                    resultLabelMessage.setText(playerTwoName + WINNER_MESSAGE + playerOneName);
+                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1.replaceAll("[^a-zA-Z]",""));
                 } else {
                     resultLabelMessage.setText(TIE_MESSAGE);
                 }
@@ -129,5 +137,6 @@ public class ScoretableGUI extends JPanel {
 
 
         }
+
     }
 }

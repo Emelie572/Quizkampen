@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ScoreTable implements Serializable {
 
     private final List<ConcurrentHashMap<String,Integer>> gameScore = new ArrayList<>();
+    private List<String>playerNames = new ArrayList<>();
 
     public ScoreTable(int rounds) {
         for (int i = 0; i <= rounds; i++) {
@@ -18,6 +19,7 @@ public class ScoreTable implements Serializable {
             gameScore.getFirst().put(playerName, gameScore.getFirst().get(playerName) + score);
         } else{
             gameScore.getFirst().put(playerName, score);
+            playerNames.add(playerName);
         }
         gameScore.get(round).put(playerName, score);
     }
@@ -58,5 +60,9 @@ public class ScoreTable implements Serializable {
 
     public List<ConcurrentHashMap<String, Integer>> getGameScore() {
         return gameScore;
+    }
+
+    public List<String> getPlayerNames() {
+        return playerNames;
     }
 }
