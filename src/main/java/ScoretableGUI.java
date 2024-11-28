@@ -113,9 +113,9 @@ public class ScoretableGUI extends JPanel {
                 add(resultPanel, BorderLayout.SOUTH);
 
                 if (playerOneTotalScore > playerTwoTotalScore) {
-                    resultLabelMessage.setText(playerOneName + WINNER_MESSAGE + playerTwoName);
-                } else if (playerTwoTotalScore > playerOneTotalScore) {
-                    resultLabelMessage.setText(playerTwoName + WINNER_MESSAGE + playerOneName);
+                    resultLabelMessage.setText(playerOneName + WINNER_MESSAGE + "\n" + playerTwoName + LOSER_MESSAGE);
+                } else if (playerOneTotalScore < playerTwoTotalScore) {
+                    resultLabelMessage.setText(playerTwoName + WINNER_MESSAGE + "\n" + playerOneName + LOSER_MESSAGE);
                 } else {
                     resultLabelMessage.setText(TIE_MESSAGE);
                 }
