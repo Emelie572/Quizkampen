@@ -59,4 +59,10 @@ public class StartGUI extends JPanel
         button.setVisible(true);
         textField.setText("");
     }
+
+    public void waitingForPlayerLable(Quiz inputQuiz) {
+        label.setText("Väntar på : " +
+                inputQuiz.getPlayerChoosingCategory().replaceAll(
+                        "[^a-zA-Z]","")+"...");
+    }
 }
