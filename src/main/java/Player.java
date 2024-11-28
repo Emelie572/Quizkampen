@@ -136,7 +136,7 @@ public class Player extends JFrame implements ActionListener
                         break;
                     }
                 }
-                pack();
+                //pack();
             }
         } catch (IOException | ClassNotFoundException ex)
         {

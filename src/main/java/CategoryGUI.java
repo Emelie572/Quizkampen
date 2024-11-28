@@ -74,13 +74,16 @@ public class CategoryGUI extends JPanel implements ActionListener
         System.out.println("Category selected");
         if (e.getSource() == buttons[0])
         {
-            label.setText("you choosed " + buttons[0].getText());
+           label.setText("väntar på motståndare");
+           //label.setText("you choosed " + buttons[0].getText());
         } else if (e.getSource() == buttons[1])
         {
-            label.setText("you choosed " + buttons[1].getText());
+            label.setText("väntar på motståndare");
+            //label.setText("you choosed " + buttons[1].getText());
         } else if (e.getSource() == buttons[2])
         {
-            label.setText("you choosed " + buttons[2].getText());
+           label.setText("väntar på motståndare");
+            //label.setText("you choosed " + buttons[2].getText());
         }
         buttons[0].setVisible(false);
         buttons[1].setVisible(false);

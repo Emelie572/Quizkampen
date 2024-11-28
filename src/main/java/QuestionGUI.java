@@ -37,7 +37,6 @@ public class QuestionGUI extends JPanel implements ActionListener
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
 
-
         timer = new Timer(1000, new ActionListener()
         {
             @Override
@@ -73,6 +72,7 @@ public class QuestionGUI extends JPanel implements ActionListener
 
     public void reset()
     {
+
         for (int i = 0; i < answers.length; i++) {
             answers[i].setBackground(null);
             answers[i].setEnabled(true);
@@ -87,7 +87,6 @@ public class QuestionGUI extends JPanel implements ActionListener
     }
 
     public void printQuestion() throws IOException {
-
         List<String>question = list.get(QuestionNumber);
 
             timer.restart();
@@ -106,33 +105,39 @@ public class QuestionGUI extends JPanel implements ActionListener
         {
             checkAnswer(answers[0], list.get(QuestionNumber));
             showAnswer();
+
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
                     reset();
                     printQuestion();
+
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+
             }else {
                 QuestionNumber=0;
                 reset();
                 complete.doClick();
                 numberOfCorrectAnswers=0;
             }
-
         } else if (e.getSource() == answers[1])
         {
             checkAnswer(answers[1],list.get(QuestionNumber));
             showAnswer();
+
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
                     reset();
                     printQuestion();
+
+
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+
             }else {
                 QuestionNumber=0;
                 reset();
@@ -142,16 +147,20 @@ public class QuestionGUI extends JPanel implements ActionListener
 
         } else if (e.getSource() == answers[2])
         {
+
             checkAnswer(answers[2],list.get(QuestionNumber));
             showAnswer();
+
             QuestionNumber++;
             if(QuestionNumber<list.size()){
                 try {
                     reset();
                     printQuestion();
+
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+
             }else {
                 QuestionNumber=0;
                 reset();
@@ -168,9 +177,11 @@ public class QuestionGUI extends JPanel implements ActionListener
                 try {
                     reset();
                     printQuestion();
+
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+
             }else {
                 QuestionNumber=0;
                 reset();
