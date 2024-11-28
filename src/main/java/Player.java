@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class Player extends JFrame implements ActionListener
 {
     private InetAddress ip = InetAddress.getLocalHost();
-    private int port = 12345;
+    private int port = 2345;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String name;
@@ -26,11 +26,16 @@ public class Player extends JFrame implements ActionListener
     private final CategoryGUI categoryGUI;
     private final QuestionGUI questionGUI;
     private final ScoretableGUI scoretabelGUI;
+    private ScoreTable scoreTable;
+    int rounds;
 
     Player() throws UnknownHostException
     {
         setTitle("Quizkampen");
+        setBackground(BLUE_COLOR);
+        setSize(800,600);
 
+        scoretabelGUI = new ScoretableGUI();
         startGUI = new StartGUI();
         categoryGUI = new CategoryGUI(this);
         categoryGUI.setVisible(false);
@@ -42,11 +47,20 @@ public class Player extends JFrame implements ActionListener
         this.setLayout(new BorderLayout());
         this.add(bottompanel, BorderLayout.CENTER);
         this.add(buttonSpace, BorderLayout.SOUTH);
+        scorepanel.add(scoretabelGUI);
+        this.add(scorepanel, BorderLayout.EAST);
+
+
+
+       // scoretabelGUI.setVisible(false);
+
         //setSize(400, 300);
-        setMinimumSize(new Dimension(1000, 400));
+       // setMinimumSize(new Dimension(1000, 400));
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
+
+
 
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
             try {
@@ -83,7 +97,8 @@ public class Player extends JFrame implements ActionListener
                             //readOnly
                             inputQuiz.setPlayerName(name);
                             if(inputQuiz.getScoreTable()!=null){
-                                System.out.println(inputQuiz.getScoreTable().toString());//TODO Ersätt med GUI.
+                                scoretabelGUI.updatedScoreTable(inputQuiz.getScoreTable());
+                               // System.out.println(inputQuiz.getScoreTable().toString());//TODO Ersätt med GUI.
                             }
                             if (name.equalsIgnoreCase(inputQuiz.getPlayerChoosingCategory())){
                                 categoryGUI.setCategories(inputQuiz.getTriviaCategories());
@@ -92,8 +107,8 @@ public class Player extends JFrame implements ActionListener
                                 if(inputQuiz.getPlayerChoosingCategory()!=null){ //TODO Flytta till StartGUI
                                     startGUI.waitingForPlayerLable(inputQuiz);
                                 }
-                                getToStartGUI();
                                 out.writeObject(inputQuiz);
+                                getScoreTableGUI();
                             }
                         }
                         playerOutputQuiz = inputQuiz;
@@ -124,6 +139,7 @@ public class Player extends JFrame implements ActionListener
                     playerOutputQuiz.addToCorrectAnswers(questionGUI.numberOfCorrectAnswers);
                     getToStartGUI();
                     out.writeObject(playerOutputQuiz);
+                    getScoreTableGUI();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -143,6 +159,11 @@ public class Player extends JFrame implements ActionListener
         startGUI.setVisible(false);
         categoryGUI.setVisible(false);
         questionGUI.setVisible(true);
+    }
+
+    public void getScoreTableGUI() {
+        scoretabelGUI.setVisible(true);
+
     }
     public static void main(String[] args) throws UnknownHostException {new Player();}
 }
