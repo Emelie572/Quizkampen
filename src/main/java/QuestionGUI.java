@@ -14,7 +14,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     JPanel groundPanel = new JPanel(new BorderLayout());
     JPanel centerPanel = new JPanel(new GridLayout(3,1));
     JPanel bottomPanel = new JPanel();
-    JButton play = new JButton("Play");
+    JButton play = new JButton("Next Question");
     JPanel top = new JPanel();
     JPanel center = new JPanel(new GridLayout(4,1));
     JPanel bottom = new JPanel();
@@ -38,6 +38,7 @@ public class QuestionGUI extends JPanel implements ActionListener
         top.add(questionLabel);
         bottom.add(progressBar, BorderLayout.SOUTH);
         questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
 
 
         timer = new Timer(1000, new ActionListener()
