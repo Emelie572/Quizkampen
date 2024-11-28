@@ -37,17 +37,13 @@ public class QuizSourceReader {
                 String temp;
 
                 sc.useDelimiter(",\"");
-                while (sc.hasNext()) {//TODO tabort, är till för att göra .json filen lättläslig.
+                while (sc.hasNext()) {
 
                     temp = sc.next();
                     bw.write(temp+",");
                     bw.newLine();
                     bw.write("\"");
                 }
-
-                //temp = br.readLine(); //se to-do
-                //bw.write(temp);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

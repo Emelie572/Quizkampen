@@ -31,6 +31,7 @@ public class Player extends JFrame implements ActionListener
     {
         setTitle("Quizkampen");
 
+        scoretabelGUI = new ScoretableGUI();
         startGUI = new StartGUI();
         categoryGUI = new CategoryGUI(this);
         categoryGUI.setVisible(false);
@@ -58,7 +59,7 @@ public class Player extends JFrame implements ActionListener
         buttonSpace.setBackground(BLUE_COLOR); //lagt till färg på panel
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
             try {
-                Thread.sleep(100); //TODO testa utan
+                Thread.sleep(100);
                 this.name = startGUI.getname();
                 name += "_" + Math.random(); //Unikt namn för HashMaps.
             } catch (InterruptedException e) {
@@ -89,6 +90,13 @@ public class Player extends JFrame implements ActionListener
 
                         } else {
                             //readOnly
+                            if(!startGUI.HaveOpponent()) {
+                                for (String opponent : inputQuiz.getPlayersInGame()) {
+                                    if (!opponent.equals(name)) {
+                                        startGUI.waitingForPlayerLable(opponent);
+                                    }
+                                }
+                            }
                             inputQuiz.setPlayerName(name);
                             if(inputQuiz.getScoreTable()!=null){
                                 scoretabelGUI.updatedScoreTable(inputQuiz.getScoreTable());
@@ -98,9 +106,6 @@ public class Player extends JFrame implements ActionListener
                                 categoryGUI.setCategories(inputQuiz.getTriviaCategories());
                                 getToCategory();
                             }else{
-                                if(inputQuiz.getPlayerChoosingCategory()!=null){ //TODO Flytta till StartGUI
-                                    startGUI.waitingForPlayerLable(inputQuiz);
-                                }
                                 out.writeObject(inputQuiz);
                             }
                         }
@@ -108,7 +113,6 @@ public class Player extends JFrame implements ActionListener
                         break; //TODO behövs den?
                     }
                 }
-                //pack();
             }
         } catch (IOException | ClassNotFoundException ex)
         {

@@ -14,6 +14,7 @@ public class Quiz implements Serializable {
     private int category;
     private final List<List<String>> allQuestions = new ArrayList<>();
     private List<TriviaCategory> triviaCategories;
+    private List<String> playersInGame;
     private String playerName;
     private int correctAnswers = 0;
     private boolean readOnly = false;
@@ -30,12 +31,6 @@ public class Quiz implements Serializable {
         this.category = category;
         QuizSourceReader quizSourceReader = new QuizSourceReader(getNumberOfQuestionsProperty(),category);
         questionMaker(quizSourceReader.getQuizSource());
-        System.out.println("Quiz Class "+ quizSourceReader.getQuizSource().getResults().toString()+" Quiz Class"+"\"");
-        for (TriviaCategory triviaCategory : this.triviaCategories) {
-
-            System.out.println("Quiz Class "+ triviaCategory.getName() +" "+ triviaCategory.isUsed() +" Quiz Class"); //test
-        }
-
     }
 
     private List<TriviaCategory> threeRandomUnusedCategories(List<TriviaCategory> triviaCategories){
@@ -45,6 +40,8 @@ public class Quiz implements Serializable {
         Collections.shuffle(triviaCategories);
         for (int i = 0; i < amountSelected; i++) {
             if(!triviaCategories.get(i).isUsed()){
+                threeCategories.add(triviaCategories.get(i));
+            }else if(amountSelected == 23) {
                 threeCategories.add(triviaCategories.get(i));
             }else {
                 amountSelected++;
@@ -152,6 +149,12 @@ public class Quiz implements Serializable {
     }
     public void setCategoryString(String categoryString) {
         this.categoryString = categoryString;
+    }
+    public List<String> getPlayersInGame() {
+        return playersInGame;
+    }
+    public void setPlayersInGame(List<String> playersInGame) {
+        this.playersInGame = playersInGame;
     }
 }
 

@@ -11,6 +11,7 @@ public class StartGUI extends JPanel implements ActionListener
     private final JTextField textField = new JTextField(20);
     private final JLabel label = new JLabel("Enter Your Name:",SwingConstants.CENTER);
     private String name;
+    private boolean haveOpponent = false;
     private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final Color WHITE_COLOR = new Color(255, 255, 255);
 
@@ -31,10 +32,9 @@ public class StartGUI extends JPanel implements ActionListener
         textField.addActionListener(this);
     }
 
-    public void waitingForPlayerLable(Quiz inputQuiz) { //TODO Fixa så att den kommer upp när den ska.
-        label.setText("Väntar på : " +
-                inputQuiz.getPlayerChoosingCategory().replaceAll(
-                        "[^a-zA-Z]","")+"...");
+    public void waitingForPlayerLable(String opponent) { //TODO Fixa så att den kommer upp när den ska.
+        label.setText("Väntar på : " + opponent.replaceAll("[^a-zA-Z]","")+"...");
+        haveOpponent = true;
     }
     @Override
     public void actionPerformed(ActionEvent e)
@@ -48,5 +48,9 @@ public class StartGUI extends JPanel implements ActionListener
 
     public String getname(){
         return name;
+    }
+
+    public boolean HaveOpponent() {
+        return haveOpponent;
     }
 }

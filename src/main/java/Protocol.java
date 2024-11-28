@@ -2,6 +2,7 @@ import Database.CategorySourceReader;
 import Database.TriviaCategory;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,6 +14,8 @@ public class Protocol {
     private final int ENDOFGAME = 3;
     private int state = CONNECTION;
 
+
+    private final List<String> players = new ArrayList<>();
     private final List<TriviaCategory> triviaCategory;
     private final int MAXROUNDS;
     private final ScoreTable protcolScoreTable;
@@ -34,12 +37,15 @@ public class Protocol {
 
         if (state == CONNECTION) {
             if (!multiPlayerRequest) {
+                players.add(inputQuiz.getPlayerName());
                 playerChoosingCategory = inputQuiz.getPlayerName();
                 multiPlayerRequest = true;
                 return null;
             }else {
+                players.add(inputQuiz.getPlayerName());
                 inputQuiz.setPlayerChoosingCategory(playerChoosingCategory);
                 inputQuiz.setTriviaCategories(triviaCategory);
+                inputQuiz.setPlayersInGame(players);
                 outputQuiz = inputQuiz;
                 multiPlayerRequest = false;
                 state = SENDINGQUIZ;
@@ -50,8 +56,9 @@ public class Protocol {
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
                      inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString())); //Hotfix
                      System.out.println(inputQuiz.getCategory()); //test
-                     outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
+
                      setCategoryUsed(inputQuiz.getCategory());
+                     outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
                  }
                  multiPlayerRequest = true;
                  return null;
@@ -59,8 +66,9 @@ public class Protocol {
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
                      inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString())); //Hotfix
                      System.out.println(inputQuiz.getCategory()); //Test
-                     outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
+
                      setCategoryUsed(inputQuiz.getCategory());
+                     outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
                  }/*
                  try {
                      Thread.sleep(5000); //TODO "Overload" om det är snabbare än 5sec mellan request till URL-server.
@@ -92,11 +100,12 @@ public class Protocol {
                 if (MAXROUNDS == roundsPlayed){
                     state = ENDOFGAME;
                     outputQuiz.setPlayerChoosingCategory(null);
+                    //outputQuiz = new Quiz(ENDGAME);
                 } else {
                     state = SENDINGQUIZ;
                 }
             }
-        }else if (state == ENDOFGAME) {while (true){}}//TODO Locks program to simulate end of game, changed later.
+        }else if (state == ENDOFGAME) {while (true){}}//Locks program to simulate end of game, changed later.
 
         return outputQuiz;
     }
@@ -113,6 +122,7 @@ public class Protocol {
         for(TriviaCategory trivia: triviaCategory) {
             if(trivia.getId() == id) {
                 trivia.setUsed(true);
+                System.out.println("setCategoryUsed: " + trivia.getName());
             }
         }
     }
