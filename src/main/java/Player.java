@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class Player extends JFrame implements ActionListener
 {
     private InetAddress ip = InetAddress.getLocalHost();
-    private int port = 3400;
+    private int port = 12345;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String name;
@@ -20,7 +20,6 @@ public class Player extends JFrame implements ActionListener
     private final JPanel buttonSpace = new JPanel();
     private JPanel rightPanel = new JPanel();
 
-    private int currentQuestion = 0;
     private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final StartGUI startGUI;
     private final CategoryGUI categoryGUI;
