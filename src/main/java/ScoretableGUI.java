@@ -14,10 +14,9 @@ public class ScoretableGUI extends JPanel {
     private String player1;
     private String player2;
     private  int rounds;
-    private final String ROUND_TITEL = "Spelresultat";
+    private final String ROUND_TITEL = "Spelomgång";
     private final String CONCEALED_ROUND = "Dolt";
     private final String WINNER_MESSAGE = " vann! ";
-    private final String LOSER_MESSAGE = " förlorade! ";
     private final String TIE_MESSAGE = "Oavgjort! ";
     private final Color BLUE_COLOR = new Color(30, 70, 150);
     private final Color WHITE_COLOR = new Color(255, 255, 255);
@@ -28,8 +27,8 @@ public class ScoretableGUI extends JPanel {
         setLayout(new BorderLayout());
         setBackground(BLUE_COLOR);
 
+
         createResultPanel();
-        //createMainContent();
 
     }
 
@@ -44,10 +43,11 @@ public class ScoretableGUI extends JPanel {
             header.add(createSquare(player1.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
             header.add(createSquare(ROUND_TITEL, Font.PLAIN));
             header.add(createSquare(player2.replaceAll("[^a-zA-Z]",""), Font.PLAIN));
+            header.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
+
             mainContentPanel.add(header);
 
-
-        for (int i = 0; i < rounds; i++) {
+            for (int i = 0; i < rounds; i++) {
             createRoundRow(i+1, mainContentPanel);
         }
 
@@ -55,19 +55,27 @@ public class ScoretableGUI extends JPanel {
     }
 
     private void createResultPanel() {
-        resultPanel = new JPanel(new BorderLayout());
+        resultPanel = new JPanel();
+        resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
         resultPanel.setBackground(BLUE_COLOR);
 
         resultLabelMessage = new JLabel("", SwingConstants.CENTER);
         resultLabelMessage.setFont(new Font("Arial", Font.BOLD, 20));
         resultLabelMessage.setForeground(WHITE_COLOR);
+        resultLabelMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         resultLabelResult = new JLabel("", SwingConstants.CENTER);
         resultLabelResult.setFont(new Font("Arial", Font.PLAIN, 15));
         resultLabelResult.setForeground(WHITE_COLOR);
+        resultLabelResult.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         resultPanel.add(resultLabelMessage, BorderLayout.NORTH);
         resultPanel.add(resultLabelResult, BorderLayout.SOUTH);
+
+        resultPanel.add(Box.createVerticalStrut(20));
+        resultPanel.add(resultLabelMessage);
+        resultPanel.add(Box.createVerticalStrut(10));
+        resultPanel.add(resultLabelResult);
 
     }
 
@@ -75,6 +83,7 @@ public class ScoretableGUI extends JPanel {
     private void createRoundRow(int round, JPanel mainContentPanel) {
         JPanel roundRow = new JPanel(new GridLayout(1, 3));
         roundRow.setBackground(BLUE_COLOR);
+        roundRow.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         roundRow.add(createSquare(CONCEALED_ROUND, Font.ITALIC));
         roundRow.add(createSquare(String.valueOf(round), Font.PLAIN));
         roundRow.add(createSquare(CONCEALED_ROUND, Font.ITALIC));
@@ -121,15 +130,14 @@ public class ScoretableGUI extends JPanel {
                 add(resultPanel, BorderLayout.SOUTH);
 
                 if (playerOneTotalScore > playerTwoTotalScore) {
-                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player2.replaceAll("[^a-zA-Z]",""));
-                } else if (playerTwoTotalScore > playerOneTotalScore) {
-                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE + player1.replaceAll("[^a-zA-Z]",""));
+                    resultLabelMessage.setText(player1.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE);
+                } else if (playerOneTotalScore < playerTwoTotalScore) {
+                    resultLabelMessage.setText(player2.replaceAll("[^a-zA-Z]","") + WINNER_MESSAGE);
                 } else {
                     resultLabelMessage.setText(TIE_MESSAGE);
                 }
 
                 resultLabelResult.setText("Poängställning: " + playerOneTotalScore + " - " + playerTwoTotalScore);
-                //fixa så att poängen visas rätt beronde på vilken spelare som visas först
             }
 
             revalidate();

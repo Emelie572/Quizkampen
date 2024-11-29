@@ -22,13 +22,13 @@ public class CategoryGUI extends JPanel implements ActionListener
         panel.setBackground(BLUE_COLOR);
         panel.setOpaque(true);
 
-        label.setFont(new Font("Arial", Font.PLAIN, 16));
+        label.setFont(new Font("Arial", Font.PLAIN, 15));
         label.setForeground(WHITE_COLOR);
         label.setOpaque(false);
 
         panel.add(label);
 
-        panel.setPreferredSize((new Dimension(600,150))); //ändra storlek för knapparna
+        panel.setPreferredSize((new Dimension(300,150)));
         label.setFont(new Font("Arial", Font.PLAIN, 15));
         for (int i = 0; i < buttons.length; i++)
         {
@@ -37,7 +37,7 @@ public class CategoryGUI extends JPanel implements ActionListener
             buttons[i].setOpaque(true);
             buttons[i].setBackground(WHITE_COLOR);
             buttons[i].setForeground(BLUE_COLOR);
-            buttons[i].setFont(new Font("Arial", Font.PLAIN, 16));
+            buttons[i].setFont(new Font("Arial", Font.PLAIN, 15));
             buttons[i].setBorder(new LineBorder(BLUE_COLOR,1, true));
             panel.add(buttons[i]);
 
@@ -50,6 +50,9 @@ public class CategoryGUI extends JPanel implements ActionListener
         for (int i = 0; i < categories.size(); i++){
             buttons[i].setText(categories.get(i).getName());
             buttons[i].addActionListener(this);
+            buttons[i].setForeground(BLUE_COLOR);
+            buttons[i].setBackground(WHITE_COLOR);
+
             panel.add(buttons[i]);
         }
         reset(buttons);
