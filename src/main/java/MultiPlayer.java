@@ -12,7 +12,7 @@ public class MultiPlayer {
         objectStreams.add(stream);
     }
 
-    public synchronized void sendProtocolToPlayer(Quiz quiz) {//typo
+    public synchronized void sendProtocolToPlayer(Quiz quiz) {
 
         Quiz protocolQuiz = protocol.processQuizInput(quiz);
 

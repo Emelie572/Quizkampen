@@ -31,7 +31,7 @@ public class CategorySourceReader {
             Path p = Paths.get("src/main/java/Database/CategorySource.json");
 
             try (
-                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream())); //se to-do
+                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
                     BufferedWriter bw = Files.newBufferedWriter(p)
             ) {
                 String temp;
@@ -57,9 +57,5 @@ public class CategorySourceReader {
 
     public CategorySource getCategorySource() {
         return this.categorySource;
-    }
-
-    public static void main(String[] args) {
-        new CategorySourceReader();
     }
 }

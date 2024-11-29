@@ -3,7 +3,7 @@ package Database;
 import java.io.Serializable;
 import java.util.List;
 
-public class Result {//implements Serializable { test.
+public class Result {
     public String type;
     public String difficulty;
     public String category;

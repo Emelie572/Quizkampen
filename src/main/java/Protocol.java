@@ -55,8 +55,8 @@ public class Protocol {
         }else if (state == SENDINGQUIZ) {
              if (!multiPlayerRequest) {
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
-                     inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString())); //Hotfix
-                     System.out.println(inputQuiz.getCategory()); //test
+                     inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString()));
+                     System.out.println(inputQuiz.getCategory());
 
                      setCategoryUsed(inputQuiz.getCategory());
                      outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
@@ -65,8 +65,8 @@ public class Protocol {
                  return null;
              }else {
                  if(inputQuiz.getPlayerName().equalsIgnoreCase(playerChoosingCategory)) {
-                     inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString())); //Hotfix
-                     System.out.println(inputQuiz.getCategory()); //Test
+                     inputQuiz.setCategory(StringToInt(inputQuiz.getCategoryString()));
+                     System.out.println(inputQuiz.getCategory());
 
                      setCategoryUsed(inputQuiz.getCategory());
                      outputQuiz = new Quiz(inputQuiz.getCategory(),triviaCategory);
@@ -114,8 +114,6 @@ public class Protocol {
         else if(state == STOPGAME){
             while (true);
         }
-
-        //Locks program to simulate end of game, changed later.
 
         return outputQuiz;
     }

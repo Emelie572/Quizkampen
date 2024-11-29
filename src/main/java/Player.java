@@ -42,7 +42,6 @@ public class Player extends JFrame implements ActionListener
         categoryGUI.setVisible(false);
         questionGUI = new QuestionGUI(this);
         questionGUI.setVisible(false);
-       // this.questionGUI.setMaximumSize(new Dimension(100, 100));
 
 
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -50,14 +49,10 @@ public class Player extends JFrame implements ActionListener
         leftPanel.add(categoryGUI);
         leftPanel.add(questionGUI);
         leftPanel.setBackground(BLUE_COLOR);
-
-        // leftPanel.setMaximumSize(new Dimension(200, 50));
-
         rightPanel.setLayout(new BorderLayout());
         rightPanel.add(scoretabelGUI, BorderLayout.CENTER);
         rightPanel.setBackground(BLUE_COLOR);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
-       // rightPanel.setPreferredSize(new Dimension(200, 500));
 
         add(leftPanel, BorderLayout.CENTER);
         add(rightPanel, BorderLayout.SOUTH);
@@ -71,7 +66,7 @@ public class Player extends JFrame implements ActionListener
             try {
                 Thread.sleep(100);
                 this.name = startGUI.getname();
-                name += "_" + Math.random(); //Unikt namn för HashMaps.
+                name += "_" + Math.random();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -128,7 +123,7 @@ public class Player extends JFrame implements ActionListener
                             }
                         }
                         playerOutputQuiz = inputQuiz;
-                        break; //TODO behövs den?
+                        break;
                     }
                 }
             }

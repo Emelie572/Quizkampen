@@ -32,7 +32,7 @@ public class StartGUI extends JPanel implements ActionListener
         textField.addActionListener(this);
     }
 
-    public void waitingForPlayerLable(String opponent) { //TODO Fixa så att den kommer upp när den ska.
+    public void waitingForPlayerLable(String opponent) {
         label.setText("Väntar på : " + opponent.replaceAll("[^a-zA-Z]","")+"...");
         haveOpponent = true;
     }
