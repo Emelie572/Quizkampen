@@ -10,15 +10,15 @@ import java.net.UnknownHostException;
 public class Player extends JFrame implements ActionListener
 {
     private InetAddress ip = InetAddress.getLocalHost();
-    private int port = 12345;
+    private int port = 3400;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String name;
     private Quiz playerOutputQuiz;
 
-    private final JPanel bottompanel = new JPanel();
+    private final JPanel leftPanel = new JPanel();
     private final JPanel buttonSpace = new JPanel();
-    private JPanel scorepanel = new JPanel();
+    private JPanel rightPanel = new JPanel();
 
     private int currentQuestion = 0;
     private final Color BLUE_COLOR = new Color(30, 70, 150);
@@ -30,6 +30,12 @@ public class Player extends JFrame implements ActionListener
     Player() throws UnknownHostException
     {
         setTitle("Quizkampen");
+        setLayout(new BorderLayout());
+        setBackground(BLUE_COLOR);
+        setSize(700, 500);
+
+        leftPanel.setBackground(BLUE_COLOR);
+        buttonSpace.setBackground(BLUE_COLOR);
 
         scoretabelGUI = new ScoretableGUI();
         startGUI = new StartGUI();
@@ -37,26 +43,31 @@ public class Player extends JFrame implements ActionListener
         categoryGUI.setVisible(false);
         questionGUI = new QuestionGUI(this);
         questionGUI.setVisible(false);
-        bottompanel.add(startGUI);
-        bottompanel.add(categoryGUI);
-        bottompanel.add(questionGUI);
-        this.setLayout(new BorderLayout());
-        this.add(bottompanel, BorderLayout.CENTER);
-        this.add(buttonSpace, BorderLayout.SOUTH);
-        scorepanel.add(scoretabelGUI);
-        this.add(scorepanel, BorderLayout.EAST);
+       // this.questionGUI.setMaximumSize(new Dimension(100, 100));
 
 
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.add(startGUI);
+        leftPanel.add(categoryGUI);
+        leftPanel.add(questionGUI);
+        leftPanel.setBackground(BLUE_COLOR);
 
-       // scoretabelGUI.setVisible(false);
+        // leftPanel.setMaximumSize(new Dimension(200, 50));
 
-        //setSize(400, 300);
-       // setMinimumSize(new Dimension(1000, 400));
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
-        bottompanel.setBackground(BLUE_COLOR); //lagt till färg på panel
-        buttonSpace.setBackground(BLUE_COLOR); //lagt till färg på panel
+        rightPanel.setLayout(new BorderLayout());
+        rightPanel.add(scoretabelGUI, BorderLayout.NORTH);
+        rightPanel.setBackground(BLUE_COLOR);
+        rightPanel.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
+       // rightPanel.setPreferredSize(new Dimension(200, 500));
+
+        add(leftPanel, BorderLayout.CENTER);
+        add(rightPanel, BorderLayout.EAST);
+
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+
+
         while (startGUI.getname() == null || startGUI.getname().isEmpty()) {
             try {
                 Thread.sleep(100);

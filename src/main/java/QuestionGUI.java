@@ -25,17 +25,40 @@ public class QuestionGUI extends JPanel implements ActionListener
     private int seconds = 20;
     int numberOfCorrectAnswers;
     int questionNumber = 0;
+    private final Color BLUE_COLOR = new Color(30, 70, 150);
 
     QuestionGUI(ActionListener playerListener)
     {
+
+        setBackground(BLUE_COLOR);
         notVisibleButton.addActionListener(playerListener);
         progressBar.setValue(20);
-        top.setSize(new Dimension(600,50));
+        top.setSize(new Dimension(100,50));
         top.add(questionLabel);
+        questionLabel.setLayout(new BoxLayout(questionLabel, BoxLayout.Y_AXIS));
+
+
         bottom.add(progressBar, BorderLayout.SOUTH);
-        questionLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        play.addActionListener(e-> nextQuestion());
         bottom.add(play);
+        bottom.setBackground(BLUE_COLOR);
+
+        questionLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        questionLabel.setBorder(BorderFactory.createLineBorder(BLUE_COLOR, 2));
+        questionLabel.setForeground(Color.WHITE);
+        questionLabel.setBackground(BLUE_COLOR);
+        questionLabel.setOpaque(true);
+        //questionLabel.setSize(new Dimension(100,50));
+        questionLabel.setOpaque(true);
+        //questionLabel.setMaximumSize(new Dimension(100, 50));
+       // center.setMaximumSize(new Dimension(100,50));
+
+        play.addActionListener(e-> nextQuestion());
+        play.setForeground(BLUE_COLOR);
+        play.setBackground(Color.WHITE);
+
+        progressBar.setBackground(BLUE_COLOR);
+        top.setBackground(BLUE_COLOR);
+
 
         timer = new Timer(1000, new ActionListener()
         {
@@ -55,7 +78,8 @@ public class QuestionGUI extends JPanel implements ActionListener
             answers[i].addActionListener(this);
             center.add(answers[i]);
             answers[i].setPreferredSize(new Dimension(60,35));
-            answers[i].setBorder(new LineBorder(Color.BLUE,1, true));
+            answers[i].setBorder(new LineBorder(BLUE_COLOR,1, true));
+            answers[i].setOpaque(true);
         }
         centerPanel.add(top, BorderLayout.NORTH);
         centerPanel.add(center, BorderLayout.CENTER);
