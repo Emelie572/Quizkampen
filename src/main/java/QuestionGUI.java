@@ -12,7 +12,8 @@ public class QuestionGUI extends JPanel implements ActionListener
 
     private final JLabel questionLabel = new JLabel();
     private final JPanel centerPanel = new JPanel(new GridLayout(3,1));
-    private final JPanel top = new JPanel();
+    private final JLabel categoryLabel = new JLabel(String.valueOf(SwingConstants.CENTER));
+    private final JPanel top = new JPanel(new GridLayout(2,1));
     private final JPanel center = new JPanel(new GridLayout(4,1));
     private final JPanel bottom = new JPanel();
     private final JProgressBar progressBar = new JProgressBar(0, 20);
@@ -34,7 +35,10 @@ public class QuestionGUI extends JPanel implements ActionListener
         notVisibleButton.addActionListener(playerListener);
         progressBar.setValue(20);
         top.setSize(new Dimension(100,50));
+
+        top.add(categoryLabel);
         top.add(questionLabel);
+
         questionLabel.setLayout(new BoxLayout(questionLabel, BoxLayout.Y_AXIS));
 
 
@@ -42,15 +46,19 @@ public class QuestionGUI extends JPanel implements ActionListener
         bottom.add(play);
         bottom.setBackground(BLUE_COLOR);
 
+        categoryLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        categoryLabel.setBorder(BorderFactory.createLineBorder(BLUE_COLOR, 2));
+        categoryLabel.setForeground(Color.WHITE);
+        categoryLabel.setBackground(BLUE_COLOR);
+        categoryLabel.setOpaque(true);
+        categoryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         questionLabel.setFont(new Font("Arial", Font.BOLD, 15));
         questionLabel.setBorder(BorderFactory.createLineBorder(BLUE_COLOR, 2));
         questionLabel.setForeground(Color.WHITE);
         questionLabel.setBackground(BLUE_COLOR);
         questionLabel.setOpaque(true);
-        //questionLabel.setSize(new Dimension(100,50));
         questionLabel.setOpaque(true);
-        //questionLabel.setMaximumSize(new Dimension(100, 50));
-       // center.setMaximumSize(new Dimension(100,50));
 
         play.addActionListener(e-> nextQuestion());
         play.setForeground(BLUE_COLOR);
@@ -90,6 +98,7 @@ public class QuestionGUI extends JPanel implements ActionListener
     }
 
     public void setAllQuestions(List<List<String>> allQuestions, String category){
+        categoryLabel.setText(category);
         play.setText("Next Question");
         this.category = category;
         this.list = allQuestions;

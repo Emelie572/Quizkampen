@@ -31,7 +31,7 @@ public class Player extends JFrame implements ActionListener
         setTitle("Quizkampen");
         setLayout(new BorderLayout());
         setBackground(BLUE_COLOR);
-        setSize(700, 500);
+        setSize(900, 700);
 
         leftPanel.setBackground(BLUE_COLOR);
         buttonSpace.setBackground(BLUE_COLOR);
@@ -54,13 +54,13 @@ public class Player extends JFrame implements ActionListener
         // leftPanel.setMaximumSize(new Dimension(200, 50));
 
         rightPanel.setLayout(new BorderLayout());
-        rightPanel.add(scoretabelGUI, BorderLayout.NORTH);
+        rightPanel.add(scoretabelGUI, BorderLayout.CENTER);
         rightPanel.setBackground(BLUE_COLOR);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
        // rightPanel.setPreferredSize(new Dimension(200, 500));
 
         add(leftPanel, BorderLayout.CENTER);
-        add(rightPanel, BorderLayout.EAST);
+        add(rightPanel, BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

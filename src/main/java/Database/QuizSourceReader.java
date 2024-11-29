@@ -30,7 +30,6 @@ public class QuizSourceReader {
             Path p = Paths.get("src/main/java/Database/QuizSource.json");
 
             try (
-                    //BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream())); //se to-do
                     Scanner sc = new Scanner(new InputStreamReader(url.openStream()));
                     BufferedWriter bw = Files.newBufferedWriter(p)
             ) {
@@ -51,7 +50,6 @@ public class QuizSourceReader {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 this.quizSource = mapper.readValue(p.toFile(), QuizSource.class);
-                //System.out.println("QuizSourceReader" +quizSource.results.toString()); //test
 
             } catch (Exception e) {
                 e.printStackTrace();

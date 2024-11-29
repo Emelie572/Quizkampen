@@ -1,6 +1,5 @@
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Map;
 
@@ -83,7 +82,7 @@ public class ScoretableGUI extends JPanel {
     private void createRoundRow(int round, JPanel mainContentPanel) {
         JPanel roundRow = new JPanel(new GridLayout(1, 3));
         roundRow.setBackground(BLUE_COLOR);
-        roundRow.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        roundRow.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         roundRow.add(createSquare(CONCEALED_ROUND, Font.ITALIC));
         roundRow.add(createSquare(String.valueOf(round), Font.PLAIN));
         roundRow.add(createSquare(CONCEALED_ROUND, Font.ITALIC));
